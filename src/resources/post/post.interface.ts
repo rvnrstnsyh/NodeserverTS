@@ -1,5 +1,21 @@
+/*
+|-------------------------------------------------------------------------------
+| NodeserverTS Copyright © 2022 rvnrstnsyh All Rights Reserved
+|-------------------------------------------------------------------------------
+|
+| Author    : Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)
+| GitHub    : https://github.com/rvnrstnsyh
+| GitLab    : https://gitlab.com/rvnrstnsyh
+|
+*/
+
 import { Document } from 'mongoose';
 
+/**
+ *  !-- POST BODY (Interface)
+ *
+ * @desc Specifies the only accepted request body.
+ */
 export default interface Post extends Document {
     //
     title: string;

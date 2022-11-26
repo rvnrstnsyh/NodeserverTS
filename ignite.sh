@@ -1,5 +1,5 @@
 # |-------------------------------------------------------------------------------
-# | NodeserverTS Copyright © 2021 rvnrstnsyh All Rights Reserved
+# | NodeserverTS Copyright © 2022 rvnrstnsyh All Rights Reserved
 # |-------------------------------------------------------------------------------
 # |
 # | Author    : Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)
@@ -13,10 +13,14 @@ install(){
   { # Catch
   npm install \
               compression@latest \
+              connect-flash@latest \
+              cookie-parser@latest \
               cors@latest \
               dotenv@latest \
               envalid@latest \
               express@latest \
+              express-rate-limit@latest \
+              express-session@latest \
               helmet@latest \
               module-alias@latest \
               joi@latest \
@@ -25,8 +29,11 @@ install(){
 
   npm install \
               @types/compression --save-dev \
+              @types/connect-flash --save-dev \
+              @types/cookie-parser --save-dev \
               @types/cors --save-dev \
               @types/express --save-dev \
+              @types/express-session --save-dev \
               @types/morgan --save-dev \
               @types/node --save-dev \
               @typescript-eslint/eslint-plugin --save-dev \

@@ -1,3 +1,20 @@
+/*
+|-------------------------------------------------------------------------------
+| NodeserverTS Copyright © 2022 rvnrstnsyh All Rights Reserved
+|-------------------------------------------------------------------------------
+|
+| Author    : Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)
+| GitHub    : https://github.com/rvnrstnsyh
+| GitLab    : https://gitlab.com/rvnrstnsyh
+|
+*/
+
+/**
+ *  !-- HTTP EXCEPTION (Class)
+ *
+ * @desc provides error messages and status codes.
+ * @return void
+ */
 class HttpException extends Error {
     //
     public status: number;

@@ -1,11 +1,27 @@
+/*
+|-------------------------------------------------------------------------------
+| NodeserverTS Copyright © 2022 rvnrstnsyh All Rights Reserved
+|-------------------------------------------------------------------------------
+|
+| Author    : Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)
+| GitHub    : https://github.com/rvnrstnsyh
+| GitLab    : https://gitlab.com/rvnrstnsyh
+|
+*/
+
 import PostService from '@/resources/post/post.service';
-import postValidation from '@/resources/post/post.validation';
 import HttpException from '@/utils/exception/http.exception';
+import postValidation from '@/resources/post/post.validation';
 import Controller from '@/utils/interfaces/controller.interface';
 import validationMiddleware from '@/middleware/validation.middleware';
 
 import { Router, Request, Response, NextFunction } from 'express';
 
+/**
+ *  !-- POST (Class)
+ *
+ * @desc simple endpoint example.
+ */
 class PostController implements Controller {
     //
     public path: string = '/post';
@@ -17,6 +33,12 @@ class PostController implements Controller {
         this.endpoint();
     }
 
+    /**
+     *  !-- POST ENDPOINT (Method)
+     *
+     * @desc defines endpoint, middleware, and controller paths.
+     * @return void
+     */
     private endpoint(): void {
         //
         this.router.post(
@@ -26,6 +48,12 @@ class PostController implements Controller {
         );
     }
 
+    /**
+     *  !-- POST CONTROLLER (Method)
+     *
+     * @desc post endpoint logic.
+     * @return promise
+     */
     private execute = async (
         request: Request,
         response: Response,
