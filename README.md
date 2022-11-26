@@ -34,7 +34,7 @@ NodeserverTS (superset) is a Back-End server template or framework that has been
 Just use this simple command:
 
 ```shell
-$ git clone https://gitlab.com/rvnrstnsyh/nodeserver.git
+$ git clone https://gitlab.com/rvnrstnsyh/nodeserverts.git
 $ cd nodeserverts && yarn ignite
 ```
 
