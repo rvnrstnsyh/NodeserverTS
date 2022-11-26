@@ -19,9 +19,9 @@ install(){
               express@latest \
               helmet@latest \
               module-alias@latest \
+              joi@latest \
               mongoose@latest \
-              morgan@latest \
-              uuid@latest && \
+              morgan@latest && \
 
   npm install \
               @types/compression --save-dev \
@@ -38,7 +38,7 @@ install(){
               tsc-watch@latest --save-dev \
               typescript@latest --save-dev && \
 
-  cp .env.example .env
+  cp .env.example .env && yarn dev
  }
 }
 

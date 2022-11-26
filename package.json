@@ -14,11 +14,12 @@
         "email": "re@rvnrstnsyh.dev"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node dist/index.js",
-        "dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
+        "start": "node dist/src/index.js",
+        "dev": "tsc-watch --onSuccess \"node ./dist/src/index.js\"",
         "build": "tsc",
-        "postinstall": "npm run build"
+        "postinstall": "npm run build",
+        "ignite": "bash ignite.sh",
+        "ext": "rm -rf node_modules dist package-lock.json yarn.lock access.log .env"
     },
     "keywords": [
         "Node.js",
@@ -59,13 +60,21 @@
         "envalid": "^7.3.1",
         "express": "^4.18.2",
         "helmet": "^6.0.0",
+        "joi": "^17.7.0",
         "module-alias": "^2.2.2",
         "mongoose": "^6.7.3",
         "morgan": "^1.10.0"
     },
     "_moduleAliases": {
-        "@/resources/*": "dist/resources",
-        "@/utils/*": "dist/utils",
-        "@/middleware/*": "dist/middleware"
+        "@/resources": "./dist/src/resources",
+        "@/utils": "./dist/src/utils",
+        "@/middleware": "./dist/src/middleware"
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "./public/**/*",
+            "./dist/public/**/*"
+        ],
+        "delay": 1000
     }
 }

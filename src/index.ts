@@ -1,9 +1,15 @@
 import 'dotenv/config';
 import 'module-alias/register';
 
+import Express from './app';
 import validateEnv from '@/utils/validateEnv';
-import App from 'app';
+import PostController from '@/resources/post/post.controller';
 
 validateEnv();
 
-const app = new App([], Number(process.env.PORT));
+const App: Express = new Express(
+    [new PostController()],
+    Number(process.env.APP_PORT)
+);
+
+App.listen();
