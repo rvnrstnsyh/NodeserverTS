@@ -40,7 +40,7 @@ $ cd nodeserverts && yarn ignite
 
 The `ignite` command will install all required dependencies and watching typescript. Let this process run.
 
-Use Postman/Insomnia or another platform's API to test it. Default URL https://localhost:3000/api
+Use Postman/Insomnia or another platform's API to test it. Default endpoint http://localhost:3000/api
 
 ## Author and Contributors
 
