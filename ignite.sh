@@ -44,6 +44,7 @@ install(){
                 eslint@latest --save-dev \
                 eslint-config-prettier@latest --save-dev \
                 eslint-plugin-prettier@latest --save-dev \
+                nodemon@latest --save-dev \
                 prettier@latest --save-dev \
                 tsc-watch@latest --save-dev \
                 typescript@latest --save-dev && \
