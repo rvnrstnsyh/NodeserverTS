@@ -16,6 +16,7 @@ import { cleanEnv, str, port } from 'envalid';
  *
  * @desc validates the data type and contents of
  * all environment variables.
+ * @return void
  */
 function validateEnv(): void {
     //
@@ -23,6 +24,7 @@ function validateEnv(): void {
         NODE_ENV: str({ choices: ['dev', 'prod'] }),
         PORT: port({ default: 3000 }),
         MONGODB_URI: str(),
+        JWT_SECRET: str(),
     });
 }
 

@@ -9,23 +9,18 @@
 |
 */
 
+import { Document } from 'mongoose';
+
 /**
- *  !-- HTTP EXCEPTION (Class)
+ *  !-- USER ATTRIBUTES (Interface)
  *
- * @desc provides error messages and status codes.
+ * @desc defines all user attributes and their data types.
  */
-class HttpException extends Error {
+export default interface User extends Document {
     //
-    public status: number;
-    public message: string;
-
-    constructor(status: number, message: string) {
-        //
-        super(message);
-
-        this.status = status;
-        this.message = message;
-    }
+    username: string;
+    email: string;
+    password: string;
+    role: string;
+    isValidPassword(password: string): Promise<Error | boolean>;
 }
-
-export default HttpException;

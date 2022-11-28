@@ -12,6 +12,7 @@
 install(){
   { # Dependencies
     npm install \
+                argon2@latest \
                 compression@latest \
                 connect-flash@latest \
                 cookie-parser@latest \
@@ -25,6 +26,7 @@ install(){
                 express-session@latest \
                 helmet@latest \
                 joi@latest \
+                jsonwebtoken@latest \
                 module-alias@latest \
                 mongoose@latest \
                 morgan@latest && \
@@ -37,6 +39,7 @@ install(){
                 @types/csurf --save-dev \
                 @types/express --save-dev \
                 @types/express-session --save-dev \
+                @types/jsonwebtoken --save-dev \
                 @types/morgan --save-dev \
                 @types/node --save-dev \
                 @typescript-eslint/eslint-plugin --save-dev \

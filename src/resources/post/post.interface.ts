@@ -12,9 +12,9 @@
 import { Document } from 'mongoose';
 
 /**
- *  !-- POST BODY (Interface)
+ *  !-- POST ATTRIBUTES (Interface)
  *
- * @desc Specifies the only accepted request body.
+ * @desc Defines all post attributes and their data types
  */
 export default interface Post extends Document {
     //

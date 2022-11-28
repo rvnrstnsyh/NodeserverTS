@@ -17,7 +17,7 @@ import { Request, Response, NextFunction, RequestHandler } from 'express';
  *  !-- VALIDATION MIDDLEWARE (Function)
  *
  * @desc validates each request before passing it to the controller.
- * @return promise
+ * @return promise void
  */
 function validationMiddleware(schema: Joi.Schema): RequestHandler {
     return async (

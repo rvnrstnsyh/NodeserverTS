@@ -9,23 +9,14 @@
 |
 */
 
+import { Schema } from 'mongoose';
+
 /**
- *  !-- HTTP EXCEPTION (Class)
+ *  !-- TOKEN ATTRIBUTES (Interface)
  *
- * @desc provides error messages and status codes.
+ * @desc defines all token attributes and their data types.
  */
-class HttpException extends Error {
-    //
-    public status: number;
-    public message: string;
-
-    constructor(status: number, message: string) {
-        //
-        super(message);
-
-        this.status = status;
-        this.message = message;
-    }
+export default interface Token extends Object {
+    _id: Schema.Types.ObjectId;
+    expiresIn: Number;
 }
-
-export default HttpException;

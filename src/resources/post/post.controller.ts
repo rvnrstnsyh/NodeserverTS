@@ -18,7 +18,7 @@ import validationMiddleware from '@/middleware/validation.middleware';
 import { Router, Request, Response, NextFunction } from 'express';
 
 /**
- *  !-- POST (Class)
+ *  !-- POST CONTROLLER (Class)
  *
  * @desc simple endpoint example.
  */
@@ -30,16 +30,16 @@ class PostController implements Controller {
 
     constructor() {
         //
-        this.endpoint();
+        this.endpoints();
     }
 
     /**
      *  !-- POST ENDPOINT (Method)
      *
-     * @desc defines endpoint, middleware, and controller paths.
+     * @desc defines endpoints, middleware, and controller paths.
      * @return void
      */
-    private endpoint(): void {
+    private endpoints(): void {
         //
         this.router.post(
             `${this.path}`,
@@ -52,7 +52,7 @@ class PostController implements Controller {
      *  !-- POST CONTROLLER (Method)
      *
      * @desc post endpoint logic.
-     * @return promise
+     * @return promise http response | void
      */
     private execute = async (
         request: Request,

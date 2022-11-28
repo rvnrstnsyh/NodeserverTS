@@ -21,6 +21,12 @@ class PostService {
     //
     private post: any = postModel;
 
+    /**
+     *  !-- POST CREATE (Method)
+     *
+     * @desc create a new post.
+     * @return promise post interface
+     */
     public async create(title: string, body: string): Promise<Post> {
         //
         try {

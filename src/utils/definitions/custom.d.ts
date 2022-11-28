@@ -9,23 +9,17 @@
 |
 */
 
+import User from '@/resources/user/user.interface';
+
 /**
- *  !-- HTTP EXCEPTION (Class)
+ *  !-- GLOBAL (Any)
  *
- * @desc provides error messages and status codes.
+ * @desc declare "user" on every request same as user interface.
  */
-class HttpException extends Error {
-    //
-    public status: number;
-    public message: string;
-
-    constructor(status: number, message: string) {
-        //
-        super(message);
-
-        this.status = status;
-        this.message = message;
+declare global {
+    namespace Express {
+        export interface Request {
+            user: User;
+        }
     }
 }
-
-export default HttpException;

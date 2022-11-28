@@ -15,6 +15,7 @@ import 'module-alias/register';
 import Express from './app.js';
 import validateEnv from '@/utils/validateEnv';
 import PostController from '@/resources/post/post.controller';
+import UserController from '@/resources/user/user.controller';
 
 validateEnv();
 
@@ -24,7 +25,7 @@ validateEnv();
  * @desc defines each express application.
  */
 const App: Express = new Express(
-    [new PostController()],
+    [new PostController(), new UserController()],
     String(process.env.APP_HOST),
     Number(process.env.APP_PORT)
 );
