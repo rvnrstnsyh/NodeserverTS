@@ -12,8 +12,8 @@
 import PostService from '@/resources/post/post.service';
 import HttpException from '@/utils/exception/http.exception';
 import postValidation from '@/resources/post/post.validation';
-import Controller from '@/utils/interfaces/controller.interface';
 import validationMiddleware from '@/middleware/validation.middleware';
+import ControllerInterface from '@/utils/interfaces/controller.interface';
 
 import { Router, Request, Response, NextFunction } from 'express';
 
@@ -22,7 +22,7 @@ import { Router, Request, Response, NextFunction } from 'express';
  *
  * @desc simple endpoint example.
  */
-class PostController implements Controller {
+class PostController implements ControllerInterface {
     //
     public path: string = '/post';
     public router: Router = Router();

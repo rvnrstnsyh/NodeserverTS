@@ -11,7 +11,7 @@
 
 import argon2 from 'argon2';
 
-import User from '@/resources/user/user.interface';
+import UserInterface from '@/resources/user/user.interface';
 
 import { Schema, model } from 'mongoose';
 
@@ -51,7 +51,7 @@ const UserSchema: Schema = new Schema(
  * @desc hash the user's password before entering it into the database.
  * @return next
  */
-UserSchema.pre<User>('save', async function (next) {
+UserSchema.pre<UserInterface>('save', async function (next) {
     //
     if (!this.isModified('password')) {
         //
@@ -74,4 +74,4 @@ UserSchema.methods.isValidPassword = async function (
     return await argon2.verify(this.password, password);
 };
 
-export default model<User>('User', UserSchema);
+export default model<UserInterface>('User', UserSchema);

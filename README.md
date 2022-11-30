@@ -18,6 +18,9 @@ NodeserverTS (superset) is a Back-End server template or framework that has been
 -   Cross-site request forgery (CSRF)
 -   Request limit, DDOS attack mitigation
 -   RESTful API
+-   Validation, Authentication and Authorization
+-   Argon2 hashing
+-   JSON Web Tokens
 -   MongoDB Integration
 
 ## Requirements

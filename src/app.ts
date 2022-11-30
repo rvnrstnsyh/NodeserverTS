@@ -10,7 +10,7 @@
 */
 
 import ErrorMiddleware from '@/middleware/error.middleware';
-import Controller from '@/utils/interfaces/controller.interface';
+import ControllerInterface from '@/utils/interfaces/controller.interface';
 
 import fs from 'fs';
 import cors from 'cors';
@@ -36,7 +36,11 @@ class App {
     private CORS: RegExp;
     private CONF: Object;
 
-    constructor(controllers: Controller[], HOST: string, PORT: number) {
+    constructor(
+        controllers: ControllerInterface[],
+        HOST: string,
+        PORT: number
+    ) {
         //
         this.express = express();
         this.HOST = HOST || 'localhost';
@@ -134,9 +138,9 @@ class App {
     // ! +--------------------------------------------------------------------------+
     // ! | App Controllers                                                          |
     // ! +--------------------------------------------------------------------------+
-    private init_Controllers(controllers: Controller[]): void {
+    private init_Controllers(controllers: ControllerInterface[]): void {
         //
-        controllers.forEach((controller: Controller) => {
+        controllers.forEach((controller: ControllerInterface) => {
             this.express.use('/api', controller.router);
         });
     }

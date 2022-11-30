@@ -10,8 +10,8 @@
 */
 
 import jwt from 'jsonwebtoken';
-import User from '@/resources/user/user.interface';
-import Token from '@/utils/interfaces/token.interface';
+import UserInterface from '@/resources/user/user.interface';
+import TokenInterface from '@/utils/interfaces/token.interface';
 
 /**
  *  !-- TOKEN CREATE (Method)
@@ -19,7 +19,7 @@ import Token from '@/utils/interfaces/token.interface';
  * @desc create a new token.
  * @return string
  */
-export const create = (user: User): string => {
+export const create = (user: UserInterface): string => {
     return jwt.sign({ _id: user._id }, process.env.JWT_SECRET as jwt.Secret, {
         expiresIn: '1d',
     });
@@ -29,18 +29,18 @@ export const create = (user: User): string => {
  *  !-- TOKEN VERIFY (Method)
  *
  * @desc verify token
- * @return promise jwt error | token
+ * @return promise jwt error | token interface
  */
 export const verify = async (
     token: string
-): Promise<jwt.VerifyErrors | Token> => {
+): Promise<jwt.VerifyErrors | TokenInterface> => {
     return new Promise((resolve, reject) => {
         jwt.verify(
             token,
             process.env.JWT_SECRET as jwt.Secret,
             (error, payload) => {
                 if (error) return reject(error);
-                resolve(payload as Token);
+                resolve(payload as TokenInterface);
             }
         );
     });

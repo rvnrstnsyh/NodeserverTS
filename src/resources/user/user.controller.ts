@@ -12,9 +12,9 @@
 import UserService from '@/resources/user/user.service';
 import HttpException from '@/utils/exception/http.exception';
 import userValidation from '@/resources/user/user.validation';
-import Controller from '@/utils/interfaces/controller.interface';
-import authenticated from '@/middleware/authenticated.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
+import ControllerInterface from '@/utils/interfaces/controller.interface';
+import authenticatedMiddleware from '@/middleware/authenticated.middleware';
 
 import { Router, Request, Response, NextFunction } from 'express';
 
@@ -24,7 +24,7 @@ import { Router, Request, Response, NextFunction } from 'express';
  * @desc simple endpoint example.
  * validation, authentication and authorization.
  */
-class UserController implements Controller {
+class UserController implements ControllerInterface {
     //
     public path: string = '/users';
     public router: Router = Router();
@@ -56,7 +56,11 @@ class UserController implements Controller {
             this.login
         );
 
-        this.router.get(`${this.path}`, authenticated, this.verifyUser);
+        this.router.get(
+            `${this.path}`,
+            authenticatedMiddleware,
+            this.verifyUser
+        );
     }
 
     /**

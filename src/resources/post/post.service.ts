@@ -9,8 +9,8 @@
 |
 */
 
-import postModel from '@/resources/post/post.model';
-import Post from '@/resources/post/post.interface';
+import PostModel from '@/resources/post/post.model';
+import PostInterface from '@/resources/post/post.interface';
 
 /**
  *  !-- POST SERVICE (Class)
@@ -19,7 +19,7 @@ import Post from '@/resources/post/post.interface';
  */
 class PostService {
     //
-    private post: any = postModel;
+    private PostModel: any = PostModel;
 
     /**
      *  !-- POST CREATE (Method)
@@ -27,12 +27,12 @@ class PostService {
      * @desc create a new post.
      * @return promise post interface
      */
-    public async create(title: string, body: string): Promise<Post> {
+    public async create(title: string, body: string): Promise<PostInterface> {
         //
         try {
             //
-            const post: any = await this.post.create({ title, body });
-            return post;
+            const newPost: any = await this.PostModel.create({ title, body });
+            return newPost;
         } catch (e: any) {
             //
             throw new Error('Unable create post');

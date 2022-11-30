@@ -10,9 +10,9 @@
 */
 
 import tokenFactory from '@/utils/tokenFactory';
-import userModel from '@/resources/user/user.model';
-import Token from '@/utils/interfaces/token.interface';
+import UserModel from '@/resources/user/user.model';
 import HttpException from '@/utils/exception/http.exception';
+import TokenInterface from '@/utils/interfaces/token.interface';
 
 import jwt from 'jsonwebtoken';
 
@@ -42,7 +42,7 @@ async function authenticateMiddleware(
 
     try {
         //
-        const payload: Token | jwt.JsonWebTokenError =
+        const payload: TokenInterface | jwt.JsonWebTokenError =
             await tokenFactory.verify(accessToken);
 
         if (payload instanceof jwt.JsonWebTokenError) {
@@ -50,8 +50,7 @@ async function authenticateMiddleware(
             return next(new HttpException(401, 'Unauthorized'));
         }
 
-        const user: any = await userModel
-            .findById(payload._id)
+        const user: any = await UserModel.findById(payload._id)
             .select('-password')
             .exec();
 
