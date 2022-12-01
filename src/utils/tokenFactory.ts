@@ -10,6 +10,7 @@
 */
 
 import jwt from 'jsonwebtoken';
+import CryptoJS from 'crypto-js';
 import UserInterface from '@/resources/user/user.interface';
 import TokenInterface from '@/utils/interfaces/token.interface';
 
@@ -20,9 +21,20 @@ import TokenInterface from '@/utils/interfaces/token.interface';
  * @return string
  */
 export const create = (user: UserInterface): string => {
-    return jwt.sign({ _id: user._id }, process.env.JWT_SECRET as jwt.Secret, {
-        expiresIn: '1d',
-    });
+    const token: string = jwt.sign(
+        { _id: user._id },
+        process.env.JWT_SECRET as jwt.Secret,
+        {
+            expiresIn: '1d',
+        }
+    );
+
+    const TripleDES_Token: string = CryptoJS.TripleDES.encrypt(
+        token,
+        `${process.env.APP_SECRET}`
+    ).toString();
+
+    return TripleDES_Token;
 };
 
 /**
@@ -32,9 +44,14 @@ export const create = (user: UserInterface): string => {
  * @return promise jwt error | token interface
  */
 export const verify = async (
-    token: string
+    TripleDES_Token: string
 ): Promise<jwt.VerifyErrors | TokenInterface> => {
     return new Promise((resolve, reject) => {
+        const token: string = CryptoJS.TripleDES.decrypt(
+            TripleDES_Token,
+            `${process.env.APP_SECRET}`
+        ).toString(CryptoJS.enc.Utf8);
+
         jwt.verify(
             token,
             process.env.JWT_SECRET as jwt.Secret,

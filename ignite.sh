@@ -17,6 +17,7 @@ install(){
                 connect-flash@latest \
                 cookie-parser@latest \
                 cors@latest \
+                crypto-js@latest \
                 csrf@latest \
                 csurf@latest \
                 dotenv@latest \
@@ -36,6 +37,7 @@ install(){
                 @types/connect-flash --save-dev \
                 @types/cookie-parser --save-dev \
                 @types/cors --save-dev \
+                @types/crypto-js --save-dev \
                 @types/csurf --save-dev \
                 @types/express --save-dev \
                 @types/express-session --save-dev \
