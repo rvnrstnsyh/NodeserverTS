@@ -22,6 +22,7 @@ import flash from 'connect-flash';
 import session from 'express-session';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import useragent from 'express-useragent';
 
 import { rateLimit } from 'express-rate-limit';
 import express, { Request, Response, NextFunction, Application } from 'express';
@@ -65,7 +66,7 @@ class App {
     private init_DatabaseConnection(): void {
         //
         const MONGODB_URI: any = process.env.MONGODB_URI;
-        mongoose.connect(`${MONGODB_URI}`);
+        mongoose.set('strictQuery', true).connect(`${MONGODB_URI}`);
     }
 
     // ! +--------------------------------------------------------------------------+
@@ -88,13 +89,20 @@ class App {
         const accessLogFormat: string = `:remote-addr - :remote-user [:date[iso]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"`;
 
         this.express
-            .use((request: Request, response: Response, next: NextFunction) => {
-                console.log(`${request.method} ${this.URI}${request.url}`);
-                next();
-            })
+            .use(
+                (
+                    request: Request,
+                    response: Response,
+                    next: NextFunction
+                ): void => {
+                    //
+                    console.log(`${request.method} ${this.URI}${request.url}`);
+                    next();
+                }
+            )
             .use(helmet({ contentSecurityPolicy: false }))
             .use(cors(this.CONF))
-            .use(cookieParser('secret'))
+            .use(cookieParser(`${process.env.COOKIE_SECRET}`))
             .use(
                 session({
                     cookie: {
@@ -103,11 +111,12 @@ class App {
                         sameSite: 'strict',
                         secure: false,
                     },
-                    secret: 'secret',
+                    secret: `${process.env.COOKIE_SECRET}`,
                     resave: true,
                     saveUninitialized: true,
                 })
             )
+            .use(useragent.express())
             .use(flash())
             .use(express.json())
             .use(express.urlencoded({ extended: true }))
@@ -140,8 +149,14 @@ class App {
     // ! +--------------------------------------------------------------------------+
     private init_Controllers(controllers: ControllerInterface[]): void {
         //
-        controllers.forEach((controller: ControllerInterface) => {
+        controllers.forEach((controller: ControllerInterface): void => {
+            //
             this.express.use('/api', controller.router);
+        });
+
+        this.express.use(/.*/, (request: Request, response: Response): void => {
+            //
+            response.status(404).json(request.useragent?.source);
         });
     }
 

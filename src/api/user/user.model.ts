@@ -11,7 +11,7 @@
 
 import argon2 from 'argon2';
 
-import UserInterface from '@/resources/user/user.interface';
+import UserInterface from '@/api/user/user.interface';
 
 import { Schema, model } from 'mongoose';
 

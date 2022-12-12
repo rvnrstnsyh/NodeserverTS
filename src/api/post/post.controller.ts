@@ -9,9 +9,9 @@
 |
 */
 
-import PostService from '@/resources/post/post.service';
+import PostService from '@/api/post/post.service';
+import postValidation from '@/api/post/post.validation';
 import HttpException from '@/utils/exception/http.exception';
-import postValidation from '@/resources/post/post.validation';
 import validationMiddleware from '@/middleware/validation.middleware';
 import ControllerInterface from '@/utils/interfaces/controller.interface';
 

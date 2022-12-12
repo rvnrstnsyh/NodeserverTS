@@ -9,9 +9,9 @@
 |
 */
 
-import UserService from '@/resources/user/user.service';
+import UserService from '@/api/user/user.service';
+import userValidation from '@/api/user/user.validation';
 import HttpException from '@/utils/exception/http.exception';
-import userValidation from '@/resources/user/user.validation';
 import validationMiddleware from '@/middleware/validation.middleware';
 import ControllerInterface from '@/utils/interfaces/controller.interface';
 import authenticatedMiddleware from '@/middleware/authenticated.middleware';

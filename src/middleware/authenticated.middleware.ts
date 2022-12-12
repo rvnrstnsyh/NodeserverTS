@@ -9,8 +9,8 @@
 |
 */
 
+import UserModel from '@/api/user/user.model';
 import tokenFactory from '@/utils/tokenFactory';
-import UserModel from '@/resources/user/user.model';
 import HttpException from '@/utils/exception/http.exception';
 import TokenInterface from '@/utils/interfaces/token.interface';
 

@@ -12,10 +12,10 @@
 import 'dotenv/config';
 import 'module-alias/register';
 
-import Express from './app.js';
+import Express from './app';
 import validateEnv from '@/utils/validateEnv';
-import PostController from '@/resources/post/post.controller';
-import UserController from '@/resources/user/user.controller';
+import PostController from '@/api/post/post.controller';
+import UserController from '@/api/user/user.controller';
 
 validateEnv();
 

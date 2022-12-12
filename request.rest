@@ -21,8 +21,8 @@ POST http://localhost:3000/api/users/register
 Content-Type: application/json
 
 {
-	"username": "rvnrstnsyh",
-	"email": "re@rvnrstnsyh.dev",
+	"username": "johntheripper",
+	"email": "hello@johntheripper.dev",
 	"password": "secret123"
 }
 
@@ -32,7 +32,7 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-	"email": "re@rvnrstnsyh.dev",
+	"email": "re@johntheripper.dev",
 	"password": "secret123"
 }
 

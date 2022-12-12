@@ -11,7 +11,7 @@
 
 import { Schema, model } from 'mongoose';
 
-import PostInterface from '@/resources/post/post.interface';
+import PostInterface from '@/api/post/post.interface';
 
 /**
  *  !-- POST MODEL (Schema)

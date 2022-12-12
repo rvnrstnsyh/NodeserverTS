@@ -9,8 +9,8 @@
 |
 */
 
-import PostModel from '@/resources/post/post.model';
-import PostInterface from '@/resources/post/post.interface';
+import PostModel from '@/api/post/post.model';
+import PostInterface from '@/api/post/post.interface';
 
 /**
  *  !-- POST SERVICE (Class)

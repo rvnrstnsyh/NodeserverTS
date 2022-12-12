@@ -11,7 +11,7 @@
 
 import jwt from 'jsonwebtoken';
 import CryptoJS from 'crypto-js';
-import UserInterface from '@/resources/user/user.interface';
+import UserInterface from '@/api/user/user.interface';
 import TokenInterface from '@/utils/interfaces/token.interface';
 
 /**
