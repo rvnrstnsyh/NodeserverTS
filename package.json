@@ -14,12 +14,12 @@
         "email": "re@rvnrstnsyh.dev"
     },
     "scripts": {
-        "prod": "nodemon ./dist/src/index.js",
-        "dev": "tsc-watch --onSuccess \"nodemon ./src/index.ts\"",
+        "prod": "nodemon ./dist/bin/index.js",
+        "dev": "tsc-watch --onSuccess \"nodemon ./bin/index.ts\"",
         "build": "tsc",
         "postinstall": "npm run build",
         "ignite": "bash ignite.sh",
-        "ext": "rm -rf node_modules dist package-lock.json yarn.lock ./src/access.log .env"
+        "ext": "rm -rf node_modules dist package-lock.json yarn.lock ./bin/access.log .env"
     },
     "keywords": [
         "Node.js",
@@ -45,24 +45,24 @@
         "@types/cors": "^2.8.13",
         "@types/crypto-js": "^4.1.1",
         "@types/csurf": "^1.11.2",
-        "@types/express": "^4.17.14",
-        "@types/express-session": "^1.17.5",
+        "@types/express": "^4.17.17",
+        "@types/express-session": "^1.17.6",
         "@types/express-useragent": "^1.0.2",
         "@types/jsonwebtoken": "^8.5.9",
-        "@types/morgan": "^1.9.3",
-        "@types/node": "^18.11.13",
-        "@typescript-eslint/eslint-plugin": "^5.46.0",
-        "@typescript-eslint/parser": "^5.46.0",
-        "eslint": "^8.29.0",
-        "eslint-config-prettier": "^8.5.0",
+        "@types/morgan": "^1.9.4",
+        "@types/node": "^18.14.2",
+        "@typescript-eslint/eslint-plugin": "^5.54.0",
+        "@typescript-eslint/parser": "^5.54.0",
+        "eslint": "^8.35.0",
+        "eslint-config-prettier": "^8.6.0",
         "eslint-plugin-prettier": "^4.2.1",
         "nodemon": "^2.0.20",
-        "prettier": "^2.8.1",
+        "prettier": "^2.8.4",
         "tsc-watch": "^6.0.0",
-        "typescript": "^4.9.4"
+        "typescript": "^4.9.5"
     },
     "dependencies": {
-        "argon2": "^0.30.2",
+        "argon2": "^0.30.3",
         "compression": "^1.7.4",
         "connect-flash": "^0.1.1",
         "cookie-parser": "^1.4.6",
@@ -77,22 +77,22 @@
         "express-session": "^1.17.3",
         "express-useragent": "^1.0.15",
         "helmet": "^6.0.1",
-        "joi": "^17.7.0",
-        "jsonwebtoken": "^8.5.1",
+        "joi": "^17.8.3",
+        "jsonwebtoken": "^9.0.0",
         "module-alias": "^2.2.2",
-        "mongoose": "^6.8.0",
+        "mongoose": "^7.0.0",
         "morgan": "^1.10.0"
     },
     "_moduleAliases": {
-        "@/api": "./dist/src/api",
-        "@/client": "./dist/src/client",
-        "@/middleware": "./dist/src/middleware",
-        "@/utils": "./dist/src/utils"
+        "@/api": "./dist/bin/api",
+        "@/client": "./dist/bin/client",
+        "@/middleware": "./dist/bin/middleware",
+        "@/utils": "./dist/bin/utils"
     },
     "nodemonConfig": {
         "ignore": [
-            "./private/**/*",
-            "./dist/private/**/*"
+            "./bin/logs/**/*",
+            "./exclude/files/**/*"
         ],
         "delay": 1000
     }
