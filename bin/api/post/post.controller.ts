@@ -9,13 +9,13 @@
 |
 */
 
-import PostService from '@/api/post/post.service';
-import postValidation from '@/api/post/post.validation';
-import HttpException from '@/utils/exception/http.exception';
-import validationMiddleware from '@/middleware/validation.middleware';
-import ControllerInterface from '@/utils/interfaces/controller.interface';
+import PostService from '@/api/post/post.service'
+import postValidation from '@/api/post/post.validation'
+import HttpException from '@/utils/exception/http.exception'
+import validationMiddleware from '@/middleware/validation.middleware'
+import ControllerInterface from '@/utils/interfaces/controller.interface'
 
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response, NextFunction } from 'express'
 
 /**
  *  !-- POST CONTROLLER (Class)
@@ -24,13 +24,13 @@ import { Router, Request, Response, NextFunction } from 'express';
  */
 class PostController implements ControllerInterface {
     //
-    public path: string = '/post';
-    public router: Router = Router();
-    private PostService: PostService = new PostService();
+    public path: string = '/post'
+    public router: Router = Router()
+    private PostService: PostService = new PostService()
 
     constructor() {
         //
-        this.endpoints();
+        this.endpoints()
     }
 
     /**
@@ -41,11 +41,7 @@ class PostController implements ControllerInterface {
      */
     private endpoints(): void {
         //
-        this.router.post(
-            `${this.path}`,
-            validationMiddleware(postValidation.create),
-            this.execute
-        );
+        this.router.post(`${this.path}`, validationMiddleware(postValidation.create), this.execute)
     }
 
     /**
@@ -54,23 +50,19 @@ class PostController implements ControllerInterface {
      * @desc post endpoint logic.
      * @return promise http response | void
      */
-    private execute = async (
-        request: Request,
-        response: Response,
-        next: NextFunction
-    ): Promise<Response | void> => {
+    private execute = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
         //
         try {
             //
-            const { title, body }: any = request.body;
-            const post: Object = await this.PostService.create(title, body);
+            const { title, body }: any = request.body
+            const post: Object = await this.PostService.create(title, body)
 
-            response.status(201).json({ post });
+            response.status(201).json({ post })
         } catch (e: any) {
             //
-            next(new HttpException(400, 'Cannot create post'));
+            next(new HttpException(400, 'Cannot create post'))
         }
-    };
+    }
 }
 
-export default PostController;
+export default PostController

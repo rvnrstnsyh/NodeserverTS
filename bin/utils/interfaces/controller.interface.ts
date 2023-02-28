@@ -9,7 +9,7 @@
 |
 */
 
-import { Router } from 'express';
+import { Router } from 'express'
 
 /**
  *  !-- CONTROLLER ATTRIBUTES (Interface)
@@ -18,6 +18,6 @@ import { Router } from 'express';
  */
 export default interface Controller {
     //
-    path: string;
-    router: Router;
+    path: string
+    router: Router
 }

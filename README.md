@@ -8,9 +8,9 @@
   </a>
 </div>
 
-# Nodeserver
+# NodeserverTS
 
-NodeserverTS (superset) is a Back-End server template or framework that has been prepared in such a way that it is ready to be used.
+NodeserverTS (superset) is a Back-End server codebase that has been prepared in such a way that it is ready to be used.
 
 ## Ready-to-use Features
 

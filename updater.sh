@@ -54,7 +54,8 @@ install(){
                 jsonwebtoken@latest \
                 module-alias@latest \
                 mongoose@latest \
-                morgan@latest && \
+                morgan@latest \
+                winston@latest && \
 
     cp .env.example .env && yarn dev
  }

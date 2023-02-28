@@ -9,8 +9,8 @@
 |
 */
 
-import PostModel from '@/api/post/post.model';
-import PostInterface from '@/api/post/post.interface';
+import PostModel from '@/api/post/post.model'
+import PostInterface from '@/api/post/post.interface'
 
 /**
  *  !-- POST SERVICE (Class)
@@ -19,7 +19,7 @@ import PostInterface from '@/api/post/post.interface';
  */
 class PostService {
     //
-    private PostModel: any = PostModel;
+    private PostModel: any = PostModel
 
     /**
      *  !-- POST CREATE (Method)
@@ -31,13 +31,13 @@ class PostService {
         //
         try {
             //
-            const newPost: any = await this.PostModel.create({ title, body });
-            return newPost;
+            const newPost: any = await this.PostModel.create({ title, body })
+            return newPost
         } catch (e: any) {
             //
-            throw new Error('Unable create post');
+            throw new Error('Unable create post')
         }
     }
 }
 
-export default PostService;
+export default PostService

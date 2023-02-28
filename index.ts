@@ -9,15 +9,15 @@
 |
 */
 
-import 'dotenv/config';
-import 'module-alias/register';
+import 'dotenv/config'
+import 'module-alias/register'
 
-import Express from './app';
-import validateEnv from '@/utils/validateEnv';
-import PostController from '@/api/post/post.controller';
-import UserController from '@/api/user/user.controller';
+import Express from '@/root/app'
+import validateEnv from '@/utils/validateEnv'
+import PostController from '@/api/post/post.controller'
+import UserController from '@/api/user/user.controller'
 
-validateEnv();
+validateEnv()
 
 /**
  *  !-- APP (Express)
@@ -28,6 +28,6 @@ const App: Express = new Express(
     [new PostController(), new UserController()],
     String(process.env.APP_HOST),
     Number(process.env.APP_PORT)
-);
+)
 
-App.listen();
+App.listen()

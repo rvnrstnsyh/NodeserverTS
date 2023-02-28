@@ -9,8 +9,9 @@
 |
 */
 
-import UserModel from '@/api/user/user.model';
-import tokenFactory from '@/utils/tokenFactory';
+import UserModel from '@/api/user/user.model'
+import * as wrapper from '@/utils/wrapper'
+import tokenFactory from '@/utils/tokenFactory'
 
 /**
  *  !-- USER SERVICE (Class)
@@ -19,7 +20,7 @@ import tokenFactory from '@/utils/tokenFactory';
  */
 class UserService {
     //
-    private UserModel = UserModel;
+    private UserModel = UserModel
 
     /**
      *  !-- USER REGISTER (Method)
@@ -27,25 +28,16 @@ class UserService {
      * @desc register a new user.
      * @return promise string | error
      */
-    public async register(
-        username: string,
-        email: string,
-        password: string
-    ): Promise<string | Error> {
+    public async register(payload: object): Promise<void> {
         //
         try {
             //
-            const user = await this.UserModel.create({
-                username,
-                email,
-                password,
-            });
-
-            const accessToken = tokenFactory.create(user);
-            return accessToken;
+            const user = await this.UserModel.create(payload)
+            const accessToken = tokenFactory.create(user)
+            return wrapper.data(user)
         } catch (e: any) {
             //
-            throw new Error('Unable to create new user');
+            return wrapper.error({ message: e.message })
         }
     }
 
@@ -55,31 +47,28 @@ class UserService {
      * @desc this is how the user login.
      * @return promise string | error
      */
-    public async login(
-        email: string,
-        password: string
-    ): Promise<string | Error> {
+    public async login(email: string, password: string): Promise<string | Error> {
         //
         try {
             //
-            const user = await this.UserModel.findOne({ email });
+            const user = await this.UserModel.findOne({ email })
             if (!user) {
                 //
-                throw new Error('Unable to find user with that email address');
+                throw new Error('Unable to find user with that email address')
             }
 
             if (await user.isValidPassword(password)) {
                 //
-                return tokenFactory.create(user);
+                return tokenFactory.create(user)
             } else {
                 //
-                throw new Error('Wrong credentials given');
+                throw new Error('Wrong credentials given')
             }
         } catch (e: any) {
             //
-            throw new Error('Unable to login user');
+            throw new Error('Unable to login user')
         }
     }
 }
 
-export default UserService;
+export default UserService

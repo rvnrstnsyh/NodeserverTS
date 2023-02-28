@@ -9,7 +9,7 @@
 |
 */
 
-import { Document } from 'mongoose';
+import { Document } from 'mongoose'
 
 /**
  *  !-- USER ATTRIBUTES (Interface)
@@ -18,9 +18,9 @@ import { Document } from 'mongoose';
  */
 export default interface User extends Document {
     //
-    username: string;
-    email: string;
-    password: string;
-    role: string;
-    isValidPassword(password: string): Promise<Error | boolean>;
+    username: string
+    email: string
+    password: string
+    role: string
+    isValidPassword(password: string): Promise<Error | boolean>
 }

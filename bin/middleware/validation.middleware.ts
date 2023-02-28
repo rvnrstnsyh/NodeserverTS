@@ -9,9 +9,9 @@
 |
 */
 
-import Joi from 'joi';
+import Joi from 'joi'
 
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express'
 
 /**
  *  !-- VALIDATION MIDDLEWARE (Function)
@@ -20,37 +20,28 @@ import { Request, Response, NextFunction, RequestHandler } from 'express';
  * @return promise void
  */
 function validationMiddleware(schema: Joi.Schema): RequestHandler {
-    return async (
-        request: Request,
-        response: Response,
-        next: NextFunction
-    ): Promise<void> => {
+    return async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         //
         const options: Object = {
             abortEarly: false,
             allowUnknown: true,
             stripUnknown: true,
-        };
+        }
 
         try {
             //
-            const value: Object = await schema.validateAsync(
-                request.body,
-                options
-            );
-            request.body = value;
+            const value: Object = await schema.validateAsync(request.body, options)
+            request.body = value
 
-            next();
+            next()
         } catch (e: any) {
             //
-            const errors: string[] = [];
-            e.details.forEach((error: Joi.ValidationErrorItem) => {
-                errors.push(error.message);
-            });
+            const errors: string[] = []
+            e.details.forEach((error: Joi.ValidationErrorItem) => { errors.push(error.message) })
 
-            response.status(400).send({ errors: errors });
+            response.status(400).send({ errors: errors })
         }
-    };
+    }
 }
 
-export default validationMiddleware;
+export default validationMiddleware

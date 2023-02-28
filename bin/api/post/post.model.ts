@@ -9,9 +9,9 @@
 |
 */
 
-import { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose'
 
-import PostInterface from '@/api/post/post.interface';
+import PostInterface from '@/api/post/post.interface'
 
 /**
  *  !-- POST MODEL (Schema)
@@ -30,6 +30,6 @@ const PostSchema: Schema = new Schema(
         },
     },
     { timestamps: true, versionKey: false }
-);
+)
 
-export default model<PostInterface>('Post', PostSchema);
+export default model<PostInterface>('Post', PostSchema)

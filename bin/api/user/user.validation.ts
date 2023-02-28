@@ -9,7 +9,7 @@
 |
 */
 
-import Joi from 'joi';
+import Joi from 'joi'
 
 /**
  *  !-- USER VALIDATION (Any)
@@ -20,11 +20,11 @@ const register: any = Joi.object({
     username: Joi.string().max(25).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
-});
+})
 
 const login: any = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
-});
+})
 
-export default { register, login };
+export default { register, login }

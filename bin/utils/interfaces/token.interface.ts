@@ -9,7 +9,7 @@
 |
 */
 
-import { Schema } from 'mongoose';
+import { Schema } from 'mongoose'
 
 /**
  *  !-- TOKEN ATTRIBUTES (Interface)
@@ -17,6 +17,6 @@ import { Schema } from 'mongoose';
  * @desc defines all token attributes and their data types.
  */
 export default interface Token extends Object {
-    _id: Schema.Types.ObjectId;
-    expiresIn: Number;
+    _id: Schema.Types.ObjectId
+    expiresIn: Number
 }

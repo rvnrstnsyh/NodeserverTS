@@ -9,7 +9,7 @@
 |
 */
 
-import { Document } from 'mongoose';
+import { Document } from 'mongoose'
 
 /**
  *  !-- POST ATTRIBUTES (Interface)
@@ -18,6 +18,6 @@ import { Document } from 'mongoose';
  */
 export default interface Post extends Document {
     //
-    title: string;
-    body: string;
+    title: string
+    body: string
 }

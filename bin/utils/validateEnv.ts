@@ -9,7 +9,7 @@
 |
 */
 
-import { cleanEnv, str, port } from 'envalid';
+import { cleanEnv, str, port } from 'envalid'
 
 /**
  *  !-- ENV VALIDATION (Any)
@@ -26,7 +26,7 @@ function validateEnv(): void {
         MONGODB_URI: str(),
         COOKIE_SECRET: str(),
         JWT_SECRET: str(),
-    });
+    })
 }
 
-export default validateEnv;
+export default validateEnv

@@ -9,11 +9,11 @@
 |
 */
 
-import argon2 from 'argon2';
+import argon2 from 'argon2'
 
-import UserInterface from '@/api/user/user.interface';
+import UserInterface from '@/api/user/user.interface'
 
-import { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose'
 
 /**
  *  !-- USER MODEL (Schema)
@@ -43,7 +43,7 @@ const UserSchema: Schema = new Schema(
         },
     },
     { timestamps: true, versionKey: false }
-);
+)
 
 /**
  *  !-- PASSWORD HASHING (Schema method)
@@ -55,11 +55,11 @@ UserSchema.pre<UserInterface>('save', async function (next) {
     //
     if (!this.isModified('password')) {
         //
-        return next();
+        return next()
     }
-    this.password = await argon2.hash(this.password);
-    next();
-});
+    this.password = await argon2.hash(this.password)
+    next()
+})
 
 /**
  *  !-- PASSWORD VERIFY (Schema method)
@@ -71,7 +71,7 @@ UserSchema.methods.isValidPassword = async function (
     password: string
 ): Promise<Error | boolean> {
     //
-    return await argon2.verify(this.password, password);
-};
+    return await argon2.verify(this.password, password)
+}
 
-export default model<UserInterface>('User', UserSchema);
+export default model<UserInterface>('User', UserSchema)

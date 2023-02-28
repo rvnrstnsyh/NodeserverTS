@@ -9,14 +9,14 @@
 |
 */
 
-import UserModel from '@/api/user/user.model';
-import tokenFactory from '@/utils/tokenFactory';
-import HttpException from '@/utils/exception/http.exception';
-import TokenInterface from '@/utils/interfaces/token.interface';
+import UserModel from '@/api/user/user.model'
+import tokenFactory from '@/utils/tokenFactory'
+import HttpException from '@/utils/exception/http.exception'
+import TokenInterface from '@/utils/interfaces/token.interface'
 
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express'
 
 /**
  *  !-- AUTHENTICATION CONTROLLER (Method)
@@ -25,46 +25,39 @@ import { Request, Response, NextFunction } from 'express';
  * via request headers.
  * @return promise http response | void
  */
-async function authenticateMiddleware(
-    request: Request,
-    response: Response,
-    next: NextFunction
-): Promise<Response | void> {
+async function authenticateMiddleware(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
     //
-    const bearer: any = request.headers.authorization;
+    const bearer: any = request.headers.authorization
 
     if (!bearer || !bearer.startsWith('Bearer ')) {
         //
-        return next(new HttpException(401, 'Unauthorized'));
+        return next(new HttpException(401, 'Unauthorized'))
     }
 
-    const accessToken: string = bearer.split('Bearer ')[1].trim();
+    const accessToken: string = bearer.split('Bearer ')[1].trim()
 
     try {
         //
-        const payload: TokenInterface | jwt.JsonWebTokenError =
-            await tokenFactory.verify(accessToken);
+        const payload: TokenInterface | jwt.JsonWebTokenError = await tokenFactory.verify(accessToken)
 
         if (payload instanceof jwt.JsonWebTokenError) {
             //
-            return next(new HttpException(401, 'Unauthorized'));
+            return next(new HttpException(401, 'Unauthorized'))
         }
 
-        const user: any = await UserModel.findById(payload._id)
-            .select('-password')
-            .exec();
+        const user: any = await UserModel.findById(payload._id).select('-password').exec()
 
         if (!user) {
             //
-            return next(new HttpException(401, 'Unauthorized'));
+            return next(new HttpException(401, 'Unauthorized'))
         }
 
-        request.user = user;
-        return next();
+        request.user = user
+        return next()
     } catch (e: any) {
         //
-        return next(new HttpException(401, 'Unauthorized'));
+        return next(new HttpException(401, 'Unauthorized'))
     }
 }
 
-export default authenticateMiddleware;
+export default authenticateMiddleware

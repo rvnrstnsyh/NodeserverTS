@@ -9,9 +9,9 @@
 |
 */
 
-import HttpException from '@/utils/exception/http.exception';
+import HttpException from '@/utils/exception/http.exception'
 
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express'
 
 /**
  *  !-- ERROR MIDDLEWARE (Function)
@@ -20,17 +20,12 @@ import { Request, Response, NextFunction } from 'express';
  * based on http exception.
  * @return void
  */
-function errorMiddleware(
-    error: HttpException,
-    request: Request,
-    response: Response,
-    next: NextFunction
-): void {
+function errorMiddleware(error: HttpException, request: Request, response: Response, next: NextFunction): void {
     //
-    const status: number = error.status || 500;
-    const message: string = error.message || 'Something went wrong';
+    const status: number = error.status || 500
+    const message: string = error.message || 'Something went wrong'
 
-    response.status(status).send({ status, message });
+    response.status(status).send({ status, message })
 }
 
-export default errorMiddleware;
+export default errorMiddleware

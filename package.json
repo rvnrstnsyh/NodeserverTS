@@ -15,11 +15,11 @@
     },
     "scripts": {
         "prod": "nodemon ./dist/bin/index.js",
-        "dev": "tsc-watch --onSuccess \"nodemon ./bin/index.ts\"",
+        "dev": "tsc-watch --onSuccess \"nodemon ./index.ts\"",
         "build": "tsc",
         "postinstall": "npm run build",
-        "ignite": "bash ignite.sh",
-        "ext": "rm -rf node_modules dist package-lock.json yarn.lock ./bin/access.log .env"
+        "update": "bash updater.sh",
+        "ext": "rm -rf node_modules dist package-lock.json yarn.lock combined.log error.log .env"
     },
     "keywords": [
         "Node.js",
@@ -34,9 +34,9 @@
     ],
     "license": "GPL-3.0",
     "engines": {
-        "node": ">= 18.12.0",
-        "npm": ">= 8.5.5",
-        "yarn": ">= 1.22.17"
+        "node": ">= 18.14.2",
+        "npm": ">= 9.2.0",
+        "yarn": ">= 1.22.19"
     },
     "devDependencies": {
         "@types/compression": "^1.7.2",
@@ -81,11 +81,12 @@
         "jsonwebtoken": "^9.0.0",
         "module-alias": "^2.2.2",
         "mongoose": "^7.0.0",
-        "morgan": "^1.10.0"
+        "morgan": "^1.10.0",
+        "winston": "^3.8.2"
     },
     "_moduleAliases": {
+        "@/root": "./dist/bin",
         "@/api": "./dist/bin/api",
-        "@/client": "./dist/bin/client",
         "@/middleware": "./dist/bin/middleware",
         "@/utils": "./dist/bin/utils"
     },
@@ -94,6 +95,6 @@
             "./bin/logs/**/*",
             "./exclude/files/**/*"
         ],
-        "delay": 1000
+        "delay": 0
     }
 }
