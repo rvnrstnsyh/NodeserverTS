@@ -24,9 +24,8 @@
 .vscode
 
 # log
-access.log*
-npm-debug.log*
+*.log*
+
+# package lock
 package-lock*
-yarn-debug.log*
-yarn-error.log*
 yarn.lock*

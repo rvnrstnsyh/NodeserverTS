@@ -1,100 +1,105 @@
 {
-    "name": "nodeserverts",
-    "version": "1.0.0",
-    "description": "Back-End node server",
-    "main": "index.ts",
-    "type": "commonjs",
-    "private": true,
-    "repository": {
-        "type": "git",
-        "url": "https://gitlab.com/rvnrstnsyh/nodeserverts.git"
-    },
-    "bugs": {
-        "url": "https://gitlab.com/rvnrstnsyh/nodeserverts/-/issues",
-        "email": "re@rvnrstnsyh.dev"
-    },
-    "scripts": {
-        "prod": "nodemon ./dist/bin/index.js",
-        "dev": "tsc-watch --onSuccess \"nodemon ./index.ts\"",
-        "build": "tsc",
-        "postinstall": "npm run build",
-        "update": "bash updater.sh",
-        "ext": "rm -rf node_modules dist package-lock.json yarn.lock combined.log error.log .env"
-    },
-    "keywords": [
-        "Node.js",
-        "TypeScript",
-        "server",
-        "backend",
-        "API"
+  "name": "nodeserverts",
+  "version": "1.0.0",
+  "description": "Back-End node server",
+  "main": "index.ts",
+  "type": "commonjs",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/rvnrstnsyh/nodeserverts.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/rvnrstnsyh/nodeserverts/-/issues",
+    "email": "re@rvnrstnsyh.dev"
+  },
+  "keywords": [
+    "Node.js",
+    "TypeScript",
+    "server",
+    "backend",
+    "API"
+  ],
+  "author": "Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)",
+  "contributors": [
+    "Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)"
+  ],
+  "license": "GPL-3.0",
+  "scripts": {
+    "prod": "nodemon ./dist/bin/index.js",
+    "dev": "tsc-watch --onSuccess \"nodemon ./index.ts\"",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "build": "tsc",
+    "postinstall": "npm run build",
+    "update": "bash updater.sh",
+    "ext": "rm -rf node_modules dist package-lock.json yarn.lock combined.log error.log .env"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "engines": {
+    "node": ">= 18.14.2",
+    "npm": ">= 9.2.0",
+    "yarn": ">= 1.22.19"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.7.2",
+    "@types/connect-flash": "^0.0.37",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.13",
+    "@types/crypto-js": "^4.1.1",
+    "@types/csurf": "^1.11.2",
+    "@types/express": "^4.17.17",
+    "@types/express-session": "^1.17.6",
+    "@types/express-useragent": "^1.0.2",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^18.14.2",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "eslint": "^8.35.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.4",
+    "tsc-watch": "^6.0.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "argon2": "^0.30.3",
+    "compression": "^1.7.4",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "csrf": "^3.1.0",
+    "csurf": "^1.11.0",
+    "dotenv": "^16.0.3",
+    "envalid": "^7.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
+    "express-session": "^1.17.3",
+    "express-useragent": "^1.0.15",
+    "helmet": "^6.0.1",
+    "joi": "^17.8.3",
+    "jsonwebtoken": "^9.0.0",
+    "module-alias": "^2.2.2",
+    "mongoose": "^7.0.0",
+    "morgan": "^1.10.0",
+    "winston": "^3.8.2"
+  },
+  "_moduleAliases": {
+    "@/root": "./dist/bin",
+    "@/api": "./dist/bin/api",
+    "@/middleware": "./dist/bin/middleware",
+    "@/utils": "./dist/bin/utils"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "./bin/logs/**/*",
+      "./exclude/files/**/*"
     ],
-    "author": "Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)",
-    "contributors": [
-        "Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)"
-    ],
-    "license": "GPL-3.0",
-    "engines": {
-        "node": ">= 18.14.2",
-        "npm": ">= 9.2.0",
-        "yarn": ">= 1.22.19"
-    },
-    "devDependencies": {
-        "@types/compression": "^1.7.2",
-        "@types/connect-flash": "^0.0.37",
-        "@types/cookie-parser": "^1.4.3",
-        "@types/cors": "^2.8.13",
-        "@types/crypto-js": "^4.1.1",
-        "@types/csurf": "^1.11.2",
-        "@types/express": "^4.17.17",
-        "@types/express-session": "^1.17.6",
-        "@types/express-useragent": "^1.0.2",
-        "@types/jsonwebtoken": "^8.5.9",
-        "@types/morgan": "^1.9.4",
-        "@types/node": "^18.14.2",
-        "@typescript-eslint/eslint-plugin": "^5.54.0",
-        "@typescript-eslint/parser": "^5.54.0",
-        "eslint": "^8.35.0",
-        "eslint-config-prettier": "^8.6.0",
-        "eslint-plugin-prettier": "^4.2.1",
-        "nodemon": "^2.0.20",
-        "prettier": "^2.8.4",
-        "tsc-watch": "^6.0.0",
-        "typescript": "^4.9.5"
-    },
-    "dependencies": {
-        "argon2": "^0.30.3",
-        "compression": "^1.7.4",
-        "connect-flash": "^0.1.1",
-        "cookie-parser": "^1.4.6",
-        "cors": "^2.8.5",
-        "crypto-js": "^4.1.1",
-        "csrf": "^3.1.0",
-        "csurf": "^1.11.0",
-        "dotenv": "^16.0.3",
-        "envalid": "^7.3.1",
-        "express": "^4.18.2",
-        "express-rate-limit": "^6.7.0",
-        "express-session": "^1.17.3",
-        "express-useragent": "^1.0.15",
-        "helmet": "^6.0.1",
-        "joi": "^17.8.3",
-        "jsonwebtoken": "^9.0.0",
-        "module-alias": "^2.2.2",
-        "mongoose": "^7.0.0",
-        "morgan": "^1.10.0",
-        "winston": "^3.8.2"
-    },
-    "_moduleAliases": {
-        "@/root": "./dist/bin",
-        "@/api": "./dist/bin/api",
-        "@/middleware": "./dist/bin/middleware",
-        "@/utils": "./dist/bin/utils"
-    },
-    "nodemonConfig": {
-        "ignore": [
-            "./bin/logs/**/*",
-            "./exclude/files/**/*"
-        ],
-        "delay": 0
-    }
+    "delay": 0
+  }
 }
