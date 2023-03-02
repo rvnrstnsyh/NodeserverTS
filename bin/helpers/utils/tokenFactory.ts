@@ -10,9 +10,12 @@
 */
 
 import jwt from 'jsonwebtoken'
-import CryptoJS from 'crypto-js'
-import UserInterface from '@/api/user/user.interface'
-import TokenInterface from '@/utils/interfaces/token.interface'
+
+import Aes256 from '@helpers/utils/aes256'
+import UserInterface from '@api/user/user.interface'
+import TokenInterface from '@helpers/interfaces/token.interface'
+
+const NODE_ENV: object | any = process.env
 
 /**
  *  !-- TOKEN CREATE (Method)
@@ -21,10 +24,8 @@ import TokenInterface from '@/utils/interfaces/token.interface'
  * @return string
  */
 export const create = (user: UserInterface): string => {
-    const token: string = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as jwt.Secret, { expiresIn: '1d' })
-    const TripleDES_Token: string = CryptoJS.TripleDES.encrypt(token, `${process.env.APP_SECRET}`).toString()
-
-    return TripleDES_Token
+    //
+    return Aes256.encrypt(jwt.sign({ _id: user._id }, NODE_ENV.JWT_SECRET as jwt.Secret, { expiresIn: '1d' }))
 }
 
 /**
@@ -33,11 +34,11 @@ export const create = (user: UserInterface): string => {
  * @desc verify token
  * @return promise jwt error | token interface
  */
-export const verify = async (TripleDES_Token: string): Promise<jwt.VerifyErrors | TokenInterface> => {
+export const verify = async (bearer: string): Promise<jwt.VerifyErrors | TokenInterface> => {
+    //
     return new Promise((resolve, reject): void => {
-        const token: string = CryptoJS.TripleDES.decrypt(TripleDES_Token, `${process.env.APP_SECRET}`).toString(CryptoJS.enc.Utf8)
-
-        jwt.verify(token, process.env.JWT_SECRET as jwt.Secret, (error, payload): void => {
+        //
+        jwt.verify(Aes256.decrypt(bearer), NODE_ENV.JWT_SECRET as jwt.Secret, (error, payload): void => {
             if (error) return reject(error)
             resolve(payload as TokenInterface)
         })

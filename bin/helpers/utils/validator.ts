@@ -9,11 +9,15 @@
 |
 */
 
-import * as wrapper from '@/utils/wrapper'
+import * as wrapper from '@helpers/utils/wrapper'
 
-import { ConflictError } from '@/utils/errors'
-
-const isValidPayload: Function = (payload: any, constraint: any) => {
+import { ConflictError } from '@helpers/errors'
+//
+interface isValidPayloadIfc {
+  (payload: any, constraint: any): void
+}
+//
+const isValidPayload: isValidPayloadIfc = (payload, constraint) => {
   //
   const message: object | any = {}
   if (!payload) {

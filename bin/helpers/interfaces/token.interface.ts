@@ -18,5 +18,5 @@ import { Schema } from 'mongoose'
  */
 export default interface Token extends Object {
     _id: Schema.Types.ObjectId
-    expiresIn: Number
+    expiresIn: number
 }

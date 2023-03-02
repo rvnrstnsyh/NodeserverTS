@@ -12,19 +12,42 @@
 import {
   NotFoundError, InternalServerError, BadRequestError, ConflictError, ExpectationFailedError,
   ForbiddenError, GatewayTimeoutError, ServiceUnavailableError, UnauthorizedError
-} from '@/utils/errors'
-import { ERROR as httpError } from '@/utils/errors/status_code'
+} from '@helpers/errors'
+import { ERROR as httpError } from '@helpers/errors/status_code'
 import { Response } from 'express'
+//
+interface dataIfc {
+  (data: object): object
+}
+interface paginationDataIfc {
+  (data: object, meta: object): object
+}
+interface errorIfc {
+  (error: object): object
+}
+interface responseIfc {
+  (response: Response, type: string, result: object | any, message: string, responseCode: number, cookie?: cookie): void
+}
+interface paginationResponseIfc {
+  (response: Response, type: string, result: any, message: string, code: number): void
+}
+interface checkErrorCodeIfc {
+  (error: Error): object
+}
+interface cookie {
+  name: string
+  value: string
+}
+//
+const data: dataIfc = (data: object) => ({ error: null, data })
 
-const data: Function = (data: object | any) => ({ err: null, data })
+const paginationData: paginationDataIfc = (data, meta) => ({ error: null, data, meta })
 
-const paginationData: Function = (data: object | any, meta: object | any) => ({ err: null, data, meta })
+const error: errorIfc = (error) => ({ error, data: null })
 
-const error: Function = (error: Error) => ({ error, data: null })
-
-const response: Function = (response: Response, type: string, result: any, message = '', responseCode = 200): void => {
+const response: responseIfc = (response, type, result, message, responseCode, cookie): void => {
   //
-  let status: Boolean = true
+  let status = Boolean(true)
   let data: any = result.data
   let code: number = responseCode
   if (type === 'fail') {
@@ -36,10 +59,22 @@ const response: Function = (response: Response, type: string, result: any, messa
     code = result.error.code || errCode
     responseCode = errCode
   }
+  const cookieConfig: object = {
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+    sameSite: 'strict',
+    secure: false,
+  }
+  try {
+    if (cookie?.value) response.cookie(cookie?.name, cookie?.value, cookieConfig)
+  } catch (e: any) {
+    //
+  }
   response.status(responseCode).json({ success: status, data, message, code })
 }
 
-const paginationResponse: Function = (response: Response, type: string, result: any, message = '', code = 200): void => {
+
+const paginationResponse: paginationResponseIfc = (response, type, result, message, code): void => {
   //
   let status = true
   let data = result.data
@@ -52,7 +87,7 @@ const paginationResponse: Function = (response: Response, type: string, result: 
   response.status(code).json({ success: status, data, meta: result.meta, code, message })
 }
 
-const checkErrorCode: Function = (error: Error): any => {
+const checkErrorCode: checkErrorCodeIfc = (error): object => {
   //
   switch (error.constructor) {
     case BadRequestError:

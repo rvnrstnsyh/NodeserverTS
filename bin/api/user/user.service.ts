@@ -9,9 +9,11 @@
 |
 */
 
-import UserModel from '@/api/user/user.model'
-import * as wrapper from '@/utils/wrapper'
-import tokenFactory from '@/utils/tokenFactory'
+import * as wrapper from '@helpers/utils/wrapper'
+import { ConflictError } from '@helpers/errors'
+
+import UserModel from '@api/user/user.model'
+import tokenFactory from '@helpers/utils/tokenFactory'
 
 /**
  *  !-- USER SERVICE (Class)
@@ -28,7 +30,7 @@ class UserService {
      * @desc register a new user.
      * @return promise string | error
      */
-    public async register(payload: object): Promise<void> {
+    public async register(payload: object): Promise<object> {
         //
         try {
             //
@@ -37,7 +39,7 @@ class UserService {
             return wrapper.data(user)
         } catch (e: any) {
             //
-            return wrapper.error({ message: e.message })
+            return wrapper.error(new ConflictError(e.message))
         }
     }
 
@@ -47,26 +49,18 @@ class UserService {
      * @desc this is how the user login.
      * @return promise string | error
      */
-    public async login(email: string, password: string): Promise<string | Error> {
+    public async login(payload: object | any): Promise<object> {
         //
         try {
             //
-            const user = await this.UserModel.findOne({ email })
-            if (!user) {
-                //
-                throw new Error('Unable to find user with that email address')
-            }
+            const user = await this.UserModel.findOne({ email: payload.email })
+            if (!user) return wrapper.error({ message: 'Unable to find user with that email address' })
+            if (await user.isValidPassword(payload.password)) return wrapper.data({ message: 'Login success', token: tokenFactory.create(user) })
 
-            if (await user.isValidPassword(password)) {
-                //
-                return tokenFactory.create(user)
-            } else {
-                //
-                throw new Error('Wrong credentials given')
-            }
+            return wrapper.error({ message: 'Wrong credentials given' })
         } catch (e: any) {
             //
-            throw new Error('Unable to login user')
+            return wrapper.error({ message: 'Unable to login user' })
         }
     }
 }

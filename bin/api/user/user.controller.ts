@@ -9,17 +9,17 @@
 |
 */
 
-import * as logger from '@/utils/logger'
-import * as wrapper from '@/utils/wrapper'
-import * as validator from '@/utils/validator'
+import * as logger from '@helpers/utils/logger'
+import * as wrapper from '@helpers/utils/wrapper'
+import * as validator from '@helpers/utils/validator'
 
-import UserService from '@/api/user/user.service'
-import userValidation from '@/api/user/user.validation'
-import HttpException from '@/utils/exception/http.exception'
-import ControllerInterface from '@/utils/interfaces/controller.interface'
-import authenticatedMiddleware from '@/middleware/authenticated.middleware'
+import UserService from '@api/user/user.service'
+import userValidation from '@api/user/user.validation'
+import HttpException from '@helpers/exception/http.exception'
+import ControllerInterface from '@helpers/interfaces/controller.interface'
+import authenticatedMiddleware from '@middleware/authenticated.middleware'
 
-import { SUCCESS as httpSuccess, ERROR as httpError } from '@/utils/errors/status_code'
+import { SUCCESS as httpSuccess, ERROR as httpError } from '@helpers/errors/status_code'
 import { Router, Request, Response, NextFunction } from 'express'
 
 /**
@@ -30,7 +30,7 @@ import { Router, Request, Response, NextFunction } from 'express'
  */
 class UserController implements ControllerInterface {
     //
-    public path: string = '/users'
+    public path: string = '/user/v1'
     public router: Router = Router()
 
     private UserService: UserService = new UserService()
@@ -61,22 +61,29 @@ class UserController implements ControllerInterface {
      */
     private register = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
         //
+        interface postRequestIfc {
+            (result: object | any): Promise<any>
+        }
+        interface sendResponseIfc {
+            (register: object | any): Promise<void>
+        }
+        //
         const payload: object | any = request.body
-        const validatePayload: Function = validator.isValidPayload(payload, userValidation.register)
-        const postRequest: Function = async (result: any): Promise<any> => {
+        const validatePayload: any = validator.isValidPayload(payload, userValidation.register)
+        const postRequest: postRequestIfc = async (result: any): Promise<any> => {
             //
             if (result.error) return result
             return await this.UserService.register(payload)
         }
-        const sendResponse: Function = async (register: object | any) => {
+        const sendResponse: sendResponseIfc = async (register: object | any): Promise<void> => {
             //
             const service: object | any = await register
             if (service.error) {
                 //
-                logger.error('user-register', service.error.message, 'error', 'NodeserverTS')
+                logger.info('user-register', `${payload.email} Failed to register`, 'error', 'nodeserverts')
                 return wrapper.response(response, 'fail', service, service.error.message, httpError.CONFLICT)
             }
-            logger.info('user-register', `${service.data.email} Successfully registered`, 'info', 'NodeserverTS')
+            logger.info('user-register', `${payload.email} Successfully registered`, 'info', 'nodeserverts')
             return wrapper.response(response, 'success', service, 'Register User', httpSuccess.OK)
         }
         sendResponse(postRequest(validatePayload))
@@ -90,16 +97,40 @@ class UserController implements ControllerInterface {
      */
     private login = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
         //
-        try {
-            //
-            const { email, password }: any = request.body
-            const token: any = await this.UserService.login(email, password)
-
-            response.status(200).json({ token })
-        } catch (e: any) {
-            //
-            next(new HttpException(400, e.message))
+        interface postRequestIfc {
+            (result: object | any): Promise<any>
         }
+        interface sendResponseIfc {
+            (loogin: object | any): Promise<void>
+        }
+        //
+        const payload: object | any = request.body
+        const validatePayload: any = validator.isValidPayload(payload, userValidation.login)
+        const postRequest: postRequestIfc = async (result: any): Promise<any> => {
+            //
+            if (result.error) return result
+            return await this.UserService.login(payload)
+        }
+        const sendResponse: sendResponseIfc = async (login: any): Promise<void> => {
+            //
+            const service: object | any = await login
+            if (service.error) {
+                //
+                logger.info('user-login', `${payload.email} Failed to login`, 'error', 'nodeserverts')
+                return wrapper.response(response, 'fail', service, service.error.message, httpError.CONFLICT)
+            }
+            logger.info('user-login', `${payload.email} Successfully login`, 'info', 'nodeserverts')
+            interface cookie {
+                name: string
+                value: string
+            }
+            const cookie: cookie = {
+                name: 'authorization',
+                value: service.data.token
+            }
+            return wrapper.response(response, 'success', wrapper.data(service.data.message), 'Login User', httpSuccess.OK, cookie)
+        }
+        sendResponse(postRequest(validatePayload))
     }
 
     /**
@@ -114,7 +145,7 @@ class UserController implements ControllerInterface {
             //
             return next(new HttpException(404, 'No logged in user'))
         }
-        response.status(200).json({ verified: request.user })
+        return wrapper.response(response, 'success', wrapper.data(request.user), 'Verify User', httpSuccess.OK)
     }
 }
 

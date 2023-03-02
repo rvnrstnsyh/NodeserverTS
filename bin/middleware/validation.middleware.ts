@@ -22,7 +22,7 @@ import { Request, Response, NextFunction, RequestHandler } from 'express'
 function validationMiddleware(schema: Joi.Schema): RequestHandler {
     return async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         //
-        const options: Object = {
+        const options: object = {
             abortEarly: false,
             allowUnknown: true,
             stripUnknown: true,
@@ -30,7 +30,7 @@ function validationMiddleware(schema: Joi.Schema): RequestHandler {
 
         try {
             //
-            const value: Object = await schema.validateAsync(request.body, options)
+            const value: object = await schema.validateAsync(request.body, options)
             request.body = value
 
             next()

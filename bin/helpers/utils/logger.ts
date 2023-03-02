@@ -13,8 +13,17 @@ import morgan from 'morgan'
 
 import { Request, Response } from 'express'
 import { createLogger, transports, format } from 'winston'
-
-// eslint-disable-next-line new-cap
+//
+interface logIfc {
+  (context: string, message: string, scope: string): void
+}
+interface infoIfc {
+  (context: string, message: string, scope: string, meta?: string): void
+}
+interface errorIfc {
+  (context: string, message: string, scope: string, meta?: string): void
+}
+//
 const logger: object | any = createLogger({
   level: 'info',
   format: format.simple(),
@@ -30,22 +39,22 @@ const logger: object | any = createLogger({
   exitOnError: false
 })
 
-const log: Function = (context: string, message: string, scope: string) => {
+const log: logIfc = (context, message, scope) => {
   const line: object = { context, scope, message: message.toString() }
   logger.info(line)
 }
 
-const info: Function = (context: string, message: string, scope: string, meta: string) => {
+const info: infoIfc = (context, message, scope, meta) => {
   const line: object = { context, scope, message, meta }
   logger.info(line)
 }
 
-const error: Function = (context: string, message: string, scope: string, meta: string) => {
+const error: errorIfc = (context, message, scope, meta) => {
   const line: object = { context, scope, message, meta }
   logger.error(line)
 }
 
-const init: Function = (): object => {
+const init: any = (): object => {
   //
   return morgan((tokens: any, request: Request, Response: Response): any => {
     //

@@ -12,10 +12,9 @@
 import 'dotenv/config'
 import 'module-alias/register'
 
-import Express from '@/root/app'
-import validateEnv from '@/utils/validateEnv'
-import PostController from '@/api/post/post.controller'
-import UserController from '@/api/user/user.controller'
+import Express from '@root/app'
+import validateEnv from '@helpers/utils/validateEnv'
+import UserController from '@api/user/user.controller'
 
 validateEnv()
 
@@ -24,10 +23,7 @@ validateEnv()
  *
  * @desc defines each express application.
  */
-const App: Express = new Express(
-    [new PostController(), new UserController()],
-    String(process.env.APP_HOST),
-    Number(process.env.APP_PORT)
-)
+const Routes: Array<any> = [new UserController()]
+const App: Express = new Express(Routes, String(process.env.APP_HOST), Number(process.env.APP_PORT))
 
 App.listen()

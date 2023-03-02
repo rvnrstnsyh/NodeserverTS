@@ -9,11 +9,11 @@
 |
 */
 
-import * as logger from '@/utils/logger'
-import * as wrapper from '@/utils/wrapper'
+import * as logger from '@helpers/utils/logger'
+import * as wrapper from '@helpers/utils/wrapper'
 
-import ErrorMiddleware from '@/middleware/error.middleware'
-import ControllerInterface from '@/utils/interfaces/controller.interface'
+import ErrorMiddleware from '@middleware/error.middleware'
+import ControllerInterface from '@helpers/interfaces/controller.interface'
 
 import cors from 'cors'
 import PATH from 'path'
@@ -26,7 +26,7 @@ import cookieParser from 'cookie-parser'
 import useragent from 'express-useragent'
 
 import { rateLimit } from 'express-rate-limit'
-import { SUCCESS as httpSuccess } from '@/utils/errors/status_code'
+import { SUCCESS as httpSuccess } from '@helpers/errors/status_code'
 import express, { Request, Response, NextFunction, Application } from 'express'
 
 class App {
@@ -67,8 +67,7 @@ class App {
     // ! +--------------------------------------------------------------------------+
     private init_database_connection(): void {
         //
-        const MONGODB_URI: any = process.env.MONGODB_URI
-        mongoose.set('strictQuery', true).connect(`${MONGODB_URI}`)
+        mongoose.set('strictQuery', true).connect(`${process.env.MONGO_DATABASE_URL}`)
     }
 
     // ! +--------------------------------------------------------------------------+
@@ -88,7 +87,7 @@ class App {
             .use((request: Request, response: Response, next: NextFunction): void => {
                 //
                 const ctx: string = 'app-access'
-                logger.log(ctx, `${request.method} ${this.URI}${request.url}`, 'info')
+                logger.log(ctx, `${request.method} ${this.URI}${request.url}`, 'log')
                 next()
             })
             .use(helmet({ contentSecurityPolicy: false }))
@@ -146,7 +145,7 @@ class App {
         this.express.use(/.*/, (request: Request, response: Response, next: NextFunction): void => {
             //
             const message: string = 'This service is running properly'
-            wrapper.response(response, 'success', wrapper.data(request.useragent?.source), message, httpSuccess.OK)
+            wrapper.response(response, 'success', request.useragent?.source, message, httpSuccess.OK)
         })
     }
 
@@ -158,7 +157,7 @@ class App {
         this.express.listen(this.PORT, (): void => {
             //
             const ctx: string = 'app-listen'
-            logger.log(ctx, `NodeserverTS listening on http://127.0.0.1:${this.PORT} ..`, 'info')
+            logger.log(ctx, `NodeserverTS listening on http://127.0.0.1:${this.PORT} ..`, 'log')
         })
     }
 }

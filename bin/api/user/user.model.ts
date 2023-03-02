@@ -11,7 +11,7 @@
 
 import argon2 from 'argon2'
 
-import UserInterface from '@/api/user/user.interface'
+import UserInterface from '@api/user/user.interface'
 
 import { Schema, model } from 'mongoose'
 
@@ -67,9 +67,7 @@ UserSchema.pre<UserInterface>('save', async function (next) {
  * @desc verify user passwords.
  * @return promise error | boolean
  */
-UserSchema.methods.isValidPassword = async function (
-    password: string
-): Promise<Error | boolean> {
+UserSchema.methods.isValidPassword = async function (password: string): Promise<Error | boolean> {
     //
     return await argon2.verify(this.password, password)
 }

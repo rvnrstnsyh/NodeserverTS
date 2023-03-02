@@ -9,7 +9,7 @@
 |
 */
 
-import HttpException from '@/utils/exception/http.exception'
+import HttpException from '@helpers/exception/http.exception'
 
 import { Request, Response, NextFunction } from 'express'
 
