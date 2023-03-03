@@ -12,7 +12,7 @@
 import UserInterface from '@/resources/user/user.interface'
 
 /**
- *  !-- GLOBAL (Any)
+ *  !-- GLOBAL (any)
  *
  * @desc declare "user" on every request same as user interface.
  */

@@ -14,10 +14,10 @@ import * as wrapper from '@helpers/utils/wrapper'
 import UserModel from '@api/user/user.model'
 import tokenFactory from '@helpers/utils/tokenFactory'
 
-import { ConflictError } from '@helpers/errors'
+import { ConflictError, NotFoundError } from '@helpers/errors'
 
 /**
- *  !-- USER SERVICE (Class)
+ *  !-- USER SERVICE (class)
  *
  * @desc user controller advanced logic.
  */
@@ -26,7 +26,7 @@ class UserService {
     private UserModel = UserModel
 
     /**
-     *  !-- USER REGISTER (Method)
+     *  !-- USER REGISTER (method)
      *
      * @desc register a new user.
      * @return promise string | error
@@ -35,9 +35,7 @@ class UserService {
         //
         try {
             //
-            const user = await this.UserModel.create(payload)
-            const accessToken = tokenFactory.create(user)
-            return wrapper.data(user)
+            return wrapper.data(await this.UserModel.create(payload))
         } catch (e: any) {
             //
             return wrapper.error(new ConflictError(e.message))
@@ -45,7 +43,7 @@ class UserService {
     }
 
     /**
-     *  !-- USER LOGIN (Method)
+     *  !-- USER LOGIN (method)
      *
      * @desc this is how the user login.
      * @return promise string | error
@@ -55,13 +53,13 @@ class UserService {
         try {
             //
             const user = await this.UserModel.findOne({ email: payload.email })
-            if (!user) return wrapper.error({ message: 'Unable to find user with that email address' })
+            if (!user) return wrapper.error(new NotFoundError('Unable to find user with that email address'))
             if (await user.isValidPassword(payload.password)) return wrapper.data({ message: 'Login success', token: tokenFactory.create(user) })
 
-            return wrapper.error({ message: 'Wrong credentials given' })
+            return wrapper.error(new ConflictError('Wrong credentials given'))
         } catch (e: any) {
             //
-            return wrapper.error({ message: 'Unable to login user' })
+            return wrapper.error(new ConflictError('Unable to login user'))
         }
     }
 }

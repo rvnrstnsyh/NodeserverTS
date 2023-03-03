@@ -9,14 +9,13 @@
 |
 */
 
-import argon2 from 'argon2'
-
+import Aes256 from '@root/helpers/utils/aes256'
 import UserInterface from '@api/user/user.interface'
 
 import { Schema, model } from 'mongoose'
 
 /**
- *  !-- USER MODEL (Schema)
+ *  !-- USER MODEL (schema)
  *
  * @desc user database schema.
  */
@@ -46,30 +45,30 @@ const UserSchema: Schema = new Schema(
 )
 
 /**
- *  !-- PASSWORD HASHING (Schema method)
+ *  !-- PASSWORD HASHING (schema method)
  *
  * @desc hash the user's password before entering it into the database.
  * @return next
  */
-UserSchema.pre<UserInterface>('save', async function (next) {
+UserSchema.pre<UserInterface>('save', function (next) {
     //
     if (!this.isModified('password')) {
         //
         return next()
     }
-    this.password = await argon2.hash(this.password)
+    this.password = Aes256.encrypt(this.password)
     next()
 })
 
 /**
- *  !-- PASSWORD VERIFY (Schema method)
+ *  !-- PASSWORD VERIFY (schema method)
  *
  * @desc verify user passwords.
  * @return promise error | boolean
  */
 UserSchema.methods.isValidPassword = async function (password: string): Promise<Error | boolean> {
     //
-    return await argon2.verify(this.password, password)
+    return Aes256.decrypt(this.password) === password
 }
 
 export default model<UserInterface>('User', UserSchema)

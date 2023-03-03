@@ -51,7 +51,7 @@ const config: object = {
   },
   cipher: {
     algorithm: process.env.CIPHER_ALGORITHM,
-    ivLength: process.env.CIPHER_IV_LENGTH,
+    ivLength: parseInt(process.env.CIPHER_IV_LENGTH!),
     gcm_key: process.env.CIPHER_GCM_KEY,
     cbc_key: process.env.CIPHER_CBC_KEY
   }

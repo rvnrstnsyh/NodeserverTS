@@ -12,17 +12,17 @@
 import Joi from 'joi'
 
 /**
- *  !-- USER VALIDATION (Any)
+ *  !-- USER VALIDATION (object)
  *
  * @desc validates the data type of all received request bodies.
  */
-const register: any = Joi.object({
+const register: object = Joi.object({
     username: Joi.string().max(25).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
 })
 
-const login: any = Joi.object({
+const login: object = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
 })

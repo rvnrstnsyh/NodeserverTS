@@ -15,8 +15,6 @@ import Aes256 from '@helpers/utils/aes256'
 import UserInterface from '@api/user/user.interface'
 import TokenInterface from '@helpers/interfaces/token.interface'
 
-const NODE_ENV: object | any = process.env
-
 /**
  *  !-- TOKEN CREATE (Method)
  *
@@ -25,7 +23,7 @@ const NODE_ENV: object | any = process.env
  */
 export const create = (user: UserInterface): string => {
     //
-    return Aes256.encrypt(jwt.sign({ _id: user._id }, NODE_ENV.JWT_SECRET as jwt.Secret, { expiresIn: '1d' }))
+    return Aes256.encrypt(jwt.sign({ _id: user._id }, process.env.JWT_SECRET as jwt.Secret, { expiresIn: '1d' }))
 }
 
 /**
@@ -38,7 +36,7 @@ export const verify = async (bearer: string): Promise<jwt.VerifyErrors | TokenIn
     //
     return new Promise((resolve, reject): void => {
         //
-        jwt.verify(Aes256.decrypt(bearer), NODE_ENV.JWT_SECRET as jwt.Secret, (error, payload): void => {
+        jwt.verify(Aes256.decrypt(bearer), process.env.JWT_SECRET as jwt.Secret, (error, payload): void => {
             if (error) return reject(error)
             resolve(payload as TokenInterface)
         })

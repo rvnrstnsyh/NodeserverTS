@@ -15,18 +15,25 @@ import * as validator from '@helpers/utils/validator'
 
 import UserService from '@api/user/user.service'
 import userValidation from '@api/user/user.validation'
-import HttpException from '@helpers/exception/http.exception'
 import ControllerInterface from '@helpers/interfaces/controller.interface'
 import authenticatedMiddleware from '@middleware/authenticated.middleware'
 
+import { cookieIFC } from '@helpers/interfaces/cookie.interface'
 import { Router, Request, Response, NextFunction } from 'express'
 import { SUCCESS as httpSuccess, ERROR as httpError } from '@helpers/errors/status_code'
+//
+interface postRequestIFC {
+    (result: object | any): Promise<object>
+}
+interface sendResponseIFC {
+    (service: object | any): Promise<void>
+}
 
 /**
- *  !-- USER CONTROLLER (Class)
+ *  !-- USER CONTROLLER (class)
  *
- * @desc simple endpoint example.
- * validation, authentication and authorization.
+ * @desc user service  endpoint.
+ * authentication, authorization, verification and validation.
  */
 class UserController implements ControllerInterface {
     //
@@ -41,7 +48,7 @@ class UserController implements ControllerInterface {
     }
 
     /**
-     *  !-- USER ENDPOINT (Method)
+     *  !-- USER ENDPOINT (method)
      *
      * @desc defines endpoints, middleware, and controller paths.
      * @return void
@@ -50,23 +57,16 @@ class UserController implements ControllerInterface {
         //
         this.router.post(`${this.path}/register`, this.register)
         this.router.post(`${this.path}/login`, this.login)
-        this.router.get(`${this.path}`, authenticatedMiddleware, this.verifyUser)
+        this.router.get(`${this.path}/verify`, authenticatedMiddleware, this.verifyUser)
     }
 
     /**
-     *  !-- USER CONTROLLER - REGISTER (Method)
+     *  !-- USER CONTROLLER - REGISTER (method)
      *
-     * @desc post endpoint logic.
+     * @desc register handler.
      * @return promise http response | void
      */
     private register = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
-        //
-        interface postRequestIFC {
-            (result: object | any): Promise<object>
-        }
-        interface sendResponseIFC {
-            (register: object | any): Promise<void>
-        }
         //
         const payload: object | any = request.body
         const validatePayload: any = validator.isValidPayload(payload, userValidation.register)
@@ -90,19 +90,12 @@ class UserController implements ControllerInterface {
     }
 
     /**
-     *  !-- USER CONTROLLER - LOGIN (Method)
+     *  !-- USER CONTROLLER - LOGIN (method)
      *
-     * @desc post endpoint logic.
+     * @desc login handler.
      * @return promise http response | void
      */
     private login = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
-        //
-        interface postRequestIFC {
-            (result: object | any): Promise<object>
-        }
-        interface sendResponseIFC {
-            (loogin: object | any): Promise<void>
-        }
         //
         const payload: object | any = request.body
         const validatePayload: any = validator.isValidPayload(payload, userValidation.login)
@@ -117,34 +110,26 @@ class UserController implements ControllerInterface {
             if (service.error) {
                 //
                 logger.info('user-login', `${payload.email} Failed to login`, 'error', 'nodeserverts')
-                return wrapper.response(response, 'fail', service, service.error.message, httpError.CONFLICT)
+                return wrapper.response(response, 'fail', service, service.error.message, httpError.NOT_FOUND)
             }
             logger.info('user-login', `${payload.email} Successfully login`, 'info', 'nodeserverts')
-            interface cookie {
-                name: string
-                value: string
-            }
-            const cookie: cookie = {
-                name: 'authorization',
+            const httpOnlyCookie: cookieIFC = {
+                name: 'x-authorization',
                 value: service.data.token
             }
-            return wrapper.response(response, 'success', wrapper.data(service.data.message), 'Login User', httpSuccess.OK, cookie)
+            return wrapper.response(response, 'success', wrapper.data(service.data.message), 'Login User', httpSuccess.OK, httpOnlyCookie)
         }
         sendResponse(postRequest(validatePayload))
     }
 
     /**
-     *  !-- USER CONTROLLER - VERIFY USER (Method)
+     *  !-- USER CONTROLLER - VERIFY USER (method)
      *
-     * @desc get endpoint logic.
+     * @desc verify handler.
      * @return http response | void
      */
     private verifyUser = (request: Request, response: Response, next: NextFunction): Response | void => {
         //
-        if (!request.user) {
-            //
-            return next(new HttpException(404, 'No logged in user'))
-        }
         return wrapper.response(response, 'success', wrapper.data(request.user), 'Verify User', httpSuccess.OK)
     }
 }

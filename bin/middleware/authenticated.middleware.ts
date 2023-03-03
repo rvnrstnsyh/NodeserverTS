@@ -28,7 +28,7 @@ import { Request, Response, NextFunction } from 'express'
 async function authenticateMiddleware(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
     //
     let bearer: string = request.headers.authorization!
-    !bearer ? bearer = request.cookies.authorization : bearer = bearer.split('Bearer ')[1].trim()
+    !bearer ? bearer = request.cookies['x-authorization'] : bearer = bearer.split('Bearer ')[1].trim()
 
     try {
         //

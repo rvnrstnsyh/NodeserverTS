@@ -11,22 +11,20 @@ POST http://localhost:3000/api/user/v1/register
 Content-Type: application/json
 
 {
-	"username": "johntheripper",
-	"email": "hello@johntheripper.dev",
-	"password": "secret123"
+	"username": "williamrosenberg",
+	"email": "dunkin@donuts.dev",
+	"password": "henlloworlf!"
 }
 
 ###
-
 POST http://localhost:3000/api/user/v1/login
 Content-Type: application/json
 
 {
-	"email": "hello@johntheripper.dev",
-	"password": "secret123"
+	"email": "dunkin@donuts.dev",
+	"password": "henlloworlf!"
 }
 
 ###
-
-GET http://localhost:3000/api/user/v1
+GET http://localhost:3000/api/user/v1/verify
 # Authorization: Bearer <access_token>

@@ -67,7 +67,22 @@ class App {
     // ! +--------------------------------------------------------------------------+
     private init_database_connection(): void {
         //
-        mongoose.set('strictQuery', true).connect(`${process.env.MONGO_DATABASE_URL}`)
+        const ctx: string = 'connection-database'
+        const options: object = {
+            maxPoolSize: 100,
+            socketTimeoutMS: 15000,
+            wtimeoutMS: 15000,
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }
+        try {
+            //
+            mongoose.set('strictQuery', true).connect(`${process.env.MONGO_DATABASE_URL}`, options)
+            logger.log(ctx, 'MongoDB connected', 'info')
+        } catch (e: any) {
+            //
+            logger.log(ctx, e.message, 'error')
+        }
     }
 
     // ! +--------------------------------------------------------------------------+
@@ -87,7 +102,7 @@ class App {
             .use((request: Request, response: Response, next: NextFunction): void => {
                 //
                 const ctx: string = 'app-access'
-                logger.log(ctx, `${request.method} ${this.URI}${request.url}`, 'log')
+                logger.log(ctx, `${request.method} ${this.URI}${request.url}`, 'info')
                 next()
             })
             .use(helmet({ contentSecurityPolicy: false }))
@@ -144,8 +159,9 @@ class App {
 
         this.express.use(/.*/, (request: Request, response: Response, next: NextFunction): void => {
             //
-            const message: string = 'This service is running properly'
-            wrapper.response(response, 'success', request.useragent?.source, message, httpSuccess.OK)
+            const message: string = '[NodeserverTS] This service is running properly'
+            const agent: string | any = request.useragent?.source
+            wrapper.response(response, 'success', wrapper.data(agent), message, httpSuccess.OK)
         })
     }
 
@@ -157,7 +173,7 @@ class App {
         this.express.listen(this.PORT, (): void => {
             //
             const ctx: string = 'app-listen'
-            logger.log(ctx, `NodeserverTS listening on http://127.0.0.1:${this.PORT} ..`, 'log')
+            logger.log(ctx, `NodeserverTS listening on http://127.0.0.1:${this.PORT} ..`, 'info')
         })
     }
 }

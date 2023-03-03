@@ -9,12 +9,15 @@
 |
 */
 
+import * as logger from '@helpers/utils/logger'
+
+import { Response } from 'express'
+import { ERROR as httpError } from '@helpers/errors/status_code'
+import { cookieIFC, cookieConfig } from '@helpers/interfaces/cookie.interface'
 import {
   NotFoundError, InternalServerError, BadRequestError, ConflictError, ExpectationFailedError,
   ForbiddenError, GatewayTimeoutError, ServiceUnavailableError, UnauthorizedError
 } from '@helpers/errors'
-import { ERROR as httpError } from '@helpers/errors/status_code'
-import { Response } from 'express'
 //
 interface dataIFC {
   (data: object): object
@@ -26,17 +29,13 @@ interface errorIFC {
   (error: object): object
 }
 interface responseIFC {
-  (response: Response, type: string, result: object | any, message: string, responseCode: number, cookie?: cookie): void
+  (response: Response, type: string, result: object | any, message: string, responseCode: number, httpOnlyCookie?: cookieIFC | any): void
 }
 interface paginationResponseIFC {
   (response: Response, type: string, result: any, message: string, code: number): void
 }
 interface checkErrorCodeIFC {
   (error: Error): object
-}
-interface cookie {
-  name: string
-  value: string
 }
 //
 const data: dataIFC = (data: object) => ({ error: null, data })
@@ -45,7 +44,7 @@ const paginationData: paginationDataIFC = (data, meta) => ({ error: null, data, 
 
 const error: errorIFC = (error) => ({ error, data: null })
 
-const response: responseIFC = (response, type, result, message, responseCode, cookie): void => {
+const response: responseIFC = (response, type, result, message, responseCode, httpOnlyCookie): void => {
   //
   let status = Boolean(true)
   let data: any = result.data
@@ -59,20 +58,17 @@ const response: responseIFC = (response, type, result, message, responseCode, co
     code = result.error.code || errCode
     responseCode = errCode
   }
-  const cookieConfig: object = {
-    httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000,
-    sameSite: 'strict',
-    secure: false,
-  }
   try {
-    if (cookie?.value) response.cookie(cookie?.name, cookie?.value, cookieConfig)
+    //
+    const cookiesFound: boolean = httpOnlyCookie?.name && httpOnlyCookie?.value
+    if (cookiesFound) response.cookie(httpOnlyCookie?.name, httpOnlyCookie?.value, cookieConfig)
   } catch (e: any) {
     //
+    const ctx: string = 'app-service'
+    logger.log(ctx, e.message, 'error')
   }
   response.status(responseCode).json({ success: status, data, message, code })
 }
-
 
 const paginationResponse: paginationResponseIFC = (response, type, result, message, code): void => {
   //

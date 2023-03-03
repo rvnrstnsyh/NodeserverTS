@@ -12,7 +12,7 @@
 import { cleanEnv, host, port, str, num, bool, url } from 'envalid'
 
 /**
- *  !-- ENV VALIDATION (Any)
+ *  !-- ENV VALIDATION (any)
  *
  * @desc validates the data type and contents of all environment variables.
  * @return void

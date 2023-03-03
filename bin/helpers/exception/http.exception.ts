@@ -10,7 +10,7 @@
 */
 
 /**
- *  !-- HTTP EXCEPTION (Class)
+ *  !-- HTTP EXCEPTION (class)
  *
  * @desc provides error messages and status codes.
  */

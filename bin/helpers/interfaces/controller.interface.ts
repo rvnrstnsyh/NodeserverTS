@@ -12,7 +12,7 @@
 import { Router } from 'express'
 
 /**
- *  !-- CONTROLLER ATTRIBUTES (Interface)
+ *  !-- CONTROLLER ATTRIBUTES (interface)
  *
  * @desc defines all controller attributes and their data types.
  */

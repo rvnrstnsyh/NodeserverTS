@@ -9,14 +9,23 @@
 |
 */
 
-import { Schema } from 'mongoose'
 
 /**
- *  !-- TOKEN ATTRIBUTES (interface)
+ *  !-- COOKIE ATTRIBUTES (interface)
  *
- * @desc defines all token attributes and their data types.
+ * @desc defines all cookie attributes and their data types.
  */
-export default interface Token extends Object {
-    _id: Schema.Types.ObjectId
-    expiresIn: number
+
+interface cookieIFC {
+  name: string
+  value: string
 }
+
+const cookieConfig: object = {
+  httpOnly: true,
+  maxAge: 24 * 60 * 60 * 1000,
+  sameSite: 'strict',
+  secure: false,
+}
+
+export { cookieIFC, cookieConfig }

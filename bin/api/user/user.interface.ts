@@ -12,7 +12,7 @@
 import { Document } from 'mongoose'
 
 /**
- *  !-- USER ATTRIBUTES (Interface)
+ *  !-- USER ATTRIBUTES (interface)
  *
  * @desc defines all user attributes and their data types.
  */
