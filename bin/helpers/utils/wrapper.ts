@@ -16,22 +16,22 @@ import {
 import { ERROR as httpError } from '@helpers/errors/status_code'
 import { Response } from 'express'
 //
-interface dataIfc {
+interface dataIFC {
   (data: object): object
 }
-interface paginationDataIfc {
+interface paginationDataIFC {
   (data: object, meta: object): object
 }
-interface errorIfc {
+interface errorIFC {
   (error: object): object
 }
-interface responseIfc {
+interface responseIFC {
   (response: Response, type: string, result: object | any, message: string, responseCode: number, cookie?: cookie): void
 }
-interface paginationResponseIfc {
+interface paginationResponseIFC {
   (response: Response, type: string, result: any, message: string, code: number): void
 }
-interface checkErrorCodeIfc {
+interface checkErrorCodeIFC {
   (error: Error): object
 }
 interface cookie {
@@ -39,13 +39,13 @@ interface cookie {
   value: string
 }
 //
-const data: dataIfc = (data: object) => ({ error: null, data })
+const data: dataIFC = (data: object) => ({ error: null, data })
 
-const paginationData: paginationDataIfc = (data, meta) => ({ error: null, data, meta })
+const paginationData: paginationDataIFC = (data, meta) => ({ error: null, data, meta })
 
-const error: errorIfc = (error) => ({ error, data: null })
+const error: errorIFC = (error) => ({ error, data: null })
 
-const response: responseIfc = (response, type, result, message, responseCode, cookie): void => {
+const response: responseIFC = (response, type, result, message, responseCode, cookie): void => {
   //
   let status = Boolean(true)
   let data: any = result.data
@@ -74,7 +74,7 @@ const response: responseIfc = (response, type, result, message, responseCode, co
 }
 
 
-const paginationResponse: paginationResponseIfc = (response, type, result, message, code): void => {
+const paginationResponse: paginationResponseIFC = (response, type, result, message, code): void => {
   //
   let status = true
   let data = result.data
@@ -87,7 +87,7 @@ const paginationResponse: paginationResponseIfc = (response, type, result, messa
   response.status(code).json({ success: status, data, meta: result.meta, code, message })
 }
 
-const checkErrorCode: checkErrorCodeIfc = (error): object => {
+const checkErrorCode: checkErrorCodeIFC = (error): object => {
   //
   switch (error.constructor) {
     case BadRequestError:

@@ -19,8 +19,8 @@ import HttpException from '@helpers/exception/http.exception'
 import ControllerInterface from '@helpers/interfaces/controller.interface'
 import authenticatedMiddleware from '@middleware/authenticated.middleware'
 
-import { SUCCESS as httpSuccess, ERROR as httpError } from '@helpers/errors/status_code'
 import { Router, Request, Response, NextFunction } from 'express'
+import { SUCCESS as httpSuccess, ERROR as httpError } from '@helpers/errors/status_code'
 
 /**
  *  !-- USER CONTROLLER (Class)
@@ -61,21 +61,21 @@ class UserController implements ControllerInterface {
      */
     private register = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
         //
-        interface postRequestIfc {
-            (result: object | any): Promise<any>
+        interface postRequestIFC {
+            (result: object | any): Promise<object>
         }
-        interface sendResponseIfc {
+        interface sendResponseIFC {
             (register: object | any): Promise<void>
         }
         //
         const payload: object | any = request.body
         const validatePayload: any = validator.isValidPayload(payload, userValidation.register)
-        const postRequest: postRequestIfc = async (result: any): Promise<any> => {
+        const postRequest: postRequestIFC = async (result: any): Promise<any> => {
             //
             if (result.error) return result
             return await this.UserService.register(payload)
         }
-        const sendResponse: sendResponseIfc = async (register: object | any): Promise<void> => {
+        const sendResponse: sendResponseIFC = async (register: object | any): Promise<void> => {
             //
             const service: object | any = await register
             if (service.error) {
@@ -97,21 +97,21 @@ class UserController implements ControllerInterface {
      */
     private login = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
         //
-        interface postRequestIfc {
-            (result: object | any): Promise<any>
+        interface postRequestIFC {
+            (result: object | any): Promise<object>
         }
-        interface sendResponseIfc {
+        interface sendResponseIFC {
             (loogin: object | any): Promise<void>
         }
         //
         const payload: object | any = request.body
         const validatePayload: any = validator.isValidPayload(payload, userValidation.login)
-        const postRequest: postRequestIfc = async (result: any): Promise<any> => {
+        const postRequest: postRequestIFC = async (result: any): Promise<any> => {
             //
             if (result.error) return result
             return await this.UserService.login(payload)
         }
-        const sendResponse: sendResponseIfc = async (login: any): Promise<void> => {
+        const sendResponse: sendResponseIFC = async (login: any): Promise<void> => {
             //
             const service: object | any = await login
             if (service.error) {

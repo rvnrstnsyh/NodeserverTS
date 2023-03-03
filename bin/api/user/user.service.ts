@@ -10,10 +10,11 @@
 */
 
 import * as wrapper from '@helpers/utils/wrapper'
-import { ConflictError } from '@helpers/errors'
 
 import UserModel from '@api/user/user.model'
 import tokenFactory from '@helpers/utils/tokenFactory'
+
+import { ConflictError } from '@helpers/errors'
 
 /**
  *  !-- USER SERVICE (Class)

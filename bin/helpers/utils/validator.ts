@@ -13,11 +13,11 @@ import * as wrapper from '@helpers/utils/wrapper'
 
 import { ConflictError } from '@helpers/errors'
 //
-interface isValidPayloadIfc {
+interface isValidPayloadIFC {
   (payload: any, constraint: any): void
 }
 //
-const isValidPayload: isValidPayloadIfc = (payload, constraint) => {
+const isValidPayload: isValidPayloadIFC = (payload, constraint) => {
   //
   const message: object | any = {}
   if (!payload) {
