@@ -27,19 +27,25 @@ import { Request, Response, NextFunction } from 'express'
  */
 async function authenticateMiddleware(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
     //
-    let bearer: string = request.headers.authorization!
-    !bearer ? bearer = request.cookies['x-authorization'] : bearer = bearer.split('Bearer ')[1].trim()
+    const payload: Array<string> = []
+    try {
+        //
+        payload[0] = request.headers.authorization!.split('Bearer ')[1].trim()
+    } catch (e: any) {
+        //
+        payload[0] = request.cookies['x-authorization']
+    }
 
     try {
         //
-        const payload: TokenInterface | jwt.JsonWebTokenError = await tokenFactory.verify(bearer)
+        const result: TokenInterface | jwt.JsonWebTokenError = await tokenFactory.verify(payload[0])
 
-        if (payload instanceof jwt.JsonWebTokenError) {
+        if (result instanceof jwt.JsonWebTokenError) {
             //
             return response.status(401).json(new UnauthorizedError('Unauthorized'))
         }
 
-        const user: any = await UserModel.findById(payload._id).select('-password').exec()
+        const user: any = await UserModel.findById(result._id).select('-password').exec()
 
         if (!user) {
             //

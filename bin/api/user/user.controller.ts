@@ -18,6 +18,7 @@ import userValidation from '@api/user/user.validation'
 import ControllerInterface from '@helpers/interfaces/controller.interface'
 import authenticatedMiddleware from '@middleware/authenticated.middleware'
 
+import { passportAPI } from '@middleware/passport.middleware'
 import { cookieIFC } from '@helpers/interfaces/cookie.interface'
 import { Router, Request, Response, NextFunction } from 'express'
 import { SUCCESS as httpSuccess, ERROR as httpError } from '@helpers/errors/status_code'
@@ -28,7 +29,6 @@ interface postRequestIFC {
 interface sendResponseIFC {
     (service: object | any): Promise<void>
 }
-
 /**
  *  !-- USER CONTROLLER (class)
  *
@@ -55,9 +55,9 @@ class UserController implements ControllerInterface {
      */
     private endpoints(): void {
         //
-        this.router.post(`${this.path}/register`, this.register)
-        this.router.post(`${this.path}/login`, this.login)
-        this.router.get(`${this.path}/verify`, authenticatedMiddleware, this.verifyUser)
+        this.router.post(`${this.path}/register`, [passportAPI], this.register)
+        this.router.post(`${this.path}/login`, [passportAPI], this.login)
+        this.router.get(`${this.path}/verify`, [passportAPI, authenticatedMiddleware], this.verifyUser)
     }
 
     /**
@@ -130,7 +130,7 @@ class UserController implements ControllerInterface {
      */
     private verifyUser = (request: Request, response: Response, next: NextFunction): Response | void => {
         //
-        return wrapper.response(response, 'success', wrapper.data(request.user), 'Verify User', httpSuccess.OK)
+        return wrapper.response(response, 'success', wrapper.data(request.user!), 'Verify User', httpSuccess.OK)
     }
 }
 

@@ -25,6 +25,8 @@ install(){
                 @types/jsonwebtoken --save-dev \
                 @types/morgan --save-dev \
                 @types/node --save-dev \
+                @types/passport --save-dev \
+                @types/passport-http --save-dev \
                 @typescript-eslint/eslint-plugin --save-dev \
                 @typescript-eslint/parser --save-dev \
                 eslint@latest --save-dev \
@@ -63,6 +65,8 @@ install(){
                 module-alias@latest \
                 mongoose@latest \
                 morgan@latest \
+                passport@latest \
+                passport-http@latest \
                 winston@latest && \
 
     cp .env.example .env
