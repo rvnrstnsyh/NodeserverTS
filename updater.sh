@@ -22,9 +22,11 @@ install(){
                 @types/express --save-dev \
                 @types/express-session --save-dev \
                 @types/express-useragent --save-dev \
+                @types/handlebars --save-dev \
                 @types/jsonwebtoken --save-dev \
                 @types/morgan --save-dev \
                 @types/node --save-dev \
+                @types/nodemailer --save-dev \
                 @types/passport --save-dev \
                 @types/passport-http --save-dev \
                 @typescript-eslint/eslint-plugin --save-dev \
@@ -59,12 +61,14 @@ install(){
                 express-rate-limit@latest \
                 express-session@latest \
                 express-useragent@latest \
+                handlebars@latest \
                 helmet@latest \
                 joi@latest \
                 jsonwebtoken@latest \
                 module-alias@latest \
                 mongoose@latest \
                 morgan@latest \
+                nodemailer@latest \
                 passport@latest \
                 passport-http@latest \
                 winston@latest && \
