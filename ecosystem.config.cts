@@ -5,6 +5,6 @@ module.exports = {
             script: './src/index.js',
             interpreter: 'yarn',
             interpreterArgs: 'prod',
-        },
-    ],
-};
+        }
+    ]
+}

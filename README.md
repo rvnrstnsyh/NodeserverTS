@@ -8,29 +8,30 @@
   </a>
 </div>
 
-# Nodeserver
+# NodeserverTS
 
-NodeserverTS (superset) is a Back-End server template or framework that has been prepared in such a way that it is ready to be used.
+NodeserverTS (superset) is a Back-End server codebase that has been prepared in such a way that it is ready to be used.
 
 ## Ready-to-use Features
 
--   Cross-origin resource sharing (CORS)
--   Cross-site request forgery (CSRF)
--   Request limit, DDOS attack mitigation
--   RESTful API
--   Validation, Authentication and Authorization
--   Argon2 hashing
--   JSON Web Tokens
--   MongoDB Integration
+- Cross-origin resource sharing (CORS)
+- Cross-site request forgery (CSRF)
+- Request limit, DDOS attack mitigation
+- RESTful API
+- Authentication, authorization, validation and verification
+- AES-GCM, AES-CBC encryption and Argon2 hashing
+- JSON web tokens
+- Mail transport
+- MongoDB integration
 
 ## Requirements
 
--   NodeJs
--   TypeScript
--   NPM
--   Yarn (**optional**)
--   MongoDB
--   Linux or use Git bash on Windows (**optional**)
+- NodeJs
+- TypeScript
+- NPM
+- Yarn (**optional**)
+- MongoDB
+- Linux or use Git bash on Windows (**optional**)
 
 ## Installation
 
@@ -38,10 +39,10 @@ Just use this simple command:
 
 ```shell
 $ git clone https://gitlab.com/rvnrstnsyh/nodeserverts.git
-$ cd nodeserverts && yarn ignite
+$ cd nodeserverts && npm run update && npm run dev
 ```
 
-The `ignite` command will install all required dependencies and watching typescript. Let this process run.
+The `update` command will install all required dependencies and watching typescript. Let this process run.
 
 Use Postman/Insomnia or another platform's API to test it. Default endpoint http://localhost:3000/api
 
@@ -51,6 +52,8 @@ Use Postman/Insomnia or another platform's API to test it. Default endpoint http
   <b>Rivane Rasetiansyah</b>
   &lt;<a href="mailto:re@rvnrstnsyh.dev?subject=[Feedback] Customize Your Subject&body=Message body, please attach Your public PGP key if You want Me to reply encrypted.">re@rvnrstnsyh.dev</a>&gt; 
   (<a href="https://rvnrstnsyh.dev" rel="noopener noreferrer nofollow" target="_blank">https://rvnrstnsyh.dev</a>)
+  <br />
+  C035 0007 A8D2 268A E79E  0B3A BF31 06FC 8F21 92E6
 </p>
 
 ## License
