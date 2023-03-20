@@ -10,7 +10,7 @@
 */
 
 import Aes256 from '@root/helpers/utils/aes256'
-import UserInterface from '@api/user/user.interface'
+import UserIFC from '@api/user/user.interface'
 
 import { Schema, model } from 'mongoose'
 
@@ -21,6 +21,11 @@ import { Schema, model } from 'mongoose'
  */
 const UserSchema: Schema = new Schema(
     {
+        userId: {
+            type: String,
+            required: true,
+            unique: true,
+        },
         username: {
             type: String,
             required: true,
@@ -50,7 +55,7 @@ const UserSchema: Schema = new Schema(
  * @desc hash the user's password before entering it into the database.
  * @return next
  */
-UserSchema.pre<UserInterface>('save', function (next): void {
+UserSchema.pre<UserIFC>('save', function (next): void {
     //
     if (!this.isModified('password')) {
         //
@@ -66,9 +71,9 @@ UserSchema.pre<UserInterface>('save', function (next): void {
  * @desc verify user passwords.
  * @return promise error | boolean
  */
-UserSchema.methods.isValidPassword = async function (password: string): Promise<Error | boolean> {
+UserSchema.methods.isValidPassword = function (password: string): boolean {
     //
     return Aes256.decrypt(this.password) === password
 }
 
-export default model<UserInterface>('User', UserSchema)
+export default model<UserIFC>('User', UserSchema)

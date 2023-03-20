@@ -12,25 +12,26 @@
 install(){
   { # Dependencies
     npm install \
-                @types/compression --save-dev \
-                @types/confidence --save-dev \
-                @types/connect-flash --save-dev \
-                @types/cookie-parser --save-dev \
-                @types/cors --save-dev \
-                @types/crypto-js --save-dev \
-                @types/csurf --save-dev \
-                @types/express --save-dev \
-                @types/express-session --save-dev \
-                @types/express-useragent --save-dev \
-                @types/handlebars --save-dev \
-                @types/jsonwebtoken --save-dev \
-                @types/morgan --save-dev \
-                @types/node --save-dev \
-                @types/nodemailer --save-dev \
-                @types/passport --save-dev \
-                @types/passport-http --save-dev \
-                @typescript-eslint/eslint-plugin --save-dev \
-                @typescript-eslint/parser --save-dev \
+                @types/compression@latest --save-dev \
+                @types/confidence@latest --save-dev \
+                @types/connect-flash@latest --save-dev \
+                @types/cookie-parser@latest --save-dev \
+                @types/cors@latest --save-dev \
+                @types/crypto-js@latest --save-dev \
+                @types/csurf@latest --save-dev \
+                @types/express@latest --save-dev \
+                @types/express-session@latest --save-dev \
+                @types/express-useragent@latest --save-dev \
+                @types/handlebars@latest --save-dev \
+                @types/jsonwebtoken@latest --save-dev \
+                @types/morgan@latest --save-dev \
+                @types/node@latest --save-dev \
+                @types/nodemailer@latest --save-dev \
+                @types/passport@latest --save-dev \
+                @types/passport-http@latest --save-dev \
+                @types/uuid@latest --save-dev \
+                @typescript-eslint/eslint-plugin@latest --save-dev \
+                @typescript-eslint/parser@latest --save-dev \
                 eslint@latest --save-dev \
                 eslint-config-airbnb-base@latest --save-dev \
                 eslint-config-standard@latest --save-dev \
@@ -71,6 +72,7 @@ install(){
                 nodemailer@latest \
                 passport@latest \
                 passport-http@latest \
+                uuid@latest \
                 winston@latest && \
 
     cp .env.example .env

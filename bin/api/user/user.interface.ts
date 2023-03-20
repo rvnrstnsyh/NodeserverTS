@@ -16,13 +16,14 @@ import { Document } from 'mongoose'
  *
  * @desc defines all user attributes and their data types.
  */
-interface User extends Document {
+interface UserIFC extends Document {
     //
+    userId: string
     username: string
     email: string
     password: string
     role: string
-    isValidPassword(password: string): Promise<Error | boolean>
+    isValidPassword(password: string): boolean
 }
 
-export default User
+export default UserIFC

@@ -61,6 +61,7 @@
     "@types/nodemailer": "^6.4.7",
     "@types/passport": "^1.0.12",
     "@types/passport-http": "^0.3.9",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "eslint": "^8.36.0",
@@ -103,6 +104,7 @@
     "nodemailer": "^6.9.1",
     "passport": "^0.6.0",
     "passport-http": "^0.3.0",
+    "uuid": "^9.0.0",
     "winston": "^3.8.2"
   },
   "_moduleAliases": {
