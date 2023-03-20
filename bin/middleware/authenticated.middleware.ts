@@ -12,15 +12,15 @@
 import * as tokenFactory from '@helpers/utils/tokenFactory'
 
 import UserModel from '@api/user/user.model'
-import TokenInterface from '@helpers/interfaces/token.interface'
 
 import jwt from 'jsonwebtoken'
 
 import { UnauthorizedError } from '@helpers/errors'
 import { Request, Response, NextFunction } from 'express'
+import { tokenIFC } from '@helpers/interfaces/token.interface'
 
 /**
- *  !-- AUTHENTICATION CONTROLLER (Method)
+ *  !-- AUTHENTICATION CONTROLLER (procedure)
  *
  * @desc authenticate and verify any bearer tokens sent
  * via request headers.
@@ -39,7 +39,7 @@ async function authenticateMiddleware(request: Request, response: Response, next
 
     try {
         //
-        const result: TokenInterface | jwt.JsonWebTokenError = await tokenFactory.verify(payload[0])
+        const result: tokenIFC | jwt.JsonWebTokenError = await tokenFactory.verify(payload[0])
 
         if (result instanceof jwt.JsonWebTokenError) {
             //

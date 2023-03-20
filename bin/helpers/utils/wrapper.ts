@@ -11,40 +11,24 @@
 
 import * as logger from '@helpers/utils/logger'
 
-import { Response } from 'express'
 import { ERROR as httpError } from '@helpers/errors/status_code'
-import { cookieIFC, cookieConfig } from '@helpers/interfaces/cookie.interface'
+import { cookieConfig } from '@helpers/interfaces/cookie.interface'
+import {
+  dataIFC, paginationDataIFC, errorIFC, responseIFC, paginationResponseIFC,
+  checkErrorCodeIFC, resultIFC, PostRequestIFC, SendResponseIFC
+} from '@helpers/interfaces/wrapper.interface'
 import {
   NotFoundError, InternalServerError, BadRequestError, ConflictError, ExpectationFailedError,
   ForbiddenError, GatewayTimeoutError, ServiceUnavailableError, UnauthorizedError
 } from '@helpers/errors'
-//
-interface dataIFC {
-  (data: object): object
-}
-interface paginationDataIFC {
-  (data: object, meta: object): object
-}
-interface errorIFC {
-  (error: object): object
-}
-interface responseIFC {
-  (response: Response, type: string, result: object | any, message: string, responseCode: number, httpOnlyCookie?: cookieIFC | any): void
-}
-interface paginationResponseIFC {
-  (response: Response, type: string, result: any, message: string, code: number): void
-}
-interface checkErrorCodeIFC {
-  (error: Error): object
-}
-//
-const data: dataIFC = (data: object) => ({ error: null, data })
+
+const data: dataIFC = (data) => ({ error: null, data })
 
 const paginationData: paginationDataIFC = (data, meta) => ({ error: null, data, meta })
 
 const error: errorIFC = (error) => ({ error, data: null })
 
-const response: responseIFC = (response, type, result, message, responseCode, httpOnlyCookie): void => {
+const response: responseIFC = (response, type, result, message, responseCode, httpOnlyCookie) => {
   //
   let status = Boolean(true)
   let data: any = result.data
@@ -64,13 +48,13 @@ const response: responseIFC = (response, type, result, message, responseCode, ht
     if (cookiesFound) response.cookie(httpOnlyCookie?.name, httpOnlyCookie?.value, cookieConfig)
   } catch (e: any) {
     //
-    const ctx: string = 'app-service'
+    const ctx: string = 'app:service-wrapper'
     logger.log(ctx, e.message, 'error')
   }
   response.status(responseCode).json({ success: status, data, message, code })
 }
 
-const paginationResponse: paginationResponseIFC = (response, type, result, message, code): void => {
+const paginationResponse: paginationResponseIFC = (response, type, result, message, code) => {
   //
   let status = true
   let data = result.data
@@ -83,7 +67,7 @@ const paginationResponse: paginationResponseIFC = (response, type, result, messa
   response.status(code).json({ success: status, data, meta: result.meta, code, message })
 }
 
-const checkErrorCode: checkErrorCodeIFC = (error: Error): object => {
+const checkErrorCode: checkErrorCodeIFC = (error: Error) => {
   //
   switch (error.constructor) {
     case BadRequestError:
@@ -109,4 +93,4 @@ const checkErrorCode: checkErrorCodeIFC = (error: Error): object => {
   }
 }
 
-export { data, paginationData, error, response, paginationResponse }
+export { data, paginationData, error, response, paginationResponse, resultIFC, PostRequestIFC, SendResponseIFC }

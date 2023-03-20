@@ -18,25 +18,9 @@ import fs from 'fs'
 import jwt from 'jsonwebtoken'
 
 import { ERROR } from '@helpers/errors/status_code'
-import { Request, Response, NextFunction } from 'express'
 import { UnauthorizedError, ForbiddenError } from '@helpers/errors'
-//
-interface getKeyIFC {
-  (keyPath: string): string
-}
-interface generateTokenIFC {
-  (payload: any, expiresIn?: string): Promise<string>
-}
-interface getTokenIFC {
-  (headers: any): string | undefined
-}
-interface decodedTokenIFC {
-  (token: string): object
-}
-interface verifyTokenIFC {
-  (request: Request, response: Response, next: NextFunction): void
-}
-//
+import { getKeyIFC, generateTokenIFC, getTokenIFC, decodedTokenIFC, verifyTokenIFC } from '@helpers/interfaces/jwtToken.interface'
+
 const bearerAuthKey: object | any = config.get('/bearerAuthKey')
 
 const getKey: getKeyIFC = (keyPath) => fs.readFileSync(keyPath, 'utf8')

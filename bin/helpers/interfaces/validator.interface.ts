@@ -9,16 +9,13 @@
 |
 */
 
-import { Schema } from 'mongoose'
-
 /**
- *  !-- TOKEN ATTRIBUTES (interface)
+ *  !-- isValidPayloadIFC ATTRIBUTES (interface)
  *
- * @desc defines all token attributes and their data types.
+ * @desc defines all isValidPayloadIFC attributes and their data types.
  */
-interface tokenIFC extends Object {
-    _id: Schema.Types.ObjectId
-    expiresIn: number
+interface isValidPayloadIFC {
+  (payload: any, constraint: any): void
 }
 
-export { tokenIFC }
+export { isValidPayloadIFC }

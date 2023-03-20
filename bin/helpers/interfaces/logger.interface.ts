@@ -9,16 +9,19 @@
 |
 */
 
-import { Schema } from 'mongoose'
-
 /**
- *  !-- TOKEN ATTRIBUTES (interface)
+ *  !-- LOGGER ATTRIBUTES (interface)
  *
- * @desc defines all token attributes and their data types.
+ * @desc defines all logger attributes and their data types.
  */
-interface tokenIFC extends Object {
-    _id: Schema.Types.ObjectId
-    expiresIn: number
+interface logIFC {
+  (context: string, message: string, scope: string): void
+}
+interface infoIFC {
+  (context: string, message: string, scope: string, meta?: string): void
+}
+interface errorIFC {
+  (context: string, message: string, scope: string, meta?: string): void
 }
 
-export { tokenIFC }
+export { logIFC, infoIFC, errorIFC }

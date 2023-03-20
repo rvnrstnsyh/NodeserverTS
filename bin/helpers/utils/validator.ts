@@ -12,11 +12,8 @@
 import * as wrapper from '@helpers/utils/wrapper'
 
 import { ConflictError } from '@helpers/errors'
-//
-interface isValidPayloadIFC {
-  (payload: any, constraint: any): void
-}
-//
+import { isValidPayloadIFC } from '@helpers/interfaces/validator.interface'
+
 const isValidPayload: isValidPayloadIFC = (payload, constraint) => {
   //
   const message: object | any = {}

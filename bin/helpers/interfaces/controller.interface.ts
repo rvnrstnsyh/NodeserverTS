@@ -16,10 +16,10 @@ import { Router } from 'express'
  *
  * @desc defines all controller attributes and their data types.
  */
-interface Controller {
+interface controllerIFC {
     //
     path: string
     router: Router
 }
 
-export default Controller
+export default controllerIFC

@@ -14,7 +14,7 @@ import Joi from 'joi'
 import { Request, Response, NextFunction, RequestHandler } from 'express'
 
 /**
- *  !-- VALIDATION MIDDLEWARE (Function)
+ *  !-- VALIDATION MIDDLEWARE (function)
  *
  * @desc validates each request before passing it to the controller.
  * @return promise void
