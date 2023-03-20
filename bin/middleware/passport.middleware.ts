@@ -13,6 +13,8 @@ import * as config from '@helpers/infra/configs/global.config'
 
 import passport from 'passport'
 
+import Aes256 from '@root/helpers/utils/aes256'
+
 import { BasicStrategy } from 'passport-http'
 
 class Auth {
@@ -26,9 +28,13 @@ class Auth {
     this.password = password
   }
 
-  public isValidPassword(password: string) {
+  public isValidPassword(password: string): boolean {
     //
-    return this.password === password
+    if (Aes256.decrypt(password)) {
+      //
+      return this.password === Aes256.decrypt(password)
+    }
+    return false
   }
 }
 
@@ -44,18 +50,17 @@ function findByUsername(username: string, callback: any): object | any {
   callback(user)
 }
 
-
 passport.use(new BasicStrategy((username: string, password: string, callback: any): void => {
   //
-  findByUsername(username, (data: Auth) => {
+  findByUsername(username, (data: Auth): void => {
     //
     if (!data) return callback(null, false)
-    if (!data.isValidPassword(password)) return callback(null, false)
+    if (!data.isValidPassword(decodeURIComponent(password))) return callback(null, false)
     return callback(null, data)
   })
 }))
 
 const passportAPI: any = passport.authenticate('basic', { session: false })
-const init: any = () => passport.initialize()
+const init: any = (): object => passport.initialize()
 
 export { passportAPI, init }

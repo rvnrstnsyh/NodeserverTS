@@ -12,7 +12,6 @@
 import * as logger from '@helpers/utils/logger'
 import * as wrapper from '@helpers/utils/wrapper'
 
-import ErrorMiddleware from '@middleware/error.middleware'
 import ControllerInterface from '@helpers/interfaces/controller.interface'
 
 import cors from 'cors'
@@ -43,9 +42,9 @@ class App {
         //
         this.express = express()
         this.HOST = HOST || 'localhost'
-        this.PORT = PORT || 3000
+        this.PORT = PORT || 7952
         this.URI = `http://${HOST}:${PORT}`
-        this.CORS = /^.+localhost(3000|8080|8000)$/
+        this.CORS = /^.+localhost(7952|3000|8080)$/
         this.CONF = {
             maxAge: 5,
             origin: this.CORS || ['*'],
@@ -56,7 +55,6 @@ class App {
             optionsSuccesStatus: 200,
         }
         this.init_database_connection()
-        this.init_error_handling()
         this.init_default_middleware()
         this.init_request_limiter()
         this.init_controllers(controllers)
@@ -83,14 +81,6 @@ class App {
             //
             logger.log(ctx, e.message, 'error')
         }
-    }
-
-    // ! +--------------------------------------------------------------------------+
-    // ! | Error Handler                                                            |
-    // ! +--------------------------------------------------------------------------+
-    private init_error_handling(): void {
-        //
-        this.express.use(ErrorMiddleware)
     }
 
     // ! +--------------------------------------------------------------------------+

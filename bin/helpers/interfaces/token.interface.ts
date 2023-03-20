@@ -16,7 +16,9 @@ import { Schema } from 'mongoose'
  *
  * @desc defines all token attributes and their data types.
  */
-export default interface Token extends Object {
+interface Token extends Object {
     _id: Schema.Types.ObjectId
     expiresIn: number
 }
+
+export default Token

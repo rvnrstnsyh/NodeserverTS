@@ -9,8 +9,9 @@
 |
 */
 
+import * as tokenFactory from '@helpers/utils/tokenFactory'
+
 import UserModel from '@api/user/user.model'
-import tokenFactory from '@helpers/utils/tokenFactory'
 import TokenInterface from '@helpers/interfaces/token.interface'
 
 import jwt from 'jsonwebtoken'

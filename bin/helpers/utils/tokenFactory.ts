@@ -21,7 +21,7 @@ import TokenInterface from '@helpers/interfaces/token.interface'
  * @desc create a new token.
  * @return string
  */
-export const create = (user: UserInterface): string => {
+const create = (user: UserInterface): string => {
     //
     return Aes256.encrypt(jwt.sign({ _id: user._id }, process.env.JWT_SECRET as jwt.Secret, { expiresIn: '1d' }))
 }
@@ -32,7 +32,7 @@ export const create = (user: UserInterface): string => {
  * @desc verify token
  * @return promise jwt error | token interface
  */
-export const verify = async (bearer: string): Promise<jwt.VerifyErrors | TokenInterface> => {
+const verify = async (bearer: string): Promise<jwt.VerifyErrors | TokenInterface> => {
     //
     return new Promise((resolve, reject): void => {
         //
@@ -43,4 +43,4 @@ export const verify = async (bearer: string): Promise<jwt.VerifyErrors | TokenIn
     })
 }
 
-export default { create, verify }
+export { create, verify }

@@ -23,7 +23,7 @@ validateEnv()
  *
  * @desc defines each express application.
  */
-const Routes: Array<any> = [new UserController()]
-const App: Express = new Express(Routes, String(process.env.APP_HOST), Number(process.env.APP_PORT))
+const apiEndpoints: Array<any> = [new UserController()]
+const App: Express = new Express(apiEndpoints, String(process.env.APP_HOST), Number(process.env.APP_PORT))
 
 App.listen()

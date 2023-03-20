@@ -23,11 +23,13 @@ function validateEnv(): void {
         // ? +--------------------------------------------------------------------------+
         // ? | General                                                                  |
         // ? +--------------------------------------------------------------------------+
-        APP_ENV: str({ choices: ['dev', 'prod'], default: 'dev' }),
-        APP_NAME: str({ default: 'nodeserverts' }),
+        APP_ENV: str({ choices: ['development', 'production'], default: 'development' }),
+        APP_NAME: str({ default: 'nodeserverts-41334707' }),
         APP_HOST: host({ default: '127.0.0.1' }),
-        APP_PORT: port({ default: 3000 }),
+        APP_PORT: port({ default: 7952 }),
         APP_SECRET: str(),
+        APP_PUBLIC: str(),
+        APP_NAMESPACE: str(),
         // ---
         // ? +--------------------------------------------------------------------------+
         // ? | Cookie                                                                   |
@@ -39,6 +41,7 @@ function validateEnv(): void {
         // ? +--------------------------------------------------------------------------+
         BASIC_AUTH_USERNAME: str(),
         BASIC_AUTH_PASSWORD: str(),
+        BASIC_AUTH_HEADER: str(),
         // ---
         // ? +--------------------------------------------------------------------------+
         // ? | Json-web-token                                                           |
@@ -59,7 +62,7 @@ function validateEnv(): void {
         // ? | Mailer                                                                   |
         // ? +--------------------------------------------------------------------------+
         MAIL_HOST: str(),
-        MAIL_PORT: port({ default: 25 }),
+        MAIL_PORT: port({ default: 465 }),
         MAIL_SECURE: bool({ default: true }),
         MAIL_USER: str(),
         MAIL_PASSWORD: str(),

@@ -83,7 +83,7 @@ const paginationResponse: paginationResponseIFC = (response, type, result, messa
   response.status(code).json({ success: status, data, meta: result.meta, code, message })
 }
 
-const checkErrorCode: checkErrorCodeIFC = (error): object => {
+const checkErrorCode: checkErrorCodeIFC = (error: Error): object => {
   //
   switch (error.constructor) {
     case BadRequestError:

@@ -23,7 +23,7 @@ const ivConfig: object | any = config.get('/cipher')
 /**
  * Provides easy encryption/decryption methods using AES 256 GCM.
  */
-export default class Aes256 {
+class Aes256 {
   /**
    * No need to run the constructor. The class only has static methods.
    */
@@ -123,3 +123,5 @@ export default class Aes256 {
     return cleartext[0]
   }
 }
+
+export default Aes256

@@ -35,10 +35,10 @@ const UserSchema: Schema = new Schema(
         password: {
             type: String,
         },
-        role: {
-            type: String,
+        is_active: {
+            type: Boolean,
             required: true,
-            default: 'user',
+            default: false,
         },
     },
     { timestamps: true, versionKey: false }
@@ -50,7 +50,7 @@ const UserSchema: Schema = new Schema(
  * @desc hash the user's password before entering it into the database.
  * @return next
  */
-UserSchema.pre<UserInterface>('save', function (next) {
+UserSchema.pre<UserInterface>('save', function (next): void {
     //
     if (!this.isModified('password')) {
         //

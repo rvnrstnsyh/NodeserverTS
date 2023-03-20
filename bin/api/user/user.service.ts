@@ -10,9 +10,9 @@
 */
 
 import * as wrapper from '@helpers/utils/wrapper'
+import * as tokenFactory from '@helpers/utils/tokenFactory'
 
 import UserModel from '@api/user/user.model'
-import tokenFactory from '@helpers/utils/tokenFactory'
 
 import { ConflictError, NotFoundError } from '@helpers/errors'
 
