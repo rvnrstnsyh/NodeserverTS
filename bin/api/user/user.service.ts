@@ -20,7 +20,7 @@ import verifyEmail from '@helpers/mail/templates/verify_email/render'
 import { v5 as uuidv5 } from 'uuid'
 import { resultIFC } from '@helpers/interfaces/wrapper.interface'
 import { tokenIFC } from '@root/helpers/interfaces/token.interface'
-import { ConflictError, NotFoundError, ForbiddenError, InternalServerError } from '@helpers/errors'
+import { ConflictError, NotFoundError, ForbiddenError, UnauthorizedError, InternalServerError } from '@helpers/errors'
 /**
  *  !-- USER SERVICE (class)
  *
@@ -79,6 +79,35 @@ class UserService {
             if (!user) return wrapper.error(new NotFoundError('Unable to find user with that email address'))
             if (!user.is_active) return wrapper.error(new ForbiddenError('User is inactive'))
             if (!user.isValidPassword(payload.password)) return wrapper.error(new ConflictError('Wrong credentials given'))
+
+            return wrapper.data(await this.generateToken(user))
+        } catch (error: any) {
+            //
+            return wrapper.error(new InternalServerError(error.message))
+        }
+    }
+
+    /**
+     *  !-- USER AUTH [REFRESH] (function)
+     *
+     * @desc this is how to refresh credential.
+     * @return promise string | error
+     */
+    public async refresh(payload: userIFC): Promise<resultIFC> {
+        //
+        try {
+            //
+            const refreshToken: string = payload.refreshToken
+            const decodedToken: tokenIFC = jwtAuth.decodeToken(refreshToken)
+
+            if (decodedToken instanceof Error) {
+                const message: object = decodedToken.message === 'Expired token' ? new ForbiddenError('Expired token') : new UnauthorizedError('Invalid token')
+                return wrapper.error(message)
+            }
+
+            const user: userIFC | null = await this.UserModel.findOne({ userId: decodedToken.userId })
+
+            if (!user) return wrapper.error(new NotFoundError('Unable to find user with that email address'))
 
             return wrapper.data(await this.generateToken(user))
         } catch (error: any) {

@@ -52,6 +52,7 @@ class UserController implements controllerIFC {
         //
         this.router.post(`${this.path}/register`, [passportAPI], this.register)
         this.router.post(`${this.path}/auth`, [passportAPI], this.auth)
+        this.router.post(`${this.path}/auth/refresh`, [passportAPI], this.refresh)
         this.router.post(`${this.path}/verify`, [passportAPI], this.verify)
     }
 
@@ -109,12 +110,42 @@ class UserController implements controllerIFC {
                 logger.info(ctx, `${payload.email} Failed to login [${service.error.message}]`, 'error', 'nodeserverts')
                 return wrapper.response(response, 'fail', service, service.error.message, httpError.NOT_FOUND)
             }
-            logger.info(ctx, `${payload.email} Successfully login`, 'info', 'nodeserverts')
+            logger.info(ctx, `${payload.email} Successfully authenticated`, 'info', 'nodeserverts')
             const httpOnlyCookie: cookieIFC = {
                 name: 'x-authorization',
                 value: service.data.token
             }
-            return wrapper.response(response, 'success', wrapper.data(service.data), 'Login User', httpSuccess.OK, httpOnlyCookie)
+            return wrapper.response(response, 'success', wrapper.data(service.data), 'Auth User', httpSuccess.OK, httpOnlyCookie)
+        }
+        sendResponse(postRequest(validatePayload))
+    }
+
+    /**
+     *  !-- USER CONTROLLER - AUTH [REFRESH] (procedure)
+     *
+     * @desc auth refresh handler.
+     * @return promise void
+     */
+    private refresh = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+        //
+        const ctx: string = `${this.ctx}-refresh-credential`
+        const payload: object | any = request.body
+        const validatePayload: resultIFC = validator.isValidPayload(payload, userValidation.refreshCredential)
+        const postRequest: PostRequestIFC = async (validate: resultIFC): Promise<resultIFC> => {
+            //
+            if (validate.error) return validate
+            return this.UserService.refresh(payload)
+        }
+        const sendResponse: SendResponseIFC = async (refresh: Promise<resultIFC>): Promise<void> => {
+            //
+            const service: resultIFC | any = await refresh
+            if (service.error) {
+                //
+                logger.info(ctx, `Failed to refresh credential [${service.error.message}]`, 'error', 'nodeserverts')
+                return wrapper.response(response, 'fail', service, service.error.message, httpError.NOT_FOUND)
+            }
+            logger.info(ctx, `${payload.email} Successfully refresh credential`, 'info', 'nodeserverts')
+            return wrapper.response(response, 'success', wrapper.data(service.data), 'Auth Refresh User', httpSuccess.OK)
         }
         sendResponse(postRequest(validatePayload))
     }

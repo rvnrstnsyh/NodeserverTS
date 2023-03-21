@@ -24,6 +24,7 @@ interface UserIFC extends Document {
     password: string
     is_active: boolean
     token: string
+    refreshToken: string
     createdAt: Date
     updatedAt: Date
     isValidPassword(password: string): boolean
