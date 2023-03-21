@@ -18,10 +18,10 @@ import { cookieIFC } from '@helpers/interfaces/cookie.interface'
  * @desc defines all wrapper attributes and their data types.
  */
 interface dataIFC {
-  (data: object): ({ error: null, data: object })
+  (data: object | null): ({ error: null, data: object | null })
 }
 interface paginationDataIFC {
-  (data: object, meta: object): ({ error: null, data: object, meta: object })
+  (data: object | null, meta: object): ({ error: null, data: object | null, meta: object })
 }
 interface errorIFC {
   (error: object): ({ error: object, data: null })

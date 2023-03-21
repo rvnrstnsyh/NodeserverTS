@@ -17,7 +17,6 @@ import userIFC from '@api/user/user.interface'
 import UserService from '@api/user/user.service'
 import userValidation from '@api/user/user.validation'
 import controllerIFC from '@helpers/interfaces/controller.interface'
-import authenticatedMiddleware from '@middleware/authenticated.middleware'
 
 import { passportAPI } from '@middleware/passport.middleware'
 import { cookieIFC } from '@helpers/interfaces/cookie.interface'
@@ -53,16 +52,16 @@ class UserController implements controllerIFC {
         //
         this.router.post(`${this.path}/register`, [passportAPI], this.register)
         this.router.post(`${this.path}/auth`, [passportAPI], this.auth)
-        this.router.get(`${this.path}/verify`, [passportAPI, authenticatedMiddleware], this.verifyUser)
+        this.router.post(`${this.path}/verify`, [passportAPI], this.verify)
     }
 
     /**
      *  !-- USER CONTROLLER - REGISTER (procedure)
      *
      * @desc register handler.
-     * @return promise http response | void
+     * @return promise void
      */
-    private register = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
+    private register = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         //
         const ctx: string = `${this.ctx}-register`
         const payload: userIFC = request.body
@@ -90,9 +89,9 @@ class UserController implements controllerIFC {
      *  !-- USER CONTROLLER - AUTH (procedure)
      *
      * @desc auth handler.
-     * @return promise http response | void
+     * @return promise void
      */
-    private auth = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
+    private auth = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         //
         const ctx: string = `${this.ctx}-generate-credential`
         const payload: object | any = request.body
@@ -100,7 +99,7 @@ class UserController implements controllerIFC {
         const postRequest: PostRequestIFC = async (result: resultIFC): Promise<resultIFC> => {
             //
             if (result.error) return result
-            return await this.UserService.auth(payload)
+            return this.UserService.auth(payload)
         }
         const sendResponse: SendResponseIFC = async (auth: Promise<resultIFC>): Promise<void> => {
             //
@@ -124,11 +123,30 @@ class UserController implements controllerIFC {
      *  !-- USER CONTROLLER - VERIFY USER (procedure)
      *
      * @desc verify handler.
-     * @return http response | void
+     * @return void
      */
-    private verifyUser = (request: Request, response: Response, next: NextFunction): Response | void => {
+    private verify = (request: Request, response: Response, next: NextFunction): void => {
         //
-        return wrapper.response(response, 'success', wrapper.data(request.user!), 'Verify User', httpSuccess.OK)
+        const ctx: string = `${this.ctx}-verify`
+        const payload: object | any = request.body
+        const validatePayload: resultIFC = validator.isValidPayload(payload, userValidation.verify)
+        const postRequest: PostRequestIFC = async (result: resultIFC): Promise<resultIFC> => {
+            //
+            if (result.error) return result
+            return this.UserService.verify(payload)
+        }
+        const sendResponse: SendResponseIFC = async (auth: Promise<resultIFC>): Promise<void> => {
+            //
+            const service: resultIFC | any = await auth
+            if (service.error) {
+                //
+                logger.info(ctx, `${payload.email} Failed to verified [${service.error.message}]`, 'error', 'nodeserverts')
+                return wrapper.response(response, 'fail', service, service.error.message, httpError.NOT_FOUND)
+            }
+            logger.info(ctx, `${payload.email} Successfully verified`, 'info', 'nodeserverts')
+            return wrapper.response(response, 'success', wrapper.data(service.data), 'Verified User', httpSuccess.OK)
+        }
+        sendResponse(postRequest(validatePayload))
     }
 }
 

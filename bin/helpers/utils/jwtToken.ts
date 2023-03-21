@@ -18,6 +18,7 @@ import fs from 'fs'
 import jwt from 'jsonwebtoken'
 
 import { ERROR } from '@helpers/errors/status_code'
+import { tokenIFC } from '@helpers/interfaces/token.interface'
 import { UnauthorizedError, ForbiddenError } from '@helpers/errors'
 import { getKeyIFC, generateTokenIFC, getTokenIFC, decodedTokenIFC, verifyTokenIFC } from '@helpers/interfaces/jwtToken.interface'
 
@@ -54,7 +55,7 @@ const decodeToken: decodedTokenIFC = (token) => {
   const publicKey: string = getKey(bearerAuthKey.publicKey)
   try {
     //
-    const decoded: object = jwt.verify(token, publicKey, bearerAuthKey.verifyOptions)
+    const decoded: any = jwt.verify(token, publicKey, bearerAuthKey.verifyOptions)
     return decoded
   } catch (error) {
     //

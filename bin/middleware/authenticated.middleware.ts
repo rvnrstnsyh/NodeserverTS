@@ -39,7 +39,7 @@ async function authenticateMiddleware(request: Request, response: Response, next
 
     try {
         //
-        const result: tokenIFC | jwt.JsonWebTokenError = await tokenFactory.verify(payload[0])
+        const result: jwt.JsonWebTokenError | any = await tokenFactory.verify(payload[0])
 
         if (result instanceof jwt.JsonWebTokenError) {
             //

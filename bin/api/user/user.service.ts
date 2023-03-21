@@ -19,6 +19,7 @@ import verifyEmail from '@helpers/mail/templates/verify_email/render'
 
 import { v5 as uuidv5 } from 'uuid'
 import { resultIFC } from '@helpers/interfaces/wrapper.interface'
+import { tokenIFC } from '@root/helpers/interfaces/token.interface'
 import { ConflictError, NotFoundError, ForbiddenError, InternalServerError } from '@helpers/errors'
 /**
  *  !-- USER SERVICE (class)
@@ -87,6 +88,32 @@ class UserService {
     }
 
     /**
+     *  !-- USER VERIFY (function)
+     *
+     * @desc this is how verify user.
+     * @return promise string | error
+     */
+    public async verify(payload: userIFC): Promise<resultIFC> {
+        //
+        try {
+            //
+            const token: string = payload.token
+            const decodedToken: tokenIFC = jwtAuth.decodeToken(token)
+            const user: userIFC | null = await this.UserModel.findOne({ userId: decodedToken.userId })
+
+            if (!user) return wrapper.error(new NotFoundError('User not found'))
+            if (user.is_active) return wrapper.error(new ForbiddenError('User already active'))
+
+            await UserModel.findOneAndUpdate({ userId: decodedToken.userId }, { is_active: true })
+
+            return wrapper.data(null)
+        } catch (error: any) {
+            //
+            return wrapper.error(new InternalServerError(error.message))
+        }
+    }
+
+    /**
      *  !-- GENERATE TOKEN (function)
      *
      * @desc this is how the user token generation.
@@ -94,24 +121,30 @@ class UserService {
      */
     private async generateToken(payload: userIFC): Promise<object> {
         //
-        const userId: string = payload.userId
-        const token: string = await jwtAuth.generateToken({ userId, authType: 'access' }, '1h')
-        const refreshToken: string = await jwtAuth.generateToken({ userId, authType: 'refresh' }, '1d')
-        const result: object = {
-            token,
-            refreshToken,
-            expiredIn: 1000 * 60 * 60,
-            refreshExpired: 1000 * 60 * 60 * 24,
-            profile: {
-                userId,
-                email: payload.email,
-                username: payload.username,
-                is_active: payload.is_active,
-                createdAt: payload.createdAt,
-                updatedAt: payload.updatedAt
+        try {
+            //
+            const userId: string = payload.userId
+            const token: string = await jwtAuth.generateToken({ userId, authType: 'access' }, '1h')
+            const refreshToken: string = await jwtAuth.generateToken({ userId, authType: 'refresh' }, '1d')
+            const result: object = {
+                token,
+                refreshToken,
+                expiredIn: 1000 * 60 * 60,
+                refreshExpired: 1000 * 60 * 60 * 24,
+                profile: {
+                    userId,
+                    email: payload.email,
+                    username: payload.username,
+                    is_active: payload.is_active,
+                    createdAt: payload.createdAt,
+                    updatedAt: payload.updatedAt
+                }
             }
+            return result
+        } catch (error: any) {
+            //
+            return wrapper.error(new InternalServerError(error.message))
         }
-        return result
     }
 }
 

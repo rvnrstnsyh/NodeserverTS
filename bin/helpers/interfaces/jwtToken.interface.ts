@@ -10,6 +10,7 @@
 */
 
 import { Request, Response, NextFunction } from 'express'
+import { tokenIFC } from '@helpers/interfaces/token.interface'
 
 /**
  *  !-- JWT ATTRIBUTES (interface)
@@ -26,7 +27,7 @@ interface getTokenIFC {
   (headers: any): string | undefined
 }
 interface decodedTokenIFC {
-  (token: string): object
+  (token: string): tokenIFC
 }
 interface verifyTokenIFC {
   (request: Request, response: Response, next: NextFunction): void

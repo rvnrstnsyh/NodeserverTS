@@ -28,5 +28,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:7952/api/user/v1/verify
+POST http://localhost:7952/api/user/v1/verify
 # Authorization: Basic <base64>
+Content-Type: application/json
+
+{
+	"token": "<jwt-token>"
+}
