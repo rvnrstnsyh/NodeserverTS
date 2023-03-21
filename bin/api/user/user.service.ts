@@ -19,6 +19,7 @@ import verifyEmail from '@helpers/mail/templates/verify_email/render'
 
 import { v5 as uuidv5 } from 'uuid'
 import { resultIFC } from '@helpers/interfaces/wrapper.interface'
+import { functionIFC } from '@helpers/interfaces/method.interface'
 import { tokenIFC } from '@root/helpers/interfaces/token.interface'
 import { ConflictError, NotFoundError, ForbiddenError, UnauthorizedError, InternalServerError } from '@helpers/errors'
 /**
@@ -36,7 +37,7 @@ class UserService {
      * @desc this is how the user token generation.
      * @return promise object
      */
-    private async generateToken(payload: userIFC): Promise<object> {
+    private generateToken: functionIFC = async (payload: userIFC): Promise<object> => {
         //
         try {
             //
@@ -70,7 +71,7 @@ class UserService {
      * @desc register a new user.
      * @return promise string | error
      */
-    public async register(payload: userIFC): Promise<resultIFC> {
+    public register: functionIFC = async (payload: userIFC): Promise<resultIFC> => {
         //
         try {
             //
@@ -104,7 +105,7 @@ class UserService {
      * @desc this is how the user auth.
      * @return promise string | error
      */
-    public async auth(payload: userIFC): Promise<resultIFC> {
+    public auth: functionIFC = async (payload: userIFC): Promise<resultIFC> => {
         //
         try {
             //
@@ -127,7 +128,7 @@ class UserService {
      * @desc this is how to refresh credential.
      * @return promise string | error
      */
-    public async refresh(payload: userIFC): Promise<resultIFC> {
+    public refresh: functionIFC = async (payload: userIFC): Promise<resultIFC> => {
         //
         try {
             //
@@ -156,7 +157,7 @@ class UserService {
      * @desc this is how verify user.
      * @return promise string | error
      */
-    public async verify(payload: userIFC): Promise<resultIFC> {
+    public verify: functionIFC = async (payload: userIFC): Promise<resultIFC> => {
         //
         try {
             //
@@ -182,7 +183,7 @@ class UserService {
      * @desc this is how get user profile.
      * @return promise string | error
      */
-    public async profile(userId: string): Promise<any> {
+    public profile: functionIFC = async (userId: string): Promise<any> => {
         //
         try {
             //

@@ -21,6 +21,7 @@ import controllerIFC from '@helpers/interfaces/controller.interface'
 import { passportAPI } from '@middleware/passport.middleware'
 import { cookieIFC } from '@helpers/interfaces/cookie.interface'
 import { Router, Request, Response, NextFunction } from 'express'
+import { procedureIFC } from '@helpers/interfaces/method.interface'
 import { SUCCESS as httpSuccess } from '@helpers/errors/status_code'
 import { resultIFC, PostRequestIFC, SendResponseIFC } from '@helpers/interfaces/wrapper.interface'
 
@@ -64,7 +65,7 @@ class UserController implements controllerIFC {
      * @desc register handler.
      * @return promise void
      */
-    private register = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+    private register: procedureIFC = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         //
         const ctx: string = `${this.ctx}-register`
         const payload: userIFC = request.body
@@ -94,7 +95,7 @@ class UserController implements controllerIFC {
      * @desc auth handler.
      * @return promise void
      */
-    private auth = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+    private auth: procedureIFC = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         //
         const ctx: string = `${this.ctx}-generate-credential`
         const payload: userIFC = request.body
@@ -128,7 +129,7 @@ class UserController implements controllerIFC {
      * @desc auth refresh handler.
      * @return promise void
      */
-    private refresh = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+    private refresh: procedureIFC = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
         //
         const ctx: string = `${this.ctx}-refresh-credential`
         const payload: userIFC = request.body
@@ -158,7 +159,7 @@ class UserController implements controllerIFC {
      * @desc verify handler.
      * @return void
      */
-    private verify = (request: Request, response: Response, next: NextFunction): void => {
+    private verify: procedureIFC = (request: Request, response: Response, next: NextFunction): void => {
         //
         const ctx: string = `${this.ctx}-verify`
         const payload: userIFC = request.body
@@ -188,7 +189,7 @@ class UserController implements controllerIFC {
      * @desc profile handler.
      * @return void
      */
-    private profile = (request: Request, response: Response, next: NextFunction): void => {
+    private profile: procedureIFC = (request: Request, response: Response, next: NextFunction): void => {
         //
         const ctx: string = `${this.ctx}-profile`
         const userId: string = request.body.userId
