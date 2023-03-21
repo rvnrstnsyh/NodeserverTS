@@ -31,6 +31,40 @@ class UserService {
     private UserModel: any = UserModel
 
     /**
+     *  !-- GENERATE TOKEN (function)
+     *
+     * @desc this is how the user token generation.
+     * @return promise object
+     */
+    private async generateToken(payload: userIFC): Promise<object> {
+        //
+        try {
+            //
+            const userId: string = payload.userId
+            const token: string = await jwtAuth.generateToken({ userId, authType: 'access' }, '1h')
+            const refreshToken: string = await jwtAuth.generateToken({ userId, authType: 'refresh' }, '1d')
+            const result: object = {
+                token,
+                refreshToken,
+                expiredIn: 1000 * 60 * 60,
+                refreshExpired: 1000 * 60 * 60 * 24,
+                profile: {
+                    userId,
+                    email: payload.email,
+                    username: payload.username,
+                    is_active: payload.is_active,
+                    createdAt: payload.createdAt,
+                    updatedAt: payload.updatedAt
+                }
+            }
+            return result
+        } catch (error: any) {
+            //
+            return wrapper.error(new InternalServerError(error.message))
+        }
+    }
+
+    /**
      *  !-- USER REGISTER (function)
      *
      * @desc register a new user.
@@ -136,40 +170,6 @@ class UserService {
             await UserModel.findOneAndUpdate({ userId: decodedToken.userId }, { is_active: true })
 
             return wrapper.data(null)
-        } catch (error: any) {
-            //
-            return wrapper.error(new InternalServerError(error.message))
-        }
-    }
-
-    /**
-     *  !-- GENERATE TOKEN (function)
-     *
-     * @desc this is how the user token generation.
-     * @return promise object
-     */
-    private async generateToken(payload: userIFC): Promise<object> {
-        //
-        try {
-            //
-            const userId: string = payload.userId
-            const token: string = await jwtAuth.generateToken({ userId, authType: 'access' }, '1h')
-            const refreshToken: string = await jwtAuth.generateToken({ userId, authType: 'refresh' }, '1d')
-            const result: object = {
-                token,
-                refreshToken,
-                expiredIn: 1000 * 60 * 60,
-                refreshExpired: 1000 * 60 * 60 * 24,
-                profile: {
-                    userId,
-                    email: payload.email,
-                    username: payload.username,
-                    is_active: payload.is_active,
-                    createdAt: payload.createdAt,
-                    updatedAt: payload.updatedAt
-                }
-            }
-            return result
         } catch (error: any) {
             //
             return wrapper.error(new InternalServerError(error.message))
