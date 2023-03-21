@@ -42,9 +42,9 @@ $ git clone https://gitlab.com/rvnrstnsyh/nodeserverts.git
 $ cd nodeserverts && npm run update && npm run dev
 ```
 
-The `update` command will install all required dependencies and watching typescript. Let this process run.
+The `update` command will install all required dependencies and watching typescript.
 
-Use Postman/Insomnia or another platform's API to test it. Default endpoint http://localhost:3000/api
+Use Postman/Insomnia or another platform's API to test it. Default endpoint http://localhost:7952/api
 
 ## Author and Contributors
 
