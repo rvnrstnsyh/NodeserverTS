@@ -55,6 +55,7 @@ class UserController implements controllerIFC {
         this.router.post(`${this.path}/auth`, [passportAPI], this.auth)
         this.router.post(`${this.path}/auth/refresh`, [passportAPI], this.refresh)
         this.router.post(`${this.path}/verify`, [passportAPI], this.verify)
+        this.router.post(`${this.path}/me`, [passportAPI], this.profile)
     }
 
     /**
@@ -179,6 +180,31 @@ class UserController implements controllerIFC {
             return wrapper.response(response, 'success', wrapper.data(service.data), 'Verified User', httpSuccess.OK)
         }
         sendResponse(postRequest(validatePayload))
+    }
+
+    /**
+     *  !-- USER CONTROLLER - PROFILE (procedure)
+     *
+     * @desc profile handler.
+     * @return void
+     */
+    private profile = (request: Request, response: Response, next: NextFunction): void => {
+        //
+        const ctx: string = `${this.ctx}-profile`
+        const userId: string = request.body.userId
+        const postRequest: any = this.UserService.profile(userId)
+        const sendResponse: SendResponseIFC = async (fetch: Promise<resultIFC>): Promise<void> => {
+            //
+            const service: resultIFC = await fetch
+            if (service.error) {
+                //
+                logger.info(ctx, `userId: ${userId} Failed to get profile [${service.error.message}]`, 'error', 'nodeserverts')
+                return wrapper.response(response, 'fail', service, service.error.message, service.error)
+            }
+            logger.info(ctx, `userId: ${userId} Success`, 'info', 'nodeserverts')
+            return wrapper.response(response, 'success', wrapper.data(service.data), 'Profile User', httpSuccess.OK)
+        }
+        sendResponse(postRequest)
     }
 }
 

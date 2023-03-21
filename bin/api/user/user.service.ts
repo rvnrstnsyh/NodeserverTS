@@ -175,6 +175,27 @@ class UserService {
             return wrapper.error(new InternalServerError(error.message))
         }
     }
+
+    /**
+     *  !-- USER PROFILE (function)
+     *
+     * @desc this is how get user profile.
+     * @return promise string | error
+     */
+    public async profile(userId: string): Promise<any> {
+        //
+        try {
+            //
+            const user: userIFC | null = await this.UserModel.findOne({ userId }).select('-password').exec()
+
+            if (!user) return wrapper.error(new NotFoundError('User not found'))
+
+            return wrapper.data(user)
+        } catch (error: any) {
+            //
+            return wrapper.error(new InternalServerError(error.message))
+        }
+    }
 }
 
 export default UserService

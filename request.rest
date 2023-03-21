@@ -44,3 +44,12 @@ Content-Type: application/json
 {
 	"token": "<jwt-token>"
 }
+
+###
+POST http://localhost:7952/api/user/v1/me
+Authorization: Basic <base64>
+Content-Type: application/json
+
+{
+	"userId": "<uuid>"
+}
