@@ -9,13 +9,15 @@
 |
 */
 
+import { resultIFC } from '@helpers/interfaces/wrapper.interface'
+
 /**
  *  !-- isValidPayloadIFC ATTRIBUTES (interface)
  *
  * @desc defines all isValidPayloadIFC attributes and their data types.
  */
 interface isValidPayloadIFC {
-  (payload: any, constraint: any): void
+  (payload: object, constraint: any): resultIFC
 }
 
 export { isValidPayloadIFC }

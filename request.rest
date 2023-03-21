@@ -18,7 +18,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:7952/api/user/v1/login
+POST http://localhost:7952/api/user/v1/auth
 # Authorization: Basic <base64>
 Content-Type: application/json
 

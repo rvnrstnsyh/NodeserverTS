@@ -52,7 +52,7 @@ class UserController implements controllerIFC {
     private endpoints(): void {
         //
         this.router.post(`${this.path}/register`, [passportAPI], this.register)
-        this.router.post(`${this.path}/login`, [passportAPI], this.login)
+        this.router.post(`${this.path}/auth`, [passportAPI], this.auth)
         this.router.get(`${this.path}/verify`, [passportAPI, authenticatedMiddleware], this.verifyUser)
     }
 
@@ -66,7 +66,7 @@ class UserController implements controllerIFC {
         //
         const ctx: string = `${this.ctx}-register`
         const payload: userIFC = request.body
-        const validatePayload: any = validator.isValidPayload(payload, userValidation.register)
+        const validatePayload: resultIFC = validator.isValidPayload(payload, userValidation.register)
         const postRequest: PostRequestIFC = async (result: resultIFC): Promise<resultIFC> => {
             //
             if (result.error) return result
@@ -87,34 +87,35 @@ class UserController implements controllerIFC {
     }
 
     /**
-     *  !-- USER CONTROLLER - LOGIN (procedure)
+     *  !-- USER CONTROLLER - AUTH (procedure)
      *
-     * @desc login handler.
+     * @desc auth handler.
      * @return promise http response | void
      */
-    private login = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
+    private auth = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
         //
+        const ctx: string = `${this.ctx}-generate-credential`
         const payload: object | any = request.body
-        const validatePayload: any = validator.isValidPayload(payload, userValidation.login)
-        const postRequest: PostRequestIFC = async (result: any): Promise<any> => {
+        const validatePayload: resultIFC = validator.isValidPayload(payload, userValidation.login)
+        const postRequest: PostRequestIFC = async (result: resultIFC): Promise<resultIFC> => {
             //
             if (result.error) return result
-            return await this.UserService.login(payload)
+            return await this.UserService.auth(payload)
         }
-        const sendResponse: SendResponseIFC = async (login: any): Promise<void> => {
+        const sendResponse: SendResponseIFC = async (auth: Promise<resultIFC>): Promise<void> => {
             //
-            const service: object | any = await login
+            const service: resultIFC | any = await auth
             if (service.error) {
                 //
-                logger.info('user-login', `${payload.email} Failed to login`, 'error', 'nodeserverts')
+                logger.info(ctx, `${payload.email} Failed to login [${service.error.message}]`, 'error', 'nodeserverts')
                 return wrapper.response(response, 'fail', service, service.error.message, httpError.NOT_FOUND)
             }
-            logger.info('user-login', `${payload.email} Successfully login`, 'info', 'nodeserverts')
+            logger.info(ctx, `${payload.email} Successfully login`, 'info', 'nodeserverts')
             const httpOnlyCookie: cookieIFC = {
                 name: 'x-authorization',
                 value: service.data.token
             }
-            return wrapper.response(response, 'success', wrapper.data(service.data.message), 'Login User', httpSuccess.OK, httpOnlyCookie)
+            return wrapper.response(response, 'success', wrapper.data(service.data), 'Login User', httpSuccess.OK, httpOnlyCookie)
         }
         sendResponse(postRequest(validatePayload))
     }

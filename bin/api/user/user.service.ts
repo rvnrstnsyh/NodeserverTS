@@ -12,7 +12,6 @@
 import * as mail from '@helpers/mail/nodemailer'
 import * as wrapper from '@helpers/utils/wrapper'
 import * as jwtAuth from '@helpers/utils/jwtToken'
-import * as tokenFactory from '@helpers/utils/tokenFactory'
 
 import UserModel from '@api/user/user.model'
 import userIFC from '@api/user/user.interface'
@@ -20,7 +19,7 @@ import verifyEmail from '@helpers/mail/templates/verify_email/render'
 
 import { v5 as uuidv5 } from 'uuid'
 import { resultIFC } from '@helpers/interfaces/wrapper.interface'
-import { ConflictError, NotFoundError, InternalServerError } from '@helpers/errors'
+import { ConflictError, NotFoundError, ForbiddenError, InternalServerError } from '@helpers/errors'
 /**
  *  !-- USER SERVICE (class)
  *
@@ -65,24 +64,54 @@ class UserService {
     }
 
     /**
-     *  !-- USER LOGIN (function)
+     *  !-- USER AUTH (function)
      *
-     * @desc this is how the user login.
+     * @desc this is how the user auth.
      * @return promise string | error
      */
-    public async login(payload: object | any): Promise<object> {
+    public async auth(payload: userIFC): Promise<resultIFC> {
         //
         try {
             //
-            const user: userIFC | null = await this.UserModel.findOne({ email: payload.email })
-            if (!user) return wrapper.error(new NotFoundError('Unable to find user with that email address'))
-            if (await user.isValidPassword(payload.password)) return wrapper.data({ message: 'Login success', token: tokenFactory.create(user) })
+            const user: userIFC | null = await this.UserModel.findOne({ email: payload.email.toLowerCase() })
 
-            return wrapper.error(new ConflictError('Wrong credentials given'))
-        } catch (e: any) {
+            if (!user) return wrapper.error(new NotFoundError('Unable to find user with that email address'))
+            if (!user.is_active) return wrapper.error(new ForbiddenError('User is inactive'))
+            if (!user.isValidPassword(payload.password)) return wrapper.error(new ConflictError('Wrong credentials given'))
+
+            return wrapper.data(await this.generateToken(user))
+        } catch (error: any) {
             //
-            return wrapper.error(new ConflictError('Unable to login user'))
+            return wrapper.error(new InternalServerError(error.message))
         }
+    }
+
+    /**
+     *  !-- GENERATE TOKEN (function)
+     *
+     * @desc this is how the user token generation.
+     * @return promise object
+     */
+    private async generateToken(payload: userIFC): Promise<object> {
+        //
+        const userId: string = payload.userId
+        const token: string = await jwtAuth.generateToken({ userId, authType: 'access' }, '1h')
+        const refreshToken: string = await jwtAuth.generateToken({ userId, authType: 'refresh' }, '1d')
+        const result: object = {
+            token,
+            refreshToken,
+            expiredIn: 1000 * 60 * 60,
+            refreshExpired: 1000 * 60 * 60 * 24,
+            profile: {
+                userId,
+                email: payload.email,
+                username: payload.username,
+                is_active: payload.is_active,
+                createdAt: payload.createdAt,
+                updatedAt: payload.updatedAt
+            }
+        }
+        return result
     }
 }
 

@@ -23,6 +23,8 @@ interface UserIFC extends Document {
     email: string
     password: string
     is_active: boolean
+    createdAt: Date
+    updatedAt: Date
     isValidPassword(password: string): boolean
 }
 
