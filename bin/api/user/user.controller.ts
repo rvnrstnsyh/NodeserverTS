@@ -96,7 +96,7 @@ class UserController implements controllerIFC {
         //
         const ctx: string = `${this.ctx}-generate-credential`
         const payload: object | any = request.body
-        const validatePayload: resultIFC = validator.isValidPayload(payload, userValidation.login)
+        const validatePayload: resultIFC = validator.isValidPayload(payload, userValidation.generateCredential)
         const postRequest: PostRequestIFC = async (result: resultIFC): Promise<resultIFC> => {
             //
             if (result.error) return result
