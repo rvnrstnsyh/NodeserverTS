@@ -77,9 +77,9 @@ class App {
             //
             mongoose.set('strictQuery', true).connect(`${process.env.MONGO_DATABASE_URL}`, options)
             logger.log(ctx, 'MongoDB connected', 'info')
-        } catch (e: any) {
+        } catch (error: any) {
             //
-            logger.log(ctx, e.message, 'error')
+            logger.log(ctx, error.message, 'error')
         }
     }
 

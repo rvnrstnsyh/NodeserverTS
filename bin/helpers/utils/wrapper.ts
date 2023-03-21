@@ -46,10 +46,10 @@ const response: responseIFC = (response, type, result, message, responseCode, ht
     //
     const cookiesFound: boolean = httpOnlyCookie?.name && httpOnlyCookie?.value
     if (cookiesFound) response.cookie(httpOnlyCookie?.name, httpOnlyCookie?.value, cookieConfig)
-  } catch (e: any) {
+  } catch (error: any) {
     //
     const ctx: string = 'app:service-wrapper'
-    logger.log(ctx, e.message, 'error')
+    logger.log(ctx, error.message, 'error')
   }
   response.status(responseCode).json({ success: status, data, message, code })
 }
