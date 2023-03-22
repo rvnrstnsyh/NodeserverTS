@@ -32,7 +32,8 @@
     "lint:fix": "npm run lint -- --fix",
     "build": "tsc",
     "postinstall": "npm run build",
-    "update": "bash updater.sh",
+    "setup": "npm run ext && node setup.js",
+    "setup:run": "npm run setup && npm run dev",
     "ext": "rm -rf node_modules dist package-lock.json yarn.lock combined.log error.log .env"
   },
   "pre-commit": [
@@ -74,7 +75,7 @@
     "nodemon": "^2.0.21",
     "nyc": "^15.1.0",
     "pre-commit": "^1.2.2",
-    "prettier": "^2.8.5",
+    "prettier": "^2.8.6",
     "tsc-watch": "^6.0.0",
     "typescript": "^5.0.2"
   },
@@ -89,6 +90,7 @@
     "csrf": "^3.1.0",
     "csurf": "^1.11.0",
     "dotenv": "^16.0.3",
+    "elliptic": "^6.5.4",
     "envalid": "^7.3.1",
     "express": "^4.18.2",
     "express-rate-limit": "^6.7.0",
@@ -96,7 +98,7 @@
     "express-useragent": "^1.0.15",
     "handlebars": "^4.7.7",
     "helmet": "^6.0.1",
-    "joi": "^17.9.0",
+    "joi": "^17.9.1",
     "jsonwebtoken": "^9.0.0",
     "module-alias": "^2.2.2",
     "mongoose": "^7.0.2",
