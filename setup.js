@@ -15,7 +15,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 */
 try {
   //
-  console.log('please wait for your project to be installed..');
+  console.log('> please wait for your project to be installed..');
   /**
    *  !-- VARIABLES
    *
@@ -40,7 +40,7 @@ try {
   const flag = { flag: 'a' };
   const tmpFile = './updater.tmp.sh';
   const envFile = './.env';
-  const envFileExample = '.env.example';
+  const envFileExample = './.env.example';
   /**
    *  !-- FILE CHECKER
    *
@@ -110,6 +110,8 @@ try {
       BASIC_AUTH_HEADER: basicAuth,
       APP_NAMESPACE: (0, uuid_1.v5)(randHex(16), (0, uuid_1.v4)()),
       JWT_SECRET: randHex(32),
+      PRIVATE_KEY_PATH: `./${cerName}private.pem`,
+      PUBLIC_KEY_PATH: `./${cerName}public.pem`,
       COOKIE_SECRET: randHex(32),
       CIPHER_GCM_KEY: randHex(64),
       CIPHER_CBC_KEY: randHex(32),

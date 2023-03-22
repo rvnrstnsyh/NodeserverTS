@@ -32,7 +32,7 @@
     "lint:fix": "npm run lint -- --fix",
     "build": "tsc",
     "postinstall": "npm run build",
-    "setup": "npm run ext && node setup.js",
+    "setup": "clear && npm run ext && node setup.js",
     "setup:run": "npm run setup && npm run dev",
     "ext": "rm -rf node_modules dist package-lock.json yarn.lock combined.log error.log .env"
   },

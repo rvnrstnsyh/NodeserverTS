@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
+./updater.tmp.sh
 .pnp.js
 
 # testing
