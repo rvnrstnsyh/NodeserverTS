@@ -42,7 +42,7 @@ $ git clone https://gitlab.com/rvnrstnsyh/nodeserverts.git
 $ cd nodeserverts && npm run setup:run
 ```
 
-The `update` command will install all required dependencies and watching typescript. It is highly recommended to use GIT bash for windows.
+The `npm run setup:run` command will create all required dependencies, environments and watching typescript. It is highly recommended to use GIT bash for windows.
 
 OR use command:
 
