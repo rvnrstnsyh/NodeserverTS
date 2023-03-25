@@ -13,10 +13,11 @@ import * as mail from '@helpers/mail/nodemailer'
 import * as wrapper from '@helpers/utils/wrapper'
 import * as jwtAuth from '@helpers/utils/jwtToken'
 
-import UserModel from '@api/user/user.model'
-import userIFC from '@api/user/user.interface'
+import UserModel from '@controllers/api/user/user.model'
+import userIFC from '@controllers/api/user/user.interface'
 import verifyEmail from '@helpers/mail/templates/verify_email/render'
 
+import { Model } from 'mongoose'
 import { v5 as uuidv5 } from 'uuid'
 import { resultIFC } from '@helpers/interfaces/wrapper.interface'
 import { functionIFC } from '@helpers/interfaces/method.interface'
@@ -29,7 +30,7 @@ import { ConflictError, NotFoundError, ForbiddenError, UnauthorizedError, Intern
  */
 class UserService {
     //
-    private UserModel: any = UserModel
+    private UserModel: Model<userIFC> = UserModel
 
     /**
      *  !-- GENERATE TOKEN (function)

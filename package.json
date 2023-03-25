@@ -111,9 +111,9 @@
   },
   "_moduleAliases": {
     "@root": "./dist/bin",
-    "@api": "./dist/bin/api",
+    "@controllers": "./dist/bin/controllers",
     "@helpers": "./dist/bin/helpers",
-    "@middleware": "./dist/bin/middleware"
+    "@middlewares": "./dist/bin/middlewares"
   },
   "nodemonConfig": {
     "ignore": [

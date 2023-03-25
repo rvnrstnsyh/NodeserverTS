@@ -12,7 +12,7 @@
 import * as config from '@helpers/infra/configs/global.config'
 import * as wrapper from '@helpers/utils/wrapper'
 
-import UserModel from '@root/api/user/user.model'
+import UserModel from '@controllers/api/user/user.model'
 
 import fs from 'fs'
 import jwt from 'jsonwebtoken'
@@ -55,7 +55,7 @@ const decodeToken: decodedTokenIFC = (token) => {
   const publicKey: string = getKey(bearerAuthKey.publicKey)
   try {
     //
-    const decoded: any = jwt.verify(token, publicKey, bearerAuthKey.verifyOptions)
+    const decoded: tokenIFC | any = jwt.verify(token, publicKey, bearerAuthKey.verifyOptions)
     return decoded
   } catch (error) {
     //
