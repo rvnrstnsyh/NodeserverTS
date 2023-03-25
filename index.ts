@@ -14,7 +14,7 @@ import 'module-alias/register'
 
 import Express from '@root/app'
 import validateEnv from '@helpers/utils/validateEnv'
-import UserController from '@api/user/user.controller'
+import UserController from '@controllers/api/user/user.controller'
 
 validateEnv()
 

@@ -14,7 +14,7 @@ import Joi from 'joi'
 import { Request, Response, NextFunction, RequestHandler } from 'express'
 
 /**
- *  !-- VALIDATION MIDDLEWARE (Function)
+ *  !-- VALIDATION MIDDLEWARE (function)
  *
  * @desc validates each request before passing it to the controller.
  * @return promise void
@@ -34,10 +34,10 @@ function validationMiddleware(schema: Joi.Schema): RequestHandler {
             request.body = value
 
             next()
-        } catch (e: any) {
+        } catch (error: any) {
             //
             const errors: string[] = []
-            e.details.forEach((error: Joi.ValidationErrorItem) => { errors.push(error.message) })
+            error.details.forEach((error: Joi.ValidationErrorItem) => { errors.push(error.message) })
 
             response.status(400).send({ errors: errors })
         }

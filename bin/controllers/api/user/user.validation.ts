@@ -27,4 +27,18 @@ const login: object = Joi.object({
     password: Joi.string().min(8).required(),
 })
 
-export default { register, login }
+const generateCredential: object = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
+})
+
+const refreshCredential: object = Joi.object({
+    refreshToken: Joi.string().required()
+})
+
+const verify: object = Joi.object({
+    token: Joi.string().required()
+})
+
+
+export default { register, login, generateCredential, refreshCredential, verify }

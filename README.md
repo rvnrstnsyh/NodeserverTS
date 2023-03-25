@@ -39,12 +39,19 @@ Just use this simple command:
 
 ```shell
 $ git clone https://gitlab.com/rvnrstnsyh/nodeserverts.git
-$ cd nodeserverts && npm run update && npm run dev
+$ cd nodeserverts && npm run setup:dev
 ```
 
-The `update` command will install all required dependencies and watching typescript. Let this process run.
+The `npm run setup:dev` command will create all required dependencies, environments and watching typescript. It is highly recommended to use GIT bash for windows.
 
-Use Postman/Insomnia or another platform's API to test it. Default endpoint http://localhost:3000/api
+OR use command:
+
+```shell
+$ git clone https://gitlab.com/rvnrstnsyh/nodeserverts.git
+$ cd nodeserverts && npm i && copy .env.example .env && npm run dev
+```
+
+Use Postman/Insomnia or another platform's API to test it. Default endpoint http://localhost:7952/api
 
 ## Author and Contributors
 

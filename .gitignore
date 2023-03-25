@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
+./updater.tmp.sh
 .pnp.js
 
 # testing
@@ -29,3 +30,9 @@
 # package lock
 package-lock*
 yarn.lock*
+
+# secret|public key / certificate
+*.pem
+*.cer
+*.crt
+*.der

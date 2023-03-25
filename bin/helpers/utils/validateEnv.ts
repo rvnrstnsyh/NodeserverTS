@@ -12,7 +12,7 @@
 import { cleanEnv, host, port, str, num, bool, url } from 'envalid'
 
 /**
- *  !-- ENV VALIDATION (any)
+ *  !-- ENV VALIDATION (procedure)
  *
  * @desc validates the data type and contents of all environment variables.
  * @return void
@@ -47,6 +47,11 @@ function validateEnv(): void {
         // ? | Json-web-token                                                           |
         // ? +--------------------------------------------------------------------------+
         JWT_SECRET: str(),
+        JWT_ALGORITHM: str({ default: 'RS256' }),
+        JWT_AUDIENCE: str(),
+        JWT_ISSUER: str({ default: 'nodeserverts-41334707' }),
+        PRIVATE_KEY_PATH: str({ default: 'rs256private.pem' }),
+        PUBLIC_KEY_PATH: str({ default: 'rs256public.pem' }),
         // ---
         // ? +--------------------------------------------------------------------------+
         // ? | Database                                                                 |

@@ -37,7 +37,7 @@ module.exports = {
         args: 'none'
       }
     ],
-    'no-console': 2,
+    'no-console': 1,
     'new-cap': 0,
     'max-len': [2, 300, 4],
     'space-before-function-paren': [

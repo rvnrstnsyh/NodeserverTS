@@ -13,21 +13,12 @@ import morgan from 'morgan'
 
 import { Request, Response } from 'express'
 import { createLogger, transports, format } from 'winston'
-//
-interface logIfc {
-  (context: string, message: string, scope: string): void
-}
-interface infoIfc {
-  (context: string, message: string, scope: string, meta?: string): void
-}
-interface errorIfc {
-  (context: string, message: string, scope: string, meta?: string): void
-}
-//
+import { logIFC, infoIFC, errorIFC } from '@helpers/interfaces/logger.interface'
+
 const logger: object | any = createLogger({
   level: 'info',
   format: format.simple(),
-  defaultMeta: { service: 'user-service' },
+  defaultMeta: { service: 'user:service' },
   transports: [
     new transports.File({ filename: 'combined.log' }),
     new transports.File({ filename: 'error.log', level: 'error' }),
@@ -39,17 +30,17 @@ const logger: object | any = createLogger({
   exitOnError: false
 })
 
-const log: logIfc = (context, message, scope) => {
+const log: logIFC = (context, message, scope) => {
   const line: object = { context, scope, message: message.toString() }
   logger.info(line)
 }
 
-const info: infoIfc = (context, message, scope, meta) => {
+const info: infoIFC = (context, message, scope, meta) => {
   const line: object = { context, scope, message, meta }
   logger.info(line)
 }
 
-const error: errorIfc = (context, message, scope, meta) => {
+const error: errorIFC = (context, message, scope, meta) => {
   const line: object = { context, scope, message, meta }
   logger.error(line)
 }

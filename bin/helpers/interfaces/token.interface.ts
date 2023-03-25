@@ -9,16 +9,19 @@
 |
 */
 
-import { Schema } from 'mongoose'
 
 /**
  *  !-- TOKEN ATTRIBUTES (interface)
  *
  * @desc defines all token attributes and their data types.
  */
-interface Token extends Object {
-    _id: Schema.Types.ObjectId
-    expiresIn: number
+interface tokenIFC {
+    userId: string,
+    authType: string,
+    iat: number,
+    exp: number,
+    aud: string,
+    iss: string
 }
 
-export default Token
+export { tokenIFC }

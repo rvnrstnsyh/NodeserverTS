@@ -12,7 +12,7 @@
 import * as logger from '@helpers/utils/logger'
 import * as wrapper from '@helpers/utils/wrapper'
 
-import ControllerInterface from '@helpers/interfaces/controller.interface'
+import ControllerIFC from '@helpers/interfaces/controller.interface'
 
 import cors from 'cors'
 import PATH from 'path'
@@ -38,7 +38,7 @@ class App {
     private CORS: RegExp
     private CONF: object
 
-    constructor(controllers: ControllerInterface[], HOST: string, PORT: number) {
+    constructor(controllers: ControllerIFC[], HOST: string, PORT: number) {
         //
         this.express = express()
         this.HOST = HOST || 'localhost'
@@ -65,7 +65,7 @@ class App {
     // ! +--------------------------------------------------------------------------+
     private init_database_connection(): void {
         //
-        const ctx: string = 'connection-database'
+        const ctx: string = 'connection:database'
         const options: object = {
             maxPoolSize: 100,
             socketTimeoutMS: 15000,
@@ -77,9 +77,9 @@ class App {
             //
             mongoose.set('strictQuery', true).connect(`${process.env.MONGO_DATABASE_URL}`, options)
             logger.log(ctx, 'MongoDB connected', 'info')
-        } catch (e: any) {
+        } catch (error: any) {
             //
-            logger.log(ctx, e.message, 'error')
+            logger.log(ctx, error.message, 'error')
         }
     }
 
@@ -91,7 +91,7 @@ class App {
         this.express
             .use((request: Request, response: Response, next: NextFunction): void => {
                 //
-                const ctx: string = 'app-access'
+                const ctx: string = 'app:access'
                 logger.log(ctx, `${request.method} ${this.URI}${request.url}`, 'info')
                 next()
             })
@@ -140,9 +140,9 @@ class App {
     // ! +--------------------------------------------------------------------------+
     // ! | App Controllers                                                          |
     // ! +--------------------------------------------------------------------------+
-    private init_controllers(controllers: ControllerInterface[]): void {
+    private init_controllers(controllers: ControllerIFC[]): void {
         //
-        controllers.forEach((controller: ControllerInterface): void => {
+        controllers.forEach((controller: ControllerIFC): void => {
             //
             this.express.use('/api', controller.router)
         })
@@ -162,7 +162,7 @@ class App {
         //
         this.express.listen(this.PORT, (): void => {
             //
-            const ctx: string = 'app-listen'
+            const ctx: string = 'app:listen'
             logger.log(ctx, `NodeserverTS listening on http://127.0.0.1:${this.PORT} ..`, 'info')
         })
     }

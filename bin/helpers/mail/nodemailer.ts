@@ -9,6 +9,7 @@
 |
 */
 
+import * as logger from '@helpers/utils/logger'
 import * as config from '@helpers/infra/configs/global.config'
 
 import nodemailer from 'nodemailer'
@@ -20,13 +21,15 @@ const sendMail: any = async (mailOptions: any): Promise<boolean> => {
   //
   return new Promise((resolve: any, reject: any): void => {
     //
-    transporter.sendMail(mailOptions, (error: any, info: object) => {
+    transporter.sendMail(mailOptions, (error: any, info: string) => {
       //
       if (error) {
         //
+        logger.log('sendMail', error, 'error')
         resolve(false)
       } else {
         //
+        logger.log('sendMail', info, 'info')
         resolve(true)
       }
     })

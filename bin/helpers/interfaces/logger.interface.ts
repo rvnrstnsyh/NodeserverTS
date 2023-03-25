@@ -9,17 +9,19 @@
 |
 */
 
-import { Router } from 'express'
-
 /**
- *  !-- CONTROLLER ATTRIBUTES (interface)
+ *  !-- LOGGER ATTRIBUTES (interface)
  *
- * @desc defines all controller attributes and their data types.
+ * @desc defines all logger attributes and their data types.
  */
-interface controllerIFC {
-    //
-    path: string
-    router: Router
+interface logIFC {
+  (context: string, message: string, scope: string): void
+}
+interface infoIFC {
+  (context: string, message: string, scope: string, meta?: string): void
+}
+interface errorIFC {
+  (context: string, message: string, scope: string, meta?: string): void
 }
 
-export default controllerIFC
+export { logIFC, infoIFC, errorIFC }

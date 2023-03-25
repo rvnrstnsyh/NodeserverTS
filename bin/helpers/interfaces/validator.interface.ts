@@ -9,14 +9,15 @@
 |
 */
 
-import fs from 'fs'
-import handlebars from 'handlebars'
+import { resultIFC } from '@helpers/interfaces/wrapper.interface'
 
-const verifyEmailMailTemplate: any = async (options: object): Promise<object | any> => {
-  //
-  const hbs: string = fs.readFileSync('bin/helpers/mail/templates/verify_email.hbs', 'utf8').toString()
-  const template: any = handlebars.compile(hbs)
-  return template(options)
+/**
+ *  !-- isValidPayloadIFC ATTRIBUTES (interface)
+ *
+ * @desc defines all isValidPayloadIFC attributes and their data types.
+ */
+interface isValidPayloadIFC {
+  (payload: object, constraint: any): resultIFC
 }
 
-export { verifyEmailMailTemplate }
+export { isValidPayloadIFC }
