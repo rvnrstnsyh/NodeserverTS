@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" charset="text/html; UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="icon" href="<%= assets.faviconIco %>" />
+        <title>NodeserverTS</title>
+        <style><%- assets.indexCSS %></style>
+    </head>
+    <!-- © 2023 rvnrstnsyh -->
+    <body>
+        <noscript>
+            <small id="noscript">|NoScript|</small>
+        </noscript>
+        <% const README = "NodeserverTS can also be used to render HTML on server side with template engine/view engine EJS , You can set it in 'web' routes and controllers" %>
+        <%- body %>
+        <script><%- assets.indexJS %></script>
+    </body>
+</html>

@@ -13,8 +13,8 @@ import * as mail from '@helpers/mail/nodemailer'
 import * as wrapper from '@helpers/utils/wrapper'
 import * as jwtAuth from '@helpers/utils/jwtToken'
 
-import UserModel from '@api/user/user.model'
-import userIFC from '@api/user/user.interface'
+import UserModel from '@controller/api/user/user.model'
+import userIFC from '@controller/api/user/user.interface'
 import verifyEmail from '@helpers/mail/templates/verify_email/render'
 
 import { v5 as uuidv5 } from 'uuid'

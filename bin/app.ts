@@ -23,6 +23,7 @@ import session from 'express-session'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import useragent from 'express-useragent'
+import expressLayouts from "express-ejs-layouts";
 
 import { rateLimit } from 'express-rate-limit'
 import { SUCCESS as httpSuccess } from '@helpers/errors/status_code'
@@ -38,7 +39,7 @@ class App {
     private CORS: RegExp
     private CONF: object
 
-    constructor(controllers: ControllerIFC[], HOST: string, PORT: number) {
+    constructor(apiControllers: ControllerIFC[], webControllers: ControllerIFC[], HOST: string, PORT: number) {
         //
         this.express = express()
         this.HOST = HOST || 'localhost'
@@ -57,7 +58,7 @@ class App {
         this.init_database_connection()
         this.init_default_middleware()
         this.init_request_limiter()
-        this.init_controllers(controllers)
+        this.init_controllers(apiControllers, webControllers)
     }
 
     // ! +--------------------------------------------------------------------------+
@@ -88,7 +89,12 @@ class App {
     // ! +--------------------------------------------------------------------------+
     private init_default_middleware(): void {
         //
+        this.express.locals.baseURL = PATH.join("/");
         this.express
+            .use(expressLayouts)
+            .set("view engine", "ejs")
+            .set('views', PATH.join(__dirname, '../../bin/client/views'))
+            .set('layouts', PATH.join(__dirname, '../../bin/client/layouts'))
             .use((request: Request, response: Response, next: NextFunction): void => {
                 //
                 const ctx: string = 'app:access'
@@ -113,7 +119,7 @@ class App {
             .use(flash())
             .use(express.json())
             .use(express.urlencoded({ extended: true }))
-            .use(express.static(PATH.join(__dirname + '/bin')))
+            .use(express.static(PATH.resolve(__dirname + '../../../../bin/client/assets')))
             .use(compression())
     }
 
@@ -140,13 +146,16 @@ class App {
     // ! +--------------------------------------------------------------------------+
     // ! | App Controllers                                                          |
     // ! +--------------------------------------------------------------------------+
-    private init_controllers(controllers: ControllerIFC[]): void {
+    private init_controllers(apiControllers: ControllerIFC[], webControllers: ControllerIFC[]): void {
         //
-        controllers.forEach((controller: ControllerIFC): void => {
+        apiControllers.forEach((controller: ControllerIFC): void => {
             //
             this.express.use('/api', controller.router)
         })
-
+        webControllers.forEach((controller: ControllerIFC): void => {
+            //
+            this.express.use('/', controller.router)
+        })
         this.express.use(/.*/, (request: Request, response: Response, next: NextFunction): void => {
             //
             const message: string = '[NodeserverTS] This service is running properly'

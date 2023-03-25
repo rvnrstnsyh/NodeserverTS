@@ -9,8 +9,8 @@
 |
 */
 
-import userIFC from '@api/user/user.interface'
 import Aes256 from '@root/helpers/utils/aes256'
+import userIFC from '@controller/api/user/user.interface'
 
 import { Schema, model } from 'mongoose'
 

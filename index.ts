@@ -14,7 +14,8 @@ import 'module-alias/register'
 
 import Express from '@root/app'
 import validateEnv from '@helpers/utils/validateEnv'
-import UserController from '@api/user/user.controller'
+import IndexController from '@root/controller/web/index.controller'
+import UserController from '@controller/api/user/user.controller'
 
 validateEnv()
 
@@ -24,6 +25,7 @@ validateEnv()
  * @desc defines each express application.
  */
 const apiEndpoints: Array<any> = [new UserController()]
-const App: Express = new Express(apiEndpoints, String(process.env.APP_HOST), Number(process.env.APP_PORT))
+const webEndpoints: Array<any> = [new IndexController()]
+const App: Express = new Express(apiEndpoints, webEndpoints, String(process.env.APP_HOST), Number(process.env.APP_PORT))
 
 App.listen()

@@ -13,9 +13,9 @@ import * as logger from '@helpers/utils/logger'
 import * as wrapper from '@helpers/utils/wrapper'
 import * as validator from '@helpers/utils/validator'
 
-import userIFC from '@api/user/user.interface'
-import UserService from '@api/user/user.service'
-import userValidation from '@api/user/user.validation'
+import userIFC from '@controller/api/user/user.interface'
+import UserService from '@controller/api/user/user.service'
+import userValidation from '@controller/api/user/user.validation'
 import controllerIFC from '@helpers/interfaces/controller.interface'
 
 import { passportAPI } from '@middleware/passport.middleware'

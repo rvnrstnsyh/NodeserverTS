@@ -12,7 +12,7 @@
 import * as config from '@helpers/infra/configs/global.config'
 import * as wrapper from '@helpers/utils/wrapper'
 
-import UserModel from '@root/api/user/user.model'
+import UserModel from '@controller/api/user/user.model'
 
 import fs from 'fs'
 import jwt from 'jsonwebtoken'
