@@ -13,6 +13,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 | GitLab    : https://gitlab.com/rvnrstnsyh
 |
 */
+// eslint-disable-next-line
 console.log('please wait for your project to be installed..');
 /**
  *  !-- VARIABLES
