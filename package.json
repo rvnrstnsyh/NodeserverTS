@@ -52,6 +52,7 @@
     "@types/cors": "^2.8.13",
     "@types/crypto-js": "^4.1.1",
     "@types/csurf": "^1.11.2",
+    "@types/elliptic": "^6.4.14",
     "@types/express": "^4.17.17",
     "@types/express-session": "^1.17.7",
     "@types/express-useragent": "^1.0.2",
@@ -63,8 +64,8 @@
     "@types/passport": "^1.0.12",
     "@types/passport-http": "^0.3.9",
     "@types/uuid": "^9.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.57.0",
-    "@typescript-eslint/parser": "^5.57.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
     "eslint": "^8.37.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-standard": "^17.0.0",
@@ -77,7 +78,7 @@
     "pre-commit": "^1.2.2",
     "prettier": "^2.8.7",
     "tsc-watch": "^6.0.0",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.3"
   },
   "dependencies": {
     "argon2": "^0.30.3",

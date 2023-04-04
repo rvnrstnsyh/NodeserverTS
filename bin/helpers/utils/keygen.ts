@@ -1,5 +1,17 @@
-const elliptic = require('elliptic')
-const CryptoJS = require('crypto-js')
+/*
+|-------------------------------------------------------------------------------
+| NodeserverTS Copyright © 2022 rvnrstnsyh All Rights Reserved
+|-------------------------------------------------------------------------------
+|
+| Author    : Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)
+| GitHub    : https://github.com/rvnrstnsyh
+| GitLab    : https://gitlab.com/rvnrstnsyh
+|
+*/
+
+import * as elliptic from 'elliptic'
+
+import CryptoJS from 'crypto-js'
 
 const secp256k1 = new elliptic.ec('secp256k1')
 
