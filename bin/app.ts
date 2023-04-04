@@ -24,6 +24,7 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import useragent from 'express-useragent'
 
+import { JSONRPCServer } from 'json-rpc-2.0'
 import { rateLimit } from 'express-rate-limit'
 import { SUCCESS as httpSuccess } from '@helpers/errors/status_code'
 import express, { Request, Response, NextFunction, Application } from 'express'
@@ -31,6 +32,7 @@ import express, { Request, Response, NextFunction, Application } from 'express'
 class App {
     //
     public express: Application
+    public rpc: JSONRPCServer
     public HOST: string
     public PORT: number
 
@@ -41,6 +43,7 @@ class App {
     constructor(controllers: ControllerIFC[], HOST: string, PORT: number) {
         //
         this.express = express()
+        this.rpc = new JSONRPCServer();
         this.HOST = HOST || 'localhost'
         this.PORT = PORT || 7952
         this.URI = `http://${HOST}:${PORT}`
@@ -142,8 +145,28 @@ class App {
     // ! +--------------------------------------------------------------------------+
     private init_controllers(controllers: ControllerIFC[]): void {
         //
+        this.express.post("/", (request: Request, response: Response): void => {
+            // server.receive takes a JSON-RPC request and returns a promise of a JSON-RPC response.
+            // It can also receive an array of requests, in which case it may return an array of responses.
+            // Alternatively, you can use server.receiveJSON, which takes JSON string as is (in this case request.body).
+            this.rpc.receive(request.body).then((data: object | null): void => {
+                if (data) {
+                    //
+                    response.json(data);
+                } else {
+                    // If response is absent, it was a JSON-RPC notification method.
+                    // Respond with no content status (204).
+                    response.sendStatus(204);
+                }
+            });
+        });
+
         controllers.forEach((controller: ControllerIFC): void => {
             //
+            controller.router.stack.forEach((fx: any) => {
+                //
+                this.rpc.addMethod(fx.route.stack[1].name, fx.route.stack[1].handle)
+            })
             this.express.use('/api', controller.router)
         })
 

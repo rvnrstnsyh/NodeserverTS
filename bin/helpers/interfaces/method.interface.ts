@@ -9,6 +9,7 @@
 |
 */
 
+import { resultIFC } from './wrapper.interface'
 import { Request, Response, NextFunction } from 'express'
 
 /**
@@ -18,7 +19,7 @@ import { Request, Response, NextFunction } from 'express'
  */
 interface procedureIFC {
   //
-  (request: Request, response: Response, next: NextFunction): Promise<void> | void
+  (request: Request, response: Response, next: NextFunction): Promise<resultIFC | void> | void
 }
 
 /**

@@ -65,9 +65,11 @@ class UserController implements controllerIFC {
      * @desc register handler.
      * @return promise void
      */
-    private register: procedureIFC = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+    private register: procedureIFC = async (request: Request, response: Response, next: NextFunction): Promise<resultIFC | void> => {
         //
         const ctx: string = `${this.ctx}-register`
+        const rpc: boolean = request.body.rpc
+
         const payload: userIFC = request.body
         const validatePayload: resultIFC = validator.isValidPayload(payload, userValidation.register)
         const postRequest: PostRequestIFC = async (validate: resultIFC): Promise<resultIFC> => {
@@ -86,6 +88,8 @@ class UserController implements controllerIFC {
             logger.info(ctx, `${payload.email} Successfully registered`, 'info', 'nodeserverts')
             return wrapper.response(response, 'success', service, 'Register User', httpSuccess.CREATED)
         }
+
+        if (rpc) return await postRequest(validatePayload)
         sendResponse(postRequest(validatePayload))
     }
 
@@ -95,9 +99,11 @@ class UserController implements controllerIFC {
      * @desc auth handler.
      * @return promise void
      */
-    private auth: procedureIFC = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+    private auth: procedureIFC = async (request: Request, response: Response, next: NextFunction): Promise<resultIFC | void> => {
         //
         const ctx: string = `${this.ctx}-generate-credential`
+        const rpc: boolean = request.body.rpc
+
         const payload: userIFC = request.body
         const validatePayload: resultIFC = validator.isValidPayload(payload, userValidation.generateCredential)
         const postRequest: PostRequestIFC = async (validate: resultIFC): Promise<resultIFC> => {
@@ -120,6 +126,8 @@ class UserController implements controllerIFC {
             }
             return wrapper.response(response, 'success', wrapper.data(service.data), 'Auth User', httpSuccess.OK, httpOnlyCookie)
         }
+
+        if (rpc) return await postRequest(validatePayload)
         sendResponse(postRequest(validatePayload))
     }
 
@@ -129,9 +137,11 @@ class UserController implements controllerIFC {
      * @desc auth refresh handler.
      * @return promise void
      */
-    private refresh: procedureIFC = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+    private refresh: procedureIFC = async (request: Request, response: Response, next: NextFunction): Promise<resultIFC | void> => {
         //
         const ctx: string = `${this.ctx}-refresh-credential`
+        const rpc: boolean = request.body.rpc
+
         const payload: userIFC = request.body
         const validatePayload: resultIFC = validator.isValidPayload(payload, userValidation.refreshCredential)
         const postRequest: PostRequestIFC = async (validate: resultIFC): Promise<resultIFC> => {
@@ -150,6 +160,8 @@ class UserController implements controllerIFC {
             logger.info(ctx, `${payload.email} Successfully refresh credential`, 'info', 'nodeserverts')
             return wrapper.response(response, 'success', wrapper.data(service.data), 'Auth Refresh User', httpSuccess.OK)
         }
+
+        if (rpc) return await postRequest(validatePayload)
         sendResponse(postRequest(validatePayload))
     }
 
@@ -159,9 +171,11 @@ class UserController implements controllerIFC {
      * @desc verify handler.
      * @return void
      */
-    private verify: procedureIFC = (request: Request, response: Response, next: NextFunction): void => {
+    private verify: procedureIFC = async (request: Request, response: Response, next: NextFunction): Promise<resultIFC | void> => {
         //
         const ctx: string = `${this.ctx}-verify`
+        const rpc: boolean = request.body.rpc
+
         const payload: userIFC = request.body
         const validatePayload: resultIFC = validator.isValidPayload(payload, userValidation.verify)
         const postRequest: PostRequestIFC = async (validate: resultIFC): Promise<resultIFC> => {
@@ -180,6 +194,8 @@ class UserController implements controllerIFC {
             logger.info(ctx, `${payload.email} Successfully verified`, 'info', 'nodeserverts')
             return wrapper.response(response, 'success', wrapper.data(service.data), 'Verified User', httpSuccess.OK)
         }
+
+        if (rpc) return await postRequest(validatePayload)
         sendResponse(postRequest(validatePayload))
     }
 
@@ -192,6 +208,8 @@ class UserController implements controllerIFC {
     private profile: procedureIFC = (request: Request, response: Response, next: NextFunction): void => {
         //
         const ctx: string = `${this.ctx}-profile`
+        const rpc: boolean = request.body.rpc
+
         const userId: string = request.body.userId
         const postRequest: any = this.UserService.profile(userId)
         const sendResponse: SendResponseIFC = async (fetch: Promise<resultIFC>): Promise<void> => {
@@ -205,6 +223,8 @@ class UserController implements controllerIFC {
             logger.info(ctx, `userId: ${userId} Success`, 'info', 'nodeserverts')
             return wrapper.response(response, 'success', wrapper.data(service.data), 'Profile User', httpSuccess.OK)
         }
+
+        if (rpc) return postRequest
         sendResponse(postRequest)
     }
 }
