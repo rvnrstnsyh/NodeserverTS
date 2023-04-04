@@ -26,6 +26,7 @@ import useragent from 'express-useragent'
 
 import { JSONRPCServer } from 'json-rpc-2.0'
 import { rateLimit } from 'express-rate-limit'
+import { passportAPI } from '@middlewares/passport.middleware'
 import { SUCCESS as httpSuccess } from '@helpers/errors/status_code'
 import express, { Request, Response, NextFunction, Application } from 'express'
 
@@ -145,7 +146,7 @@ class App {
     // ! +--------------------------------------------------------------------------+
     private init_controllers(controllers: ControllerIFC[]): void {
         //
-        this.express.post("/", (request: Request, response: Response): void => {
+        this.express.post("/", [passportAPI], (request: Request, response: Response): void => {
             // server.receive takes a JSON-RPC request and returns a promise of a JSON-RPC response.
             // It can also receive an array of requests, in which case it may return an array of responses.
             // Alternatively, you can use server.receiveJSON, which takes JSON string as is (in this case request.body).
