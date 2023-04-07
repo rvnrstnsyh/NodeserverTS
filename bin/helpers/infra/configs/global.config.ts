@@ -66,6 +66,10 @@ const config: object = {
       audience: process.env.JWT_AUDIENCE,
       issuer: process.env.JWT_ISSUER
     }
+  },
+  infura: {
+    project_id: process.env.INFURA_PROJECT_ID,
+    secret_key: process.env.INFURA_SECRET_KEY,
   }
 }
 

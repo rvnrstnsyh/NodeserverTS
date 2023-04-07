@@ -79,6 +79,12 @@ function validateEnv(): void {
         CIPHER_IV_LENGTH: num({ default: 16 }),
         CIPHER_GCM_KEY: str(),
         CIPHER_CBC_KEY: str(),
+        // ---
+        // ? +--------------------------------------------------------------------------+
+        // ? | Infura                                                                   |
+        // ? +--------------------------------------------------------------------------+
+        INFURA_PROJECT_ID: str({ default: '' }),
+        INFURA_SECRET_KEY: str({ default: '' })
     })
 }
 

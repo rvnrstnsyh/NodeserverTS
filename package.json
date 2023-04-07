@@ -78,7 +78,7 @@
     "pre-commit": "^1.2.2",
     "prettier": "^2.8.7",
     "tsc-watch": "^6.0.0",
-    "typescript": "^5.0.3"
+    "typescript": "^5.0.4"
   },
   "dependencies": {
     "argon2": "^0.30.3",
