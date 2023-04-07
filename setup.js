@@ -65,15 +65,21 @@ for (let i = 0; i < managers.length; i++) {
    */
   for (const key in deps) {
     //
-    if (!excludeDeps.includes(key)) {
-      //
+    if (excludeDeps.includes(key)) {
+      // ? prevent updating to the latest version
+      iteration[0] !== depsLength - 1
+        ? (0, fs_1.writeFileSync)(tmpFile, `${key}@${deps[key]} \\\n\t\t\t\t`, flag)
+        : (0, fs_1.writeFileSync)(tmpFile, `${key}@${deps[key]} && \\\n\n\t\t${managers[i]} ${managers[i] === 'npm' ? 'install' : 'add'} \\\n\t\t\t\t`, flag);
+    }
+    else {
+      // ? update to the latest version
       iteration[0] !== depsLength - 1
         ? (0, fs_1.writeFileSync)(tmpFile, `${key}@latest \\\n\t\t\t\t`, flag)
         : (0, fs_1.writeFileSync)(tmpFile, `${key}@latest && \\\n\n\t\t${managers[i]} ${managers[i] === 'npm' ? 'install' : 'add'} \\\n\t\t\t\t`, flag);
-      iteration[0]++;
     }
+    iteration[0]++;
   }
-  iteration[0] = 0;
+  iteration[0] = 0; // ? reset iteration for dev dependencies
   /**
    *  !-- DEV DEPENDENCIES
    *
@@ -81,13 +87,19 @@ for (let i = 0; i < managers.length; i++) {
    */
   for (const key in devDeps) {
     //
-    if (!excludeDeps.includes(key)) {
-      //
+    if (excludeDeps.includes(key)) {
+      // ? prevent updating to the latest version
+      iteration[0] !== devDepsLength - 1
+        ? (0, fs_1.writeFileSync)(tmpFile, `${key}@${devDeps[key]} ${managers[i] === 'npm' ? '--save-dev' : '--dev'} \\\n\t\t\t\t`, flag)
+        : (0, fs_1.writeFileSync)(tmpFile, `${key}@${devDeps[key]} ${managers[i] === 'npm' ? '--save-dev' : '--dev'} && \\\n\n\t\t${rs256} && \\\n\t\trm -rf ./updater.tmp.sh\n\t}\n}\n\n`, flag);
+    }
+    else {
+      // ? update to the latest version
       iteration[0] !== devDepsLength - 1
         ? (0, fs_1.writeFileSync)(tmpFile, `${key}@latest ${managers[i] === 'npm' ? '--save-dev' : '--dev'} \\\n\t\t\t\t`, flag)
         : (0, fs_1.writeFileSync)(tmpFile, `${key}@latest ${managers[i] === 'npm' ? '--save-dev' : '--dev'} && \\\n\n\t\t${rs256} && \\\n\t\trm -rf ./updater.tmp.sh\n\t}\n}\n\n`, flag);
-      iteration[0]++;
     }
+    iteration[0]++;
   }
   iteration[0] = 0;
 }
