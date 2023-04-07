@@ -1,3 +1,14 @@
+/*
+|-------------------------------------------------------------------------------
+| NodeserverTS Copyright © 2023 rvnrstnsyh All Rights Reserved
+|-------------------------------------------------------------------------------
+|
+| Author    : Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)
+| GitHub    : https://github.com/rvnrstnsyh
+| GitLab    : https://gitlab.com/rvnrstnsyh
+|
+*/
+
 import ConflictError from '@helpers/errors/conflict_error'
 import NotFoundError from '@helpers/errors/not_found_error'
 import ForbiddenError from '@helpers/errors/forbidden_error'

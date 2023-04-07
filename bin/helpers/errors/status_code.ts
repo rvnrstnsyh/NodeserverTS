@@ -1,3 +1,14 @@
+/*
+|-------------------------------------------------------------------------------
+| NodeserverTS Copyright © 2023 rvnrstnsyh All Rights Reserved
+|-------------------------------------------------------------------------------
+|
+| Author    : Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)
+| GitHub    : https://github.com/rvnrstnsyh
+| GitLab    : https://gitlab.com/rvnrstnsyh
+|
+*/
+
 const ERROR: object | any = {
   BAD_REQUEST: 400,
   NOT_FOUND: 404,

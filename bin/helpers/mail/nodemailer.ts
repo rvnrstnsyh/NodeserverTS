@@ -1,6 +1,6 @@
 /*
 |-------------------------------------------------------------------------------
-| NodeserverTS Copyright © 2022 rvnrstnsyh All Rights Reserved
+| NodeserverTS Copyright © 2023 rvnrstnsyh All Rights Reserved
 |-------------------------------------------------------------------------------
 |
 | Author    : Rivane Rasetiansyah <re@rvnrstnsyh.dev> (https://rvnrstnsyh.dev)
