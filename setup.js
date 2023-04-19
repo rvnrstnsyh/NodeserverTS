@@ -162,6 +162,14 @@ const uuid_1 = require('uuid');
     // ------------------------------------------------------------------
     CIPHER_GCM_KEY: randHex(64),
     CIPHER_CBC_KEY: randHex(32),
+    // ------------------------------------------------------------------
+    // InterPlanetary File System
+    // ------------------------------------------------------------------
+    IPFS_HOST: '127.0.0.1',
+    IPFS_PORT: 5001,
+    IPFS_PROTOCOL: 'http',
+    IPFS_API_PATH: '/api/v0',
+    IPFS_TIMEOUT: '1m'
   };
 
   for (const key in overrideEnv) env[key] = `${env[key].split('+line+')[0]}+line+${overrideEnv[key]}`;

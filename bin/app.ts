@@ -146,7 +146,7 @@ class App {
     // ! +--------------------------------------------------------------------------+
     private init_controllers(controllers: ControllerIFC[]): void {
         //
-        this.express.post("/", [passportAPI], (request: Request, response: Response): void => {
+        this.express.post("/rpc", [passportAPI], (request: Request, response: Response): void => {
             // server.receive takes a JSON-RPC request and returns a promise of a JSON-RPC response.
             // It can also receive an array of requests, in which case it may return an array of responses.
             // Alternatively, you can use server.receiveJSON, which takes JSON string as is (in this case request.body).
@@ -166,11 +166,18 @@ class App {
             //
             controller.router.stack.forEach((fx: any) => {
                 //
-                const endpoint: object | any = fx.route.stack[1]
-                const ctx: string = 'app:access'
-                const message: string = `Endpoint listed [${endpoint.method.toUpperCase()}:API|RPC] "${endpoint.name}" at uri ${fx.route.path}`
-                this.rpc.addMethod(endpoint.name, endpoint.handle)
-                logger.log(ctx, message, 'info')
+                const endpoints: object | any = fx.route.stack
+                const excludes: Array<string> = ['authenticate']
+                endpoints.forEach((endpoint: any) => {
+                    //
+                    if (!excludes.includes(endpoint.name)) {
+                        //
+                        const ctx: string = 'app:access'
+                        const message: string = `Endpoint listed [${endpoint.method.toUpperCase()}:API|RPC] "${endpoint.name}" at uri ${fx.route.path}`
+                        this.rpc.addMethod(endpoint.name, endpoint.handle)
+                        logger.log(ctx, message, 'info')
+                    }
+                })
             })
             this.express.use('/api', controller.router)
         })

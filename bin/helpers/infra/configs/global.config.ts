@@ -67,9 +67,17 @@ const config: object = {
       issuer: process.env.JWT_ISSUER
     }
   },
-  infura: {
-    project_id: process.env.INFURA_PROJECT_ID,
-    secret_key: process.env.INFURA_SECRET_KEY,
+  interPlanetaryFileSystem: {
+    projectId: process.env.INFURA_PROJECT_ID,
+    secretKey: process.env.INFURA_SECRET_KEY,
+    host: process.env.IPFS_HOST,
+    port: process.env.IPFS_PORT,
+    protocol: process.env.IPFS_PROTOCOL,
+    apiPath: process.env.IPFS_API_PATH,
+    timeout: process.env.IPFS_TIMEOUT,
+    ipfsPublicGateway: process.env.IPFS_PUBLIC_GATEWAY,
+    ipnsAddress: process.env.IPNS_ADDRESS,
+    ipnsPublicGateway: process.env.IPNS_PUBLIC_GATEWAY,
   }
 }
 

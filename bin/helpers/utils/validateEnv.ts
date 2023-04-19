@@ -81,10 +81,18 @@ function validateEnv(): void {
         CIPHER_CBC_KEY: str(),
         // ---
         // ? +--------------------------------------------------------------------------+
-        // ? | Infura                                                                   |
+        // ? | InterPlanetary File System                                               |
         // ? +--------------------------------------------------------------------------+
         INFURA_PROJECT_ID: str({ default: '' }),
-        INFURA_SECRET_KEY: str({ default: '' })
+        INFURA_SECRET_KEY: str({ default: '' }),
+        IPFS_HOST: str({ default: '127.0.0.1' }),
+        IPFS_PORT: port({ default: 5001 }),
+        IPFS_PROTOCOL: str({ default: 'http' }),
+        IPFS_API_PATH: str({ default: '/api/v0' }),
+        IPFS_TIMEOUT: str({ default: '1m' }),
+        IPFS_PUBLIC_GATEWAY: str({ default: 'https://ipfs-gateway.rvnrstnsyh.dev/ipfs' }),
+        IPNS_ADDRESS: str({ default: '' }),
+        IPNS_PUBLIC_GATEWAY: str({ default: 'https://ipns-gateway.rvnrstnsyh.dev/ipns' })
     })
 }
 
